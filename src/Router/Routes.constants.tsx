@@ -2,6 +2,7 @@ import { Navigate, RouteObject } from "react-router-dom";
 import { GetRoutesProps } from "./Router.types";
 import { MainLayout } from "@/services/mainLayout/MainLayout";
 import { PatientsListContainer } from "@/services/patients/patientsList";
+import { PageHeader } from "@/components/PageHeader";
 
 export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => [
   {
@@ -18,11 +19,11 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => [
       },
       {
         path: "/messages",
-        element: <>messages</>,
+        element: <PageHeader title="Консилиум" />,
       },
       {
         path: "/search",
-        element: <>search</>,
+        element: <PageHeader title="Поиск" />,
       },
     ],
   },

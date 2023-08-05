@@ -84,6 +84,6 @@ export const LogoWrapper = styled.div`
   transform: scale(0.9);
 
   img {
-    width: 60px;
+    width: 70px;
   }
 `;
