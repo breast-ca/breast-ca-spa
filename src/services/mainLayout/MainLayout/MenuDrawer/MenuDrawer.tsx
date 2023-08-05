@@ -8,7 +8,7 @@ import {
 import { Props } from "./MenuDrawer.types";
 import { Drawer } from "antd";
 import { Button } from "@/components/Button";
-import { DoorOpen } from "react-bootstrap-icons";
+import { ArrowLeftCircleFill } from "react-bootstrap-icons";
 import { MenuList } from "./MenuList";
 
 export const MenuDrawer: FC<Props> = ({ isDrawerOpen, handleClose }) => {
@@ -40,8 +40,8 @@ export const MenuDrawer: FC<Props> = ({ isDrawerOpen, handleClose }) => {
     >
       <DrawerContent>
         <MenuList />
-        <Button icon={<DoorOpen />} floating>
-          Выйти
+        <Button icon={<ArrowLeftCircleFill />} floating>
+          Выйти из системы
         </Button>
       </DrawerContent>
     </Drawer>

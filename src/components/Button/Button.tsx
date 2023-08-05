@@ -26,7 +26,7 @@ export const Button: FC<ButtonProps> = (props) => {
       htmlType={htmlType}
       danger
     >
-      {icon && !isLoading && <IconWrapper>{icon}</IconWrapper>}
+      {!isLoading && icon}
       {props.children}
       {isLoading && <IconWrapper>Загрузка</IconWrapper>}
     </ButtonSC>
