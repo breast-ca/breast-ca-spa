@@ -1,6 +1,7 @@
 import { Navigate, RouteObject } from "react-router-dom";
 import { GetRoutesProps } from "./Router.types";
 import { MainLayout } from "@/services/mainLayout/MainLayout";
+import { PatientsListContainer } from "@/services/patients/patientsList";
 
 export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => [
   {
@@ -13,7 +14,7 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => [
     children: [
       {
         path: "/patients",
-        element: <>patients list</>,
+        element: <PatientsListContainer />,
       },
       {
         path: "/messages",

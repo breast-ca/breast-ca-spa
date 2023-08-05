@@ -6,5 +6,5 @@ export const Wrapper = styled.div`
 
 export const ContentWrapper = styled.div`
   margin-left: 100px;
-  padding: 24px;
+  padding: 24px 48px;
 `;

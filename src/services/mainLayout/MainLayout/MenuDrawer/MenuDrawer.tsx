@@ -22,7 +22,7 @@ export const MenuDrawer: FC<Props> = ({ isDrawerOpen, handleClose }) => {
               color: "var(--primary)",
               fontSize: 24,
             }}
-            size={64}
+            size={60}
           >
             А
           </AvatarSC>

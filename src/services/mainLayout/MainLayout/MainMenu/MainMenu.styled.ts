@@ -11,7 +11,7 @@ export const MenuPanel = styled.div`
   width: 100px;
   height: 100vh;
   max-height: 100vh;
-  padding: 24px 0;
+  padding: 16px 0;
   gap: 16px;
   display: flex;
   flex-direction: column;
