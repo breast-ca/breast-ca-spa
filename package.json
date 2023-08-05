@@ -17,9 +17,11 @@
     "effector-react": "^22.5.3",
     "effector-storage": "^6.1.1",
     "react": "^18.2.0",
+    "react-bootstrap-icons": "^1.10.3",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.2",
-    "sass": "^1.64.2"
+    "sass": "^1.64.2",
+    "styled-components": "^6.0.7"
   },
   "devDependencies": {
     "@types/node": "^20.4.7",
