@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/PageHeader";
 
 export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => [
   {
-    path: "*",
+    path: "/",
     element: <Navigate to={isAuth ? "/patients" : "/login"} />,
   },
   {
@@ -26,6 +26,10 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => [
         element: <PageHeader title="Поиск" />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <Navigate to={isAuth ? "/patients" : "/login"} />,
   },
   {
     path: "/login",
