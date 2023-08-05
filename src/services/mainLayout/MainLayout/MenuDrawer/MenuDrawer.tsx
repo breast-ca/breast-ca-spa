@@ -9,6 +9,7 @@ import { Props } from "./MenuDrawer.types";
 import { Drawer } from "antd";
 import { Button } from "@/components/Button";
 import { DoorOpen } from "react-bootstrap-icons";
+import { MenuList } from "./MenuList";
 
 export const MenuDrawer: FC<Props> = ({ isDrawerOpen, handleClose }) => {
   return (
@@ -38,7 +39,7 @@ export const MenuDrawer: FC<Props> = ({ isDrawerOpen, handleClose }) => {
       key="menu-drawer"
     >
       <DrawerContent>
-        <div></div>
+        <MenuList />
         <Button icon={<DoorOpen />} floating>
           Выйти
         </Button>
