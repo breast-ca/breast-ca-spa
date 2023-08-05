@@ -30,3 +30,14 @@ a {
   color: #646cff;
   text-decoration: none;
 }
+
+.ant-tooltip-inner {
+  color: var(--text) !important;
+  background-color: white;
+}
+
+.ant-tooltip-placement-bottom .ant-tooltip-arrow,
+.ant-tooltip-placement-bottomLeft .ant-tooltip-arrow,
+.ant-tooltip-placement-bottomRight .ant-tooltip-arrow {
+  border-bottom-color: white;
+}

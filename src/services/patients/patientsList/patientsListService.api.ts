@@ -1,2 +1,2 @@
-import { createQuery } from "@farfetched/core";
-import { axios } from "@/api";
+// import { createQuery } from "@farfetched/core";
+// import { axios } from "@/api";

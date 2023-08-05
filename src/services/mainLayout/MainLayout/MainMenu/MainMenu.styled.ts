@@ -67,3 +67,23 @@ export const GridWrapper = styled.div`
     background-color: white;
   }
 `;
+
+export const LogoWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  color: var(--primary);
+  position: absolute;
+  bottom: 24px;
+  right: 0;
+  padding: 16px 0;
+  transform: scale(0.9);
+
+  img {
+    width: 60px;
+  }
+`;

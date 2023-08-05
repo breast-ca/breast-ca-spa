@@ -1,7 +1,14 @@
 import { FC } from "react";
 import { Props } from "./MainMenu.types";
 import { ChatDots, Grid, People, Search } from "react-bootstrap-icons";
-import { GridWrapper, MenuItem, MenuPanel } from "./MainMenu.styled";
+import {
+  GridWrapper,
+  LogoWrapper,
+  MenuItem,
+  MenuPanel,
+} from "./MainMenu.styled";
+import { Tooltip } from "antd";
+import logo from "./assets/logo.svg";
 
 export const MainMenu: FC<Props> = ({ handleOpenDrawer }) => {
   const menuItems = [
@@ -12,7 +19,7 @@ export const MainMenu: FC<Props> = ({ handleOpenDrawer }) => {
     },
     {
       icon: <ChatDots size={24} />,
-      text: "Чаты",
+      text: "Консилиум",
       path: "/messages",
     },
     {
@@ -27,9 +34,22 @@ export const MainMenu: FC<Props> = ({ handleOpenDrawer }) => {
       <GridWrapper onClick={handleOpenDrawer}>
         <Grid size={32} />
       </GridWrapper>
-      {menuItems.map(({ icon, path }) => (
-        <MenuItem to={path}>{icon}</MenuItem>
+      {menuItems.map(({ icon, path, text }) => (
+        <Tooltip
+          mouseEnterDelay={0.6}
+          title={text}
+          key={text}
+          placement="right"
+          color="white"
+          overlayStyle={{ color: "black !important" }}
+        >
+          <MenuItem to={path}>{icon}</MenuItem>
+        </Tooltip>
       ))}
+      <LogoWrapper>
+        <img src={logo} alt="Your SVG" />
+        BreastCa
+      </LogoWrapper>
     </MenuPanel>
   );
 };

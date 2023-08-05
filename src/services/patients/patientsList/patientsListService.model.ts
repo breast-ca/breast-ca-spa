@@ -1,6 +1,6 @@
-import { createDomain } from "effector";
+// import { createDomain } from "effector";
 
-const domain = createDomain("patientsListService");
+// const domain = createDomain("patientsListService");
 
 export const patientsListService = {
   inputs: {},
