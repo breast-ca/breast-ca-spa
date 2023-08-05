@@ -1,3 +1,5 @@
+import { Avatar } from "antd";
+import { Grid } from "react-bootstrap-icons";
 import { NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
 
@@ -55,4 +57,34 @@ export const MenuItemText = styled.div`
 
 export const ContentWrapper = styled.div`
   margin-left: 100px;
+  padding: 24px;
+`;
+
+export const GridSC = styled(Grid)`
+  cursor: pointer;
+`;
+
+export const UserInfo = styled.div`
+  font-family: Montserrat;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
+export const UserDescription = styled.div`
+  font-size: 14px;
+  margin-top: 4px;
+  color: lightgray;
+`;
+
+export const AvatarSC = styled(Avatar)`
+  min-width: ${({ size }) => `${size}px`};
+  min-height: ${({ size }) => `${size}px`};
+`;
+
+export const DrawerContent = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;

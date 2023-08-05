@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@farfetched/core": "^0.8.14",
+    "antd": "^5.8.2",
     "axios": "^1.4.0",
     "effector": "^22.8.6",
     "effector-react": "^22.5.3",

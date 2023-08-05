@@ -1,15 +1,23 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Outlet } from "react-router-dom";
 import {
+  AvatarSC,
   ContentWrapper,
+  DrawerContent,
+  GridSC,
   MenuItem,
   MenuPanel,
+  UserDescription,
+  UserInfo,
   Wrapper,
 } from "./MainLayout.styled";
 import { Props } from "./MainLayout.types";
-import { ChatDots, Grid, People, Search } from "react-bootstrap-icons";
+import { ChatDots, DoorOpen, People, Search } from "react-bootstrap-icons";
+import { Button, Drawer } from "antd";
 
 export const MainLayout: FC<Props> = () => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   const menuItems = [
     {
       icon: <People size={24} />,
@@ -31,7 +39,7 @@ export const MainLayout: FC<Props> = () => {
   return (
     <Wrapper>
       <MenuPanel>
-        <Grid size={32} />
+        <GridSC size={32} onClick={() => setIsDrawerOpen(true)} />
         {menuItems.map(({ icon, path }) => (
           <MenuItem to={path}>{icon}</MenuItem>
         ))}
@@ -39,6 +47,36 @@ export const MainLayout: FC<Props> = () => {
       <ContentWrapper>
         <Outlet />
       </ContentWrapper>
+      <Drawer
+        title={
+          <UserInfo>
+            <AvatarSC
+              style={{
+                backgroundColor: "var(--light)",
+                color: "var(--primary)",
+                fontSize: 24,
+              }}
+              size={64}
+            >
+              А
+            </AvatarSC>
+            <div>
+              <strong>Васильева Александра Петровна</strong>
+              <UserDescription>Врач-онколог</UserDescription>
+            </div>
+          </UserInfo>
+        }
+        closable={false}
+        placement="left"
+        onClose={() => setIsDrawerOpen(false)}
+        open={isDrawerOpen}
+        key="menu-drawer"
+      >
+        <DrawerContent>
+          <div></div>
+          <Button icon={<DoorOpen />}>Выйти</Button>
+        </DrawerContent>
+      </Drawer>
     </Wrapper>
   );
 };
