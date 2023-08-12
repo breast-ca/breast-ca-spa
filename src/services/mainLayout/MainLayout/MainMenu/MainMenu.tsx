@@ -8,7 +8,7 @@ import {
   MenuPanel,
 } from "./MainMenu.styled";
 import { Tooltip } from "antd";
-import logo from "./assets/logo.png";
+import logo from "./assets/logo.svg";
 
 export const MainMenu: FC<Props> = ({ handleOpenDrawer }) => {
   const menuItems = [
