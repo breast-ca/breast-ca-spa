@@ -1,22 +1,22 @@
+import { LoginResponseDto } from "@/api/shared";
 import { createDomain, forward } from "effector";
 import { persist } from "effector-storage/local";
-import { SignInResponseDto } from "@/api/shared";
 
 const domain = createDomain("authService");
 
-const tokenReceived = domain.createEvent<SignInResponseDto>();
+const tokenReceived = domain.createEvent<LoginResponseDto>();
 const tokenErased = domain.createEvent();
 
 const signOut = domain.createEvent();
 
 const $accessToken = domain
   .createStore<string | null>(null)
-  .on(tokenReceived, (_, { access }) => access)
+  .on(tokenReceived, (_, { accessToken }) => accessToken)
   .reset(tokenErased);
 
 const $refreshToken = domain
   .createStore<string | null>(null)
-  .on(tokenReceived, (_, { refresh }) => refresh)
+  .on(tokenReceived, (_, { refreshToken }) => refreshToken)
   .reset(tokenErased);
 
 persist({

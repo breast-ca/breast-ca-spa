@@ -1,38 +1,46 @@
 import { Navigate, RouteObject } from "react-router-dom";
 import { GetRoutesProps } from "./Router.types";
-import { MainLayout } from "@/services/mainLayout/MainLayout";
 import { PatientsListContainer } from "@/services/patients/patientsList";
 import { PageHeader } from "@/components/PageHeader";
+import { MainLayoutContainer } from "@/services/mainLayout/mainLayoutService.container";
+import { LoginContainer } from "@/services/login/loginService.container";
 
-export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => [
-  {
-    path: "/",
-    element: <Navigate to={isAuth ? "/patients" : "/login"} />,
-  },
-  {
-    path: "/",
-    element: <MainLayout />,
-    children: [
-      {
-        path: "/patients",
-        element: <PatientsListContainer />,
-      },
-      {
-        path: "/messages",
-        element: <PageHeader title="Консилиум" />,
-      },
-      {
-        path: "/search",
-        element: <PageHeader title="Поиск" />,
-      },
-    ],
-  },
-  {
-    path: "*",
-    element: <Navigate to={isAuth ? "/patients" : "/login"} />,
-  },
-  {
-    path: "/login",
-    element: <>login</>,
-  },
-];
+export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
+  const authToutes = [
+    {
+      path: "*",
+      element: <Navigate to="/patients" />,
+    },
+    {
+      path: "/",
+      element: <MainLayoutContainer />,
+      children: [
+        {
+          path: "/patients",
+          element: <PatientsListContainer />,
+        },
+        {
+          path: "/messages",
+          element: <PageHeader title="Консилиум" />,
+        },
+        {
+          path: "/search",
+          element: <PageHeader title="Поиск" />,
+        },
+      ],
+    },
+  ];
+
+  return isAuth
+    ? authToutes
+    : [
+        {
+          path: "*",
+          element: <Navigate to="/login" />,
+        },
+        {
+          path: "/login",
+          element: <LoginContainer />,
+        },
+      ];
+};

@@ -1,6 +1,7 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Button as ButtonAntd } from "antd";
 import { ButtonSizeType, ButtonStyleType } from "./Button.types";
+import { ArrowClockwise } from "react-bootstrap-icons";
 
 const typesOfButton: {
   [key in ButtonStyleType]: {
@@ -91,11 +92,9 @@ export const ButtonSC = styled(ButtonAntd)<Button>`
   &:active,
   &:focus,
   &[disabled],
-  &[disabled]:hover,
   &[disabled]:active {
     border: none;
-    border: 1px solid ${({ btnType }) => typesOfButton[btnType].borderColor} !important;
-    background-color: ${({ btnType }) => typesOfButton[btnType].mainColor};
+    background: ${({ btnType }) => typesOfButton[btnType].mainColor} !important;
     color: ${({ btnType }) => typesOfButton[btnType].fontColor} !important;
 
     svg {
@@ -108,4 +107,21 @@ export const ButtonSC = styled(ButtonAntd)<Button>`
   &[disabled] {
     opacity: 0.6;
   }
+`;
+
+const spinKeyframes = keyframes`
+  from {
+      transform:rotate(0deg);
+  }
+
+  to {
+      transform:rotate(360deg);
+  }
+`;
+
+export const SpinSC = styled(ArrowClockwise)`
+  animation-name: ${spinKeyframes};
+  animation-duration: 800ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 `;

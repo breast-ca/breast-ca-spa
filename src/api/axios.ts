@@ -1,7 +1,7 @@
 import { API_HOST } from "@/constants";
 import { authService } from "@/services/auth/authService.model";
 import axios from "axios";
-import { SignInResponseDto } from "./shared";
+import { LoginResponseDto } from "./shared";
 
 const { $accessToken, $refreshToken } = authService.outputs;
 
@@ -24,6 +24,8 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    if (originalRequest.url === "auth/login") throw error;
+
     const isUnauthorized =
       error.response.status === 401 && error.config && !error.config._isRetry;
 
@@ -33,7 +35,7 @@ axiosInstance.interceptors.response.use(
       try {
         const refresh = $refreshToken.getState();
 
-        const tokens: SignInResponseDto = await axiosInstance.post(
+        const tokens: LoginResponseDto = await axiosInstance.post(
           "/auth/refresh",
           { refresh: refresh }
         );
@@ -48,3 +50,5 @@ axiosInstance.interceptors.response.use(
     throw error;
   }
 );
+
+export default axiosInstance;

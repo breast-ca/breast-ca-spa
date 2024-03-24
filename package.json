@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "apigen": "yarn swagger-typescript-api -p https://develop.breastca.1124297-cs73050.tw1.ru/swagger/v1/swagger.json -o ./src/api/shared -n api.ts"
+    "apigen": "yarn swagger-typescript-api -p http://localhost:8000/api-json -o ./src/api/shared -n api.ts"
   },
   "dependencies": {
     "@farfetched/core": "^0.8.14",
@@ -17,12 +17,14 @@
     "effector": "^22.8.6",
     "effector-react": "^22.5.3",
     "effector-storage": "^6.1.1",
+    "formik": "^2.4.5",
     "react": "^18.2.0",
     "react-bootstrap-icons": "^1.10.3",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.2",
     "sass": "^1.64.2",
-    "styled-components": "^6.0.7"
+    "styled-components": "^6.0.7",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20.4.7",
@@ -34,6 +36,7 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "swagger-typescript-api": "^13.0.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   }

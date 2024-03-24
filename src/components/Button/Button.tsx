@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { ButtonProps } from "./Button.types";
-import { ButtonSC, IconWrapper } from "./Button.styled";
+import { ButtonSC, IconWrapper, SpinSC } from "./Button.styled";
 
 export const Button: FC<ButtonProps> = (props) => {
   const {
@@ -27,7 +27,8 @@ export const Button: FC<ButtonProps> = (props) => {
       danger
     >
       {!isLoading && icon}
-      {props.children}
+      {!isLoading && props.children}
+      {isLoading && <SpinSC />}
       {isLoading && <IconWrapper>Загрузка</IconWrapper>}
     </ButtonSC>
   );

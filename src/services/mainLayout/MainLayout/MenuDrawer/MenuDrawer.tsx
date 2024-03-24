@@ -11,7 +11,11 @@ import { Button } from "@/components/Button";
 import { ArrowLeftCircleFill } from "react-bootstrap-icons";
 import { MenuList } from "./MenuList";
 
-export const MenuDrawer: FC<Props> = ({ isDrawerOpen, handleClose }) => {
+export const MenuDrawer: FC<Props> = ({
+  isDrawerOpen,
+  handleClose,
+  handleSignOut,
+}) => {
   return (
     <Drawer
       title={
@@ -40,7 +44,7 @@ export const MenuDrawer: FC<Props> = ({ isDrawerOpen, handleClose }) => {
     >
       <DrawerContent>
         <MenuList />
-        <Button icon={<ArrowLeftCircleFill />} floating>
+        <Button icon={<ArrowLeftCircleFill />} floating onClick={handleSignOut}>
           Выйти из системы
         </Button>
       </DrawerContent>

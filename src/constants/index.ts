@@ -1,1 +1,1 @@
-export const API_HOST = "https://develop.breastca.1124297-cs73050.tw1.ru/api";
+export const API_HOST = "http://localhost:8000/api";
