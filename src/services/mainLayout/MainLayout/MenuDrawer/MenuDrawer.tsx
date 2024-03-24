@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import {
   AvatarSC,
   DrawerContent,
@@ -10,32 +10,52 @@ import { Drawer } from "antd";
 import { Button } from "@/components/Button";
 import { ArrowLeftCircleFill } from "react-bootstrap-icons";
 import { MenuList } from "./MenuList";
+import { useUnit } from "effector-react";
+import { rolesTranslatesQuery } from "@/services/user/userService.api";
 
 export const MenuDrawer: FC<Props> = ({
   isDrawerOpen,
   handleClose,
   handleSignOut,
+  user,
 }) => {
+  const rolesTranslates = useUnit(rolesTranslatesQuery.$data);
+
+  const userInfo = useMemo(() => {
+    if (!user) return null;
+
+    return (
+      <UserInfo>
+        <AvatarSC
+          style={{
+            backgroundColor: "var(--light)",
+            color: "var(--primary)",
+            fontSize: 24,
+          }}
+          size={60}
+        >
+          {user.firstName[0].toUpperCase()}
+          {user.lastName[0].toUpperCase()}
+        </AvatarSC>
+        <div>
+          <strong>
+            {user.lastName} {user.firstName} {user.middleName}
+          </strong>
+          {rolesTranslates && (
+            <UserDescription>
+              {user.roles
+                .map((role) => rolesTranslates.translates[role] || role)
+                .join(", ")}
+            </UserDescription>
+          )}
+        </div>
+      </UserInfo>
+    );
+  }, [rolesTranslates, user]);
+
   return (
     <Drawer
-      title={
-        <UserInfo>
-          <AvatarSC
-            style={{
-              backgroundColor: "var(--light)",
-              color: "var(--primary)",
-              fontSize: 24,
-            }}
-            size={60}
-          >
-            А
-          </AvatarSC>
-          <div>
-            <strong>Васильева Александра Петровна</strong>
-            <UserDescription>Врач-онколог</UserDescription>
-          </div>
-        </UserInfo>
-      }
+      title={userInfo}
       closable={false}
       placement="left"
       onClose={handleClose}

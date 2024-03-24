@@ -37,7 +37,8 @@ axiosInstance.interceptors.response.use(
 
         const tokens: LoginResponseDto = await axiosInstance.post(
           "/auth/refresh",
-          { refresh: refresh }
+          null,
+          { params: { token: refresh } }
         );
 
         authService.inputs.tokenReceived(tokens);

@@ -5,7 +5,7 @@ import { MainMenu } from "./MainMenu";
 import { Props } from "./MainLayout.types";
 import { MenuDrawer } from "./MenuDrawer";
 
-export const MainLayout: FC<Props> = ({ handleSignOut }) => {
+export const MainLayout: FC<Props> = ({ handleSignOut, user }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
@@ -18,6 +18,7 @@ export const MainLayout: FC<Props> = ({ handleSignOut }) => {
         isDrawerOpen={isDrawerOpen}
         handleClose={() => setIsDrawerOpen(false)}
         handleSignOut={handleSignOut}
+        user={user}
       />
     </Wrapper>
   );

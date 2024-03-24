@@ -39,6 +39,10 @@ export interface UserResponseDto {
   organizationId: number;
 }
 
+export interface RolesDto {
+  translates: Record<string, string>;
+}
+
 export interface LoginDto {
   password: string;
   login: string;
@@ -340,6 +344,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags User
+     * @name UserControllerGetRolesTranslates
+     * @request GET:/api/user/roles
+     */
+    userControllerGetRolesTranslates: (params: RequestParams = {}) =>
+      this.request<RolesDto, any>({
+        path: `/api/user/roles`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
      * @name UserControllerGetUserById
      * @request GET:/api/user/{id}
      */
@@ -424,11 +443,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description **Роли:** 1. HeadPhysician (Главврач) 2. Surgeon (Хирург)
+     * @description **Роли:** 1. HeadPhysician (Главврач)
      *
      * @tags Organizations
      * @name OrganizationControllerEditMyOrganization
-     * @summary [ Edit organization ]: Главврач, Хирург
+     * @summary [ Edit organization ]: Главврач
      * @request PATCH:/api/organization/edit
      * @secure
      */
