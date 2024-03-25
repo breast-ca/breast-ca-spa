@@ -101,6 +101,13 @@ export interface CreatePatientDto {
   jureAddress?: number;
 }
 
+export enum Status {
+  Treatment = "Treatment",
+  DispanseryObservation = "DispanseryObservation",
+  DispanseryRegistration = "DispanseryRegistration",
+  Dead = "Dead",
+}
+
 export interface ResponsePatientDto {
   id: number;
   name: string;
@@ -114,6 +121,7 @@ export interface ResponsePatientDto {
   factAddress: AddressResponseDto;
   jureAddress: AddressResponseDto;
   doctors: UserResponseDto;
+  status: Status;
 }
 
 export type QueryParamsType = Record<string | number, any>;
