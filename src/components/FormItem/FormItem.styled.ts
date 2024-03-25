@@ -12,8 +12,8 @@ export const FormItem = styled(Form.Item)`
       padding: 0 0 0px;
 
       label {
-        font-size: 16px !important;
-        color: #000000a2;
+        font-size: 14px !important;
+        color: #00000077;
         font-weight: 500;
       }
     }

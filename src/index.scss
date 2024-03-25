@@ -6,8 +6,19 @@ body {
   background-color: var(--background);
 }
 
-:root {
+* {
   font-family: Montserrat, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.ant-modal-content {
+  border-radius: 16px !important;
+}
+
+.ant-picker {
+  width: 100%;
+}
+
+:root {
   line-height: 1.5;
   font-weight: 400;
 

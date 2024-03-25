@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactElement } from "react";
+import { ReactElement, ReactNode } from "react";
 
 export type ButtonProps = {
   type?: ButtonStyleType;
@@ -7,9 +7,9 @@ export type ButtonProps = {
   size?: ButtonSizeType;
   floating?: boolean;
   isLoading?: boolean;
-  htmlForm?: string;
-  htmlType?: "submit" | "button";
-} & HTMLAttributes<HTMLButtonElement>;
+  children?: ReactNode;
+  onClick?: () => void;
+};
 
 export type ButtonSizeType = "middle" | "small";
 

@@ -87,6 +87,35 @@ export interface CreateAddressDto {
   district: string;
 }
 
+export interface CreatePatientDto {
+  name: string;
+  surname: string;
+  middleName: string;
+  individualInsurance: string;
+  medicalInsurance: string;
+  passport: string;
+  insuranceOrganization: string;
+  /** @format date-time */
+  birthDate: string;
+  factAddress: number;
+  jureAddress: number;
+}
+
+export interface ResponsePatientDto {
+  id: number;
+  name: string;
+  surname: string;
+  middleName: string;
+  individualInsurance: string;
+  medicalInsurance: string;
+  passport: string;
+  insuranceOrganization: string;
+  birthDate: string;
+  factAddress: AddressResponseDto;
+  jureAddress: AddressResponseDto;
+  doctors: UserResponseDto;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -477,6 +506,43 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description **Роли:** 1. HeadPhysician (Главврач) 2. ClinicDoctor (ПОК) 3. Surgeon (Хирург)
+     *
+     * @tags Patients
+     * @name PatientControllerCreatePatient
+     * @summary Главврач, ПОК, Хирург
+     * @request POST:/api/patient
+     * @secure
+     */
+    patientControllerCreatePatient: (data: CreatePatientDto, params: RequestParams = {}) =>
+      this.request<CreatePatientDto, any>({
+        path: `/api/patient`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Patients
+     * @name PatientControllerGetPatientById
+     * @request GET:/api/patient/{id}
+     * @secure
+     */
+    patientControllerGetPatientById: (id: string, params: RequestParams = {}) =>
+      this.request<ResponsePatientDto, any>({
+        path: `/api/patient/${id}`,
+        method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
