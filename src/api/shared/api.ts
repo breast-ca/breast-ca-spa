@@ -97,8 +97,8 @@ export interface CreatePatientDto {
   insuranceOrganization: string;
   /** @format date-time */
   birthDate: string;
-  factAddress: number;
-  jureAddress: number;
+  factAddress?: number;
+  jureAddress?: number;
 }
 
 export interface ResponsePatientDto {
@@ -526,6 +526,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Patients
+     * @name PatientControllerGetMyPatient
+     * @request GET:/api/patient/my
+     * @secure
+     */
+    patientControllerGetMyPatient: (params: RequestParams = {}) =>
+      this.request<ResponsePatientDto, any>({
+        path: `/api/patient/my`,
+        method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
