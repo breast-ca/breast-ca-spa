@@ -1,1 +1,1 @@
-export { AddPatientModal } from './AddPatientModal';
+export { AddPatientModal } from "./AddPatientModal";

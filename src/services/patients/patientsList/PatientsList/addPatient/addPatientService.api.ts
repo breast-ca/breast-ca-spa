@@ -1,9 +1,10 @@
-import { createQuery } from "@farfetched/core";
+import { createMutation } from "@farfetched/core";
 import { axios } from "@/api";
 import { createEffect } from "effector";
+import { CreatePatientDto, ResponsePatientDto } from "@/api/shared";
 
-export const createPatientQuery = createQuery({
-  handler: createEffect((patientId: string) =>
-    axios.post("/patients", { patientId })
+export const createPatientMutation = createMutation({
+  handler: createEffect<CreatePatientDto, ResponsePatientDto>((payload) =>
+    axios.post("/patient", payload)
   ),
 });

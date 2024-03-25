@@ -9,7 +9,11 @@ import { Dayjs } from "dayjs";
 import { validationSchema } from "./AddPatientModal.constants";
 import { ErrorMessage } from "@/components/ErrorMessage";
 
-export const AddPatientModal: FC<Props> = ({ isOpen, handleClose }) => {
+export const AddPatientModal: FC<Props> = ({
+  isOpen,
+  handleClose,
+  handleCreatePatinet,
+}) => {
   const { values, handleChange, setFieldValue, errors, handleSubmit } =
     useFormik({
       initialValues: {
@@ -27,7 +31,27 @@ export const AddPatientModal: FC<Props> = ({ isOpen, handleClose }) => {
       validationSchema,
       validateOnChange: false,
       onSubmit: (values) => {
-        console.log(values);
+        if (!values.birthDate) return;
+
+        const {
+          passportNumber,
+          passportSeries,
+          birthDate,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          phoneNumber: _,
+          ...preparedValues
+        } = values;
+
+        handleCreatePatinet({
+          ...Object.entries(preparedValues).reduce(
+            (acc, [key, value]) => ({ ...acc, [key]: String(value) }),
+            {} as typeof preparedValues
+          ),
+          passport: `${passportNumber} ${passportSeries}`,
+          birthDate: birthDate.toISOString(),
+        });
+
+        return void 0;
       },
     });
 
