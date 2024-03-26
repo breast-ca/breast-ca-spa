@@ -118,10 +118,24 @@ export interface ResponsePatientDto {
   passport: string;
   insuranceOrganization: string;
   birthDate: string;
-  factAddress: AddressResponseDto;
-  jureAddress: AddressResponseDto;
-  doctors: UserResponseDto;
+  factAddress?: AddressResponseDto;
+  jureAddress?: AddressResponseDto;
   status: Status;
+  statusText: string;
+}
+
+export interface EditPatientDto {
+  name?: string;
+  surname?: string;
+  middleName?: string;
+  individualInsurance?: string;
+  medicalInsurance?: string;
+  passport?: string;
+  insuranceOrganization?: string;
+  /** @format date-time */
+  birthDate?: string;
+  factAddress?: number;
+  jureAddress?: number;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -568,6 +582,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/patient/${id}`,
         method: "GET",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Patients
+     * @name PatientControllerEditPatient
+     * @request PATCH:/api/patient/{id}
+     * @secure
+     */
+    patientControllerEditPatient: (id: string, data: EditPatientDto, params: RequestParams = {}) =>
+      this.request<EditPatientDto, any>({
+        path: `/api/patient/${id}`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

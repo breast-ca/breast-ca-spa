@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Wrapper = styled.div``;
@@ -9,12 +10,15 @@ export const ListWrapper = styled.div`
   gap: 16px;
 `;
 
-export const PatientItem = styled.div`
+export const PatientItem = styled(Link)`
+  max-width: 1080px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr minmax(auto, 9%);
   gap: 16px;
   cursor: pointer;
   transition: 0.2s;
+  align-items: center;
+  color: #2f2f2f;
 
   &:hover {
     color: var(--primary);

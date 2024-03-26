@@ -4,6 +4,7 @@ import { PatientsListContainer } from "@/services/patients/patientsList";
 import { PageHeader } from "@/components/PageHeader";
 import { MainLayoutContainer } from "@/services/mainLayout/mainLayoutService.container";
 import { LoginContainer } from "@/services/login/loginService.container";
+import { PatinetProfileContainer } from "@/services/patients/patinetProfile/patinetProfileService.container";
 
 export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
   const authToutes = [
@@ -13,11 +14,19 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
     },
     {
       path: "/",
+      element: <Navigate to="/patients" />,
+    },
+    {
+      path: "/",
       element: <MainLayoutContainer />,
       children: [
         {
           path: "/patients",
           element: <PatientsListContainer />,
+        },
+        {
+          path: "/patients/:id",
+          element: <PatinetProfileContainer />,
         },
         {
           path: "/messages",

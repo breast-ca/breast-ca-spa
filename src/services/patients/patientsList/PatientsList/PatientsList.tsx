@@ -12,6 +12,7 @@ import { PlusCircleFill } from "react-bootstrap-icons";
 import { AddPatientContainer } from "./addPatient";
 import { Empty, Skeleton } from "antd";
 import dayjs from "dayjs";
+import { PatinetStatus } from "@/components/shared/PatinetStatus";
 
 export const PatientsList: FC<Props> = ({
   handleAddPatient,
@@ -36,11 +37,14 @@ export const PatientsList: FC<Props> = ({
       {Boolean(patientsList?.length) && (
         <ListWrapper>
           {patientsList?.map((item) => (
-            <PatientItem key={item.id}>
+            <PatientItem key={item.id} to={`/patients/${item.id}`}>
               <PatientName>
                 {item.surname} {item.name} {item.middleName}
               </PatientName>
-              <div>{item.status}</div>
+              <PatinetStatus
+                status={item.status}
+                statusText={item.statusText}
+              />
               <div>{dayjs(item.birthDate).format("DD.MM.YYYY")}</div>
             </PatientItem>
           ))}
