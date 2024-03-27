@@ -23,7 +23,6 @@ export const MenuItem = styled(Menu.Item)<{ color?: string }>`
     gap: 8px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
   }
 
   .ant-dropdown-menu-item {

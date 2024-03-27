@@ -7,6 +7,7 @@ import { LoginContainer } from "@/services/login/loginService.container";
 import { PatientProfileContainer } from "@/services/patients/patientProfile/patientProfileService.container";
 import { SettingsLayoutContainer } from "@/services/settingsLayout/settingsLayoutService.container";
 import { UserProfileContainer } from "@/services/settings/userProfile/userProfileService.container";
+import { OrganizationProfileContainer } from "@/services/settings/organizationProfile";
 
 export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
   const authToutes = [
@@ -28,7 +29,7 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
         },
         {
           path: "/settings/organization",
-          element: <>Организация</>,
+          element: <OrganizationProfileContainer />,
         },
         {
           path: "/settings/about",

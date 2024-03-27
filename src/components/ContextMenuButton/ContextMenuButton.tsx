@@ -95,6 +95,7 @@ export const ContextMenuButton: FC<ContextMenuButtonProps> = (props) => {
         open={isVisible}
         trigger={["click"]}
         onOpenChange={(visible) => setIsVisible(visible)}
+        placement="bottomRight"
       >
         <>
           {Boolean(children) && (
