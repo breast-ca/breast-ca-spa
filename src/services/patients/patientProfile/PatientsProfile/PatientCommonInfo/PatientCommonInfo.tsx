@@ -14,9 +14,14 @@ export const PatientCommonInfo: FC<Props> = ({ patient }) => {
             value: dayjs(patient.birthDate).format("DD.MM.YYYY"),
           },
           {
+            key: "Номер телефона",
+            value: patient.phoneNumber,
+          },
+          {
             key: "Паспорт",
             value: patient.passport,
           },
+
           {
             key: "СНИЛС",
             value: patient.individualInsurance,

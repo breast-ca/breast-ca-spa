@@ -1,16 +1,22 @@
 import { useUnit } from "effector-react";
 import { AddPatientModal } from "./AddPatientModal";
 import { addPatientService } from ".";
-import { createPatientMutation } from "./addPatientService.api";
-import { useEffect } from "react";
+import {
+  createPatientMutation,
+  editPatientMutation,
+} from "./addPatientService.api";
+import { FC, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const AddPatientContainer = () => {
-  const { isOpen, handleClose, handleCreatePatinet } = useUnit({
-    isOpen: addPatientService.outputs.$isModalOpen,
-    handleClose: addPatientService.inputs.handleCloseModal,
-    handleCreatePatinet: createPatientMutation.start,
-  });
+export const AddPatientContainer: FC<{ edit?: boolean }> = ({ edit }) => {
+  const { isOpen, handleClose, handleCreatePatinet, payload, editPatient } =
+    useUnit({
+      isOpen: addPatientService.outputs.$isModalOpen,
+      handleClose: addPatientService.inputs.handleCloseModal,
+      handleCreatePatinet: createPatientMutation.start,
+      payload: addPatientService.outputs.$payload,
+      editPatient: editPatientMutation.start,
+    });
 
   const navigate = useNavigate();
 
@@ -22,9 +28,12 @@ export const AddPatientContainer = () => {
 
   return (
     <AddPatientModal
+      edit={edit}
       isOpen={isOpen}
       handleClose={handleClose}
       handleCreatePatinet={handleCreatePatinet}
+      payload={payload}
+      editPatient={editPatient}
     />
   );
 };

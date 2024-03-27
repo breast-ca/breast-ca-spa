@@ -7,14 +7,22 @@ import { Empty } from "antd";
 import { PageHeader } from "@/components/PageHeader";
 import { Segmented } from "@/components/Segmented";
 import { PatientCommonInfo } from "./PatientCommonInfo";
+import { ContextMenuButton } from "@/components/ContextMenuButton";
+import { Pen } from "react-bootstrap-icons";
+import { AddPatientContainer } from "../../patientsList/PatientsList/addPatient";
 
-export const PatientsProfile: FC<Props> = ({ isLoading, patient }) => {
+export const PatientsProfile: FC<Props> = ({
+  isLoading,
+  patient,
+  handleEdit,
+}) => {
   const [segment, setSegment] = useState<"commonInfo" | "diseases">(
     "commonInfo"
   );
 
   return (
     <Wrapper>
+      <AddPatientContainer edit />
       <BackButton />
       <WithLoader isLoading={isLoading}>
         {!patient && (
@@ -29,7 +37,17 @@ export const PatientsProfile: FC<Props> = ({ isLoading, patient }) => {
               title={`${patient.surname} ${patient.name} ${
                 patient.middleName || ""
               }`}
-            />
+            >
+              <ContextMenuButton
+                menuButtons={[
+                  {
+                    title: "Редактировать",
+                    icon: <Pen />,
+                    onClick: () => patient && handleEdit(patient),
+                  },
+                ]}
+              />
+            </PageHeader>
             <Segmented
               value={segment}
               onChange={(value) =>

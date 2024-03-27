@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { Footer, Grid, Wrapper } from "./AddPatientModal.styled";
 import { Props } from "./AddPatientModal.types";
 import { DatePicker, Input, Modal, Space } from "antd";
@@ -8,18 +8,23 @@ import { useFormik } from "formik";
 import dayjs from "dayjs";
 import { validationSchema } from "./AddPatientModal.constants";
 import { ErrorMessage } from "@/components/ErrorMessage";
-import ru from "dayjs/locale/ru";
 
-dayjs.locale(ru);
+import "dayjs/locale/pl";
+import locale from "antd/es/date-picker/locale/ru_RU";
+
+dayjs.locale("ru");
 
 export const AddPatientModal: FC<Props> = ({
   isOpen,
   handleClose,
   handleCreatePatinet,
+  edit,
+  payload,
+  editPatient,
 }) => {
-  const { values, handleChange, setFieldValue, errors, handleSubmit } =
-    useFormik({
-      initialValues: {
+  const initialValues = useMemo(() => {
+    if (!payload) {
+      return {
         name: "",
         surname: "",
         middleName: "",
@@ -30,39 +35,59 @@ export const AddPatientModal: FC<Props> = ({
         insuranceOrganization: "",
         phoneNumber: "",
         birthDate: null as null | dayjs.Dayjs,
-      },
+      };
+    }
+
+    return {
+      name: payload.name,
+      surname: payload.surname,
+      middleName: payload.middleName,
+      individualInsurance: payload.individualInsurance,
+      medicalInsurance: payload.medicalInsurance,
+      passportSeries: String(payload.passport).slice(0, 4),
+      passportNumber: String(payload.passport).slice(4).replace(" ", ""),
+      insuranceOrganization: payload.insuranceOrganization,
+      phoneNumber: payload.phoneNumber || "",
+      birthDate: dayjs(new Date(payload.birthDate)),
+    };
+  }, [payload]);
+
+  const { values, handleChange, setFieldValue, errors, handleSubmit } =
+    useFormik({
+      initialValues,
       validationSchema,
       validateOnChange: false,
       onSubmit: (values) => {
         if (!values.birthDate) return;
 
-        const {
-          passportNumber,
-          passportSeries,
-          birthDate,
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          phoneNumber: _,
-          ...preparedValues
-        } = values;
+        const { passportNumber, passportSeries, birthDate, ...preparedValues } =
+          values;
 
-        handleCreatePatinet({
+        const data = {
           ...Object.entries(preparedValues).reduce(
             (acc, [key, value]) => ({ ...acc, [key]: String(value) }),
             {} as typeof preparedValues
           ),
           passport: `${passportSeries} ${passportNumber}`,
           birthDate: birthDate.toISOString(),
-        });
+        };
+
+        if (edit && payload) {
+          editPatient({ ...data, id: payload?.id });
+        } else {
+          handleCreatePatinet(data);
+        }
 
         return void 0;
       },
+      enableReinitialize: true,
     });
 
   return (
     <Modal
       open={isOpen}
       onCancel={handleClose}
-      title="Создать пациента"
+      title={edit ? "Редактировать пациента" : "Создать пациента"}
       centered
       width={800}
       maskClosable={false}
@@ -121,6 +146,7 @@ export const AddPatientModal: FC<Props> = ({
               placeholder="Введите дату рождения"
               disabledDate={(date) => date.isAfter(new Date())}
               status={errors.birthDate ? "error" : void 0}
+              locale={locale}
             />
             {errors.birthDate && (
               <ErrorMessage>{errors.birthDate}</ErrorMessage>

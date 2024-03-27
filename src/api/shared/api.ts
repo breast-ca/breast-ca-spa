@@ -99,6 +99,7 @@ export interface CreatePatientDto {
   birthDate: string;
   factAddress?: number;
   jureAddress?: number;
+  phoneNumber: string;
 }
 
 export enum Status {
@@ -120,6 +121,7 @@ export interface ResponsePatientDto {
   birthDate: string;
   factAddress?: AddressResponseDto;
   jureAddress?: AddressResponseDto;
+  phoneNumber: string;
   status: Status;
   statusText: string;
 }
@@ -136,6 +138,7 @@ export interface EditPatientDto {
   birthDate?: string;
   factAddress?: number;
   jureAddress?: number;
+  phoneNumber?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
