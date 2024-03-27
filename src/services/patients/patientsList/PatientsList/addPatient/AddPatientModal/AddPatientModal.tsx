@@ -50,7 +50,7 @@ export const AddPatientModal: FC<Props> = ({
             (acc, [key, value]) => ({ ...acc, [key]: String(value) }),
             {} as typeof preparedValues
           ),
-          passport: `${passportNumber} ${passportSeries}`,
+          passport: `${passportSeries} ${passportNumber}`,
           birthDate: birthDate.toISOString(),
         });
 

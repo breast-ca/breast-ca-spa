@@ -1,0 +1,1 @@
+export { PatientCommonInfo } from './PatientCommonInfo';
