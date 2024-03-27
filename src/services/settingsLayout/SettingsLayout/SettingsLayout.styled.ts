@@ -1,0 +1,33 @@
+import styled from "styled-components";
+
+export const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+  min-width: 1080px;
+`;
+
+export const Content = styled.div`
+  margin-top: 24px;
+  width: 1200px;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 24px;
+`;
+
+export const Menu = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background-color: white;
+  box-shadow: 0 8px 16px #0000000e;
+  border-radius: 24px;
+`;
+
+export const OutletContent = styled.div`
+  padding: 16px;
+  background-color: white;
+  box-shadow: 0 8px 16px #0000000e;
+  border-radius: 24px;
+`;

@@ -1,4 +1,5 @@
 import { ChevronRight } from "react-bootstrap-icons";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -7,7 +8,7 @@ export const Wrapper = styled.div`
   gap: 6px;
 `;
 
-export const MenuItem = styled.div`
+export const MenuItem = styled(NavLink)`
   display: flex;
   align-items: center;
   gap: 16px;
@@ -17,12 +18,20 @@ export const MenuItem = styled.div`
   border-radius: 12px;
   position: relative;
 
+  .drawer-menu-chevron {
+    color: var(--primary);
+  }
+
   &:hover {
     background-color: var(--gray);
 
     .drawer-menu-chevron {
       visibility: visible;
     }
+  }
+
+  &.active {
+    background-color: var(--gray);
   }
 `;
 

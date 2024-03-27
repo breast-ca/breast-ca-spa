@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { MainLayoutContainer } from "@/services/mainLayout/mainLayoutService.container";
 import { LoginContainer } from "@/services/login/loginService.container";
 import { PatientProfileContainer } from "@/services/patients/patientProfile/patientProfileService.container";
+import { SettingsLayoutContainer } from "@/services/settingsLayout/settingsLayoutService.container";
 
 export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
   const authToutes = [
@@ -15,6 +16,24 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
     {
       path: "/",
       element: <Navigate to="/patients" />,
+    },
+    {
+      path: "/settings",
+      element: <SettingsLayoutContainer />,
+      children: [
+        {
+          path: "/settings/profile",
+          element: <>Профиль</>,
+        },
+        {
+          path: "/settings/organization",
+          element: <>Организация</>,
+        },
+        {
+          path: "/settings/about",
+          element: <>О программе</>,
+        },
+      ],
     },
     {
       path: "/",
