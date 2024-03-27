@@ -26,6 +26,7 @@ export const Menu = styled.div`
 `;
 
 export const OutletContent = styled.div`
+  height: min-content;
   padding: 16px;
   background-color: white;
   box-shadow: 0 8px 16px #0000000e;

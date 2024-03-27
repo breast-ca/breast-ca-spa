@@ -6,6 +6,7 @@ import { MainLayoutContainer } from "@/services/mainLayout/mainLayoutService.con
 import { LoginContainer } from "@/services/login/loginService.container";
 import { PatientProfileContainer } from "@/services/patients/patientProfile/patientProfileService.container";
 import { SettingsLayoutContainer } from "@/services/settingsLayout/settingsLayoutService.container";
+import { UserProfileContainer } from "@/services/settings/userProfile/userProfileService.container";
 
 export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
   const authToutes = [
@@ -23,7 +24,7 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
       children: [
         {
           path: "/settings/profile",
-          element: <>Профиль</>,
+          element: <UserProfileContainer />,
         },
         {
           path: "/settings/organization",

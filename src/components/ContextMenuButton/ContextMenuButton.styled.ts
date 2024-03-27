@@ -11,7 +11,7 @@ export const StyledMenuButton = styled(Button)`
   width: ${({ size }) => (size === "small" ? "32px" : "42px")};
   height: ${({ size }) => (size === "small" ? "32px" : "42px")} !important;
   border-radius: 8px;
-  border: none;
+  border: 1px solid #e5e5e5;
   box-shadow: 0 4px 8px #00000010;
 `;
 

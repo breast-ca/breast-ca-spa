@@ -11,7 +11,8 @@ export const UserInfo = styled.div`
 export const UserDescription = styled.div`
   font-size: 14px;
   margin-top: 4px;
-  color: lightgray;
+  color: #aaaaaa;
+  font-weight: 600;
 `;
 
 export const AvatarSC = styled(Avatar)`
