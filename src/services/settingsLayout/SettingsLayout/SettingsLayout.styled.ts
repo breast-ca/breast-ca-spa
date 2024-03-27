@@ -7,6 +7,12 @@ export const Wrapper = styled.div`
   min-width: 1080px;
 `;
 
+export const LogoWrapper = styled.div`
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+`;
+
 export const Content = styled.div`
   margin-top: 24px;
   width: 1200px;

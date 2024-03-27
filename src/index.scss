@@ -86,3 +86,10 @@ input[type="number"] {
     }
   }
 }
+
+.ant-select-selection-item {
+  background-color: var(--secondary) !important;
+  color: rgb(55, 55, 55);
+  font-weight: 500 !important;
+  border-radius: 4px !important;
+} 

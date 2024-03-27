@@ -6,13 +6,21 @@ import { WithLoader } from "@/components/WithLoader";
 import { UserInfo } from "@/services/mainLayout/MainLayout/MenuDrawer/MenuDrawer";
 import { ContextMenuButton } from "@/components/ContextMenuButton";
 import { Pen } from "react-bootstrap-icons";
+import { EditUserModalContainer } from "../editUserModal";
 
-export const UserProfile: FC<Props> = ({ user, isLoading }) => {
+export const UserProfile: FC<Props> = ({ user, isLoading, handleEditUser }) => {
   return (
     <Wrapper>
+      <EditUserModalContainer />
       <PageHeader title="Профиль">
         <ContextMenuButton
-          menuButtons={[{ title: "Редактировать", icon: <Pen /> }]}
+          menuButtons={[
+            {
+              title: "Редактировать",
+              icon: <Pen />,
+              onClick: () => user && handleEditUser(user),
+            },
+          ]}
           size="small"
         />
       </PageHeader>
