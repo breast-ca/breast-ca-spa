@@ -4,7 +4,7 @@ import { PatientsListContainer } from "@/services/patients/patientsList";
 import { PageHeader } from "@/components/PageHeader";
 import { MainLayoutContainer } from "@/services/mainLayout/mainLayoutService.container";
 import { LoginContainer } from "@/services/login/loginService.container";
-import { PatinetProfileContainer } from "@/services/patients/patinetProfile/patinetProfileService.container";
+import { PatientProfileContainer } from "@/services/patients/patientProfile/patientProfileService.container";
 
 export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
   const authToutes = [
@@ -26,7 +26,7 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
         },
         {
           path: "/patients/:id",
-          element: <PatinetProfileContainer />,
+          element: <PatientProfileContainer />,
         },
         {
           path: "/messages",

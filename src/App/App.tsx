@@ -10,7 +10,17 @@ dayjs.locale(ru);
 export const App = () => {
   return (
     <BrowserRouter>
-      <ConfigProvider locale={ruRu}>
+      <ConfigProvider
+        locale={ruRu}
+        theme={{
+          token: {
+            // Seed Token
+            colorPrimary: "#ff6b6b",
+            borderRadius: 6,
+            borderRadiusSM: 8,
+          },
+        }}
+      >
         <Router />
       </ConfigProvider>
     </BrowserRouter>

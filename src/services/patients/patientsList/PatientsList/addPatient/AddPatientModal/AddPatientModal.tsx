@@ -5,9 +5,12 @@ import { DatePicker, Input, Modal, Space } from "antd";
 import { Button } from "@/components/Button";
 import { FormItem } from "@/components/FormItem";
 import { useFormik } from "formik";
-import { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { validationSchema } from "./AddPatientModal.constants";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import ru from "dayjs/locale/ru";
+
+dayjs.locale(ru);
 
 export const AddPatientModal: FC<Props> = ({
   isOpen,
@@ -26,7 +29,7 @@ export const AddPatientModal: FC<Props> = ({
         passportNumber: "",
         insuranceOrganization: "",
         phoneNumber: "",
-        birthDate: null as null | Dayjs,
+        birthDate: null as null | dayjs.Dayjs,
       },
       validationSchema,
       validateOnChange: false,
