@@ -1,2 +1,2 @@
 export { loginService } from "./loginService.model";
-export { loginContainer } from "./loginService.container";
+export { LoginContainer } from "./loginService.container";

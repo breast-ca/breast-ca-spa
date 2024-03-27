@@ -9,6 +9,20 @@
  * ---------------------------------------------------------------
  */
 
+export interface CreateAddressDto {
+  city: string;
+  street: string;
+  houseNumber: string;
+  corpus: string;
+  apartementNumber: string;
+  district: string;
+}
+
+export interface CreateOrganizationWithAddressDto {
+  name: string;
+  address: CreateAddressDto;
+}
+
 export enum RoleType {
   HeadPhysician = "HeadPhysician",
   ClinicDoctor = "ClinicDoctor",
@@ -25,7 +39,7 @@ export interface CreateUserDto {
   lastName: string;
   middleName: string;
   login: string;
-  organizationId: number;
+  organization: CreateOrganizationWithAddressDto;
   roles: RoleType[];
 }
 
@@ -41,6 +55,15 @@ export interface UserResponseDto {
 
 export interface RolesDto {
   translates: Record<string, string>;
+}
+
+export interface EditUserDto {
+  firstName?: string;
+  lastName?: string;
+  middleName?: string;
+  login?: string;
+  password?: string;
+  roles?: RoleType[];
 }
 
 export interface LoginDto {
@@ -76,15 +99,6 @@ export interface OrganizationResponseDto {
 export interface OrganizationEditDto {
   name?: string;
   address?: number;
-}
-
-export interface CreateAddressDto {
-  city: string;
-  street: string;
-  houseNumber: string;
-  corpus: string;
-  apartementNumber: string;
-  district: string;
 }
 
 export interface CreatePatientDto {
@@ -367,10 +381,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name UserControllerSignUp
      * @request POST:/api/user/create
      */
-    userControllerSignUp: (data: CreateUserDto, params: RequestParams = {}) =>
+    userControllerSignUp: (
+      query: {
+        key: string;
+      },
+      data: CreateUserDto,
+      params: RequestParams = {},
+    ) =>
       this.request<CreateUserDto, any>({
         path: `/api/user/create`,
         method: "POST",
+        query: query,
         body: data,
         type: ContentType.Json,
         format: "json",
@@ -400,11 +421,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags User
      * @name UserControllerGetRolesTranslates
      * @request GET:/api/user/roles
+     * @secure
      */
     userControllerGetRolesTranslates: (params: RequestParams = {}) =>
       this.request<RolesDto, any>({
         path: `/api/user/roles`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -415,12 +438,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags User
      * @name UserControllerGetUserById
      * @request GET:/api/user/{id}
+     * @secure
      */
     userControllerGetUserById: (id: string, params: RequestParams = {}) =>
       this.request<UserResponseDto, any>({
         path: `/api/user/${id}`,
         method: "GET",
+        secure: true,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserControllerUpdateUserById
+     * @request PATCH:/api/user/{id}
+     * @secure
+     */
+    userControllerUpdateUserById: (id: string, data: EditUserDto, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/user/${id}`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         ...params,
       }),
 

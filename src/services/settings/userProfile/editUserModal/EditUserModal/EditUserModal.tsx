@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, useMemo, useState } from "react";
 import { Footer, Grid, Wrapper } from "./EditUserModal.styled";
 import { Props } from "./EditUserModal.types";
 import { Divider, Input, Modal, Select } from "antd";
@@ -6,15 +6,23 @@ import { FormItem } from "@/components/FormItem";
 import { Button } from "@/components/Button";
 import { useFormik } from "formik";
 import { RoleType } from "@/api/shared";
+import { Eye, EyeSlash } from "react-bootstrap-icons";
+import { validationSchema } from "./EditUserModal.constants";
+import { ErrorMessage } from "@/components/ErrorMessage";
+import { omit } from "lodash";
 
 export const EditUserModal: FC<Props> = ({
   userPayload,
   handleClose,
   rolesTranslates,
+  isCurrentUser,
+  handleEdit,
 }) => {
   const isAdmin = useMemo(() => {
     return userPayload.roles.includes(RoleType.HeadPhysician);
   }, [userPayload]);
+
+  const [showPassword, setShowPassword] = useState(true);
 
   const initialValues = useMemo(() => {
     return {
@@ -22,17 +30,28 @@ export const EditUserModal: FC<Props> = ({
       lastName: userPayload.lastName,
       middleName: userPayload.middleName,
       login: userPayload.login,
-      password: "",
+      passwordText: "",
       confirmPassword: "",
       roles: userPayload.roles,
     };
   }, [userPayload]);
 
-  const { values, handleChange, setFieldValue } = useFormik({
-    initialValues,
-    onSubmit: () => {},
-    enableReinitialize: true,
-  });
+  const { values, handleChange, setFieldValue, errors, handleSubmit } =
+    useFormik({
+      initialValues,
+      onSubmit: (values) => {
+        const { passwordText, ...payload } = omit(values, "confirmPassword");
+
+        handleEdit({
+          ...payload,
+          password: passwordText || void 0,
+          userId: userPayload.id,
+        });
+      },
+      validationSchema,
+      enableReinitialize: true,
+      validateOnChange: false,
+    });
 
   return (
     <Modal
@@ -44,7 +63,9 @@ export const EditUserModal: FC<Props> = ({
           <Button size="small" type="ghost" onClick={handleClose}>
             Отмена
           </Button>
-          <Button size="small">Сохранить</Button>
+          <Button size="small" onClick={() => handleSubmit()}>
+            Сохранить
+          </Button>
         </Footer>
       }
       centered
@@ -58,7 +79,9 @@ export const EditUserModal: FC<Props> = ({
               value={values.login}
               name="login"
               onChange={handleChange}
+              status={errors.login ? "error" : void 0}
             />
+            {errors.login && <ErrorMessage>{errors.login}</ErrorMessage>}
           </FormItem>
           <FormItem label="Фамилия">
             <Input
@@ -66,7 +89,9 @@ export const EditUserModal: FC<Props> = ({
               value={values.lastName}
               name="lastName"
               onChange={handleChange}
+              status={errors.lastName ? "error" : void 0}
             />
+            {errors.lastName && <ErrorMessage>{errors.lastName}</ErrorMessage>}
           </FormItem>
           <FormItem label="Имя">
             <Input
@@ -74,7 +99,11 @@ export const EditUserModal: FC<Props> = ({
               value={values.firstName}
               name="firstName"
               onChange={handleChange}
+              status={errors.firstName ? "error" : void 0}
             />
+            {errors.firstName && (
+              <ErrorMessage>{errors.firstName}</ErrorMessage>
+            )}
           </FormItem>
           <FormItem label="Отчество">
             <Input
@@ -82,7 +111,11 @@ export const EditUserModal: FC<Props> = ({
               value={values.middleName}
               name="middleName"
               onChange={handleChange}
+              status={errors.middleName ? "error" : void 0}
             />
+            {errors.middleName && (
+              <ErrorMessage>{errors.middleName}</ErrorMessage>
+            )}
           </FormItem>
         </Grid>
         {isAdmin && (
@@ -94,7 +127,11 @@ export const EditUserModal: FC<Props> = ({
               mode="multiple"
             >
               {Object.values(RoleType).map((role) => (
-                <Select.Option value={role} key={role}>
+                <Select.Option
+                  value={role}
+                  key={role}
+                  disabled={isCurrentUser && role === RoleType.HeadPhysician}
+                >
                   {rolesTranslates.translates[role]}
                 </Select.Option>
               ))}
@@ -106,19 +143,32 @@ export const EditUserModal: FC<Props> = ({
           <FormItem label="Изменить пароль">
             <Input
               placeholder="Введите пароль"
-              value={values.password}
-              name="password"
+              value={values.passwordText}
+              name="passwordText"
               onChange={handleChange}
+              type={showPassword ? "text" : "password"}
+              suffix={
+                showPassword ? (
+                  <EyeSlash onClick={() => setShowPassword(false)} />
+                ) : (
+                  <Eye onClick={() => setShowPassword(true)} />
+                )
+              }
             />
           </FormItem>
-          {values.password && (
+          {values.passwordText && (
             <FormItem label="Подтвердите пароль">
               <Input
                 placeholder="Введите пароль"
                 value={values.confirmPassword}
                 name="confirmPassword"
                 onChange={handleChange}
+                type={showPassword ? "text" : "password"}
+                status={errors.confirmPassword ? "error" : void 0}
               />
+              {errors.confirmPassword && (
+                <ErrorMessage>{errors.confirmPassword}</ErrorMessage>
+              )}
             </FormItem>
           )}
         </Grid>

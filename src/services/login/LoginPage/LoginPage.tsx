@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { LoginPanel, PanelWrapper, Wrapper } from "./LoginPage.styled";
 import { Props } from "./LoginPage.types";
 import { LogoIcon } from "./assets/LogoIcon";
@@ -9,8 +9,11 @@ import { useFormik } from "formik";
 import { LoginDto } from "@/api/shared";
 import * as yup from "yup";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { Eye, EyeSlash } from "react-bootstrap-icons";
 
 export const LoginPage: FC<Props> = ({ handleLogin, isLoading }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const { values, handleChange, errors, handleSubmit } = useFormik<LoginDto>({
     initialValues: {
       login: "",
@@ -47,8 +50,15 @@ export const LoginPage: FC<Props> = ({ handleLogin, isLoading }) => {
               value={values.password}
               placeholder="Введите ваш пароль"
               size="large"
-              type="password"
+              type={showPassword ? "text" : "password"}
               status={errors.password ? "error" : void 0}
+              suffix={
+                showPassword ? (
+                  <EyeSlash onClick={() => setShowPassword(false)} />
+                ) : (
+                  <Eye onClick={() => setShowPassword(true)} />
+                )
+              }
             />
             {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
           </FormItem>
