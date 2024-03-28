@@ -5,3 +5,5 @@ export const Wrapper = styled.div`
   flex-direction: column;
   gap: 16px;
 `;
+
+export const InfoWrapper = styled.div``;

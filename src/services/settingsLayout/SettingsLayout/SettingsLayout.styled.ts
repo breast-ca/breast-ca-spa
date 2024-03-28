@@ -22,6 +22,7 @@ export const Content = styled.div`
 `;
 
 export const Menu = styled.div`
+  height: min-content;
   display: flex;
   flex-direction: column;
   gap: 16px;
