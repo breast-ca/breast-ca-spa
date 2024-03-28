@@ -7,4 +7,5 @@ export type Props = {
   rolesTranslates: RolesDto;
   isCurrentUser?: boolean;
   handleEdit: (payload: EditUserPayload) => void;
+  isAdmin: boolean;
 };

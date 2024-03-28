@@ -9,6 +9,26 @@
  * ---------------------------------------------------------------
  */
 
+export enum RoleType {
+  HeadPhysician = "HeadPhysician",
+  ClinicDoctor = "ClinicDoctor",
+  Chemotherapist = "Chemotherapist",
+  RadiationTherapist = "RadiationTherapist",
+  Surgeon = "Surgeon",
+  Histologist = "Histologist",
+  UltrasoundSpecialist = "UltrasoundSpecialist",
+}
+
+export interface UserResponseDto {
+  id: number;
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  login: string;
+  roles: RoleType[];
+  organizationId: number;
+}
+
 export interface CreateAddressDto {
   city: string;
   street: string;
@@ -23,16 +43,6 @@ export interface CreateOrganizationWithAddressDto {
   address: CreateAddressDto;
 }
 
-export enum RoleType {
-  HeadPhysician = "HeadPhysician",
-  ClinicDoctor = "ClinicDoctor",
-  Chemotherapist = "Chemotherapist",
-  RadiationTherapist = "RadiationTherapist",
-  Surgeon = "Surgeon",
-  Histologist = "Histologist",
-  UltrasoundSpecialist = "UltrasoundSpecialist",
-}
-
 export interface CreateUserDto {
   password: string;
   firstName: string;
@@ -43,14 +53,13 @@ export interface CreateUserDto {
   roles: RoleType[];
 }
 
-export interface UserResponseDto {
-  id: number;
+export interface AddUserDto {
+  password: string;
   firstName: string;
   lastName: string;
   middleName: string;
   login: string;
   roles: RoleType[];
-  organizationId: number;
 }
 
 export interface RolesDto {
@@ -378,6 +387,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags User
+     * @name UserControllerGetUsers
+     * @request GET:/api/user
+     * @secure
+     */
+    userControllerGetUsers: (params: RequestParams = {}) =>
+      this.request<UserResponseDto[], any>({
+        path: `/api/user`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
      * @name UserControllerSignUp
      * @request POST:/api/user/create
      */
@@ -393,6 +419,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         query: query,
         body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserControllerAddUser
+     * @request POST:/api/user/add
+     * @secure
+     */
+    userControllerAddUser: (data: AddUserDto, params: RequestParams = {}) =>
+      this.request<UserResponseDto, any>({
+        path: `/api/user/add`,
+        method: "POST",
+        body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,

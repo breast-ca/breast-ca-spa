@@ -16,6 +16,14 @@ import { CommonInfo } from "@/components/CommonInfo";
 import { UserItem } from "./UserItem";
 import { useUnit } from "effector-react";
 import { rolesTranslatesQuery } from "@/services/user/userService.api";
+import {
+  EditUserModalContainer,
+  editUserModalService,
+} from "../../userProfile/editUserModal";
+import {
+  CreateUserModalContainer,
+  addUserModalService,
+} from "../../userProfile/createUserModal";
 
 export const OrganizationProfile: FC<Props> = ({
   organization,
@@ -24,10 +32,17 @@ export const OrganizationProfile: FC<Props> = ({
   usersList,
 }) => {
   const [segment, setSegment] = useState<"info" | "members">("info");
-  const rolesTranslates = useUnit(rolesTranslatesQuery.$data);
+
+  const { rolesTranslates, handleEditUser, handleAddUser } = useUnit({
+    rolesTranslates: rolesTranslatesQuery.$data,
+    handleEditUser: editUserModalService.inputs.handleEditUser,
+    handleAddUser: addUserModalService.inputs.handleAddUser,
+  });
 
   return (
     <Wrapper>
+      <CreateUserModalContainer />
+      <EditUserModalContainer />
       <PageHeader title={isLoading ? <Skeleton.Input /> : organization?.name}>
         {isAdmin && (
           <ContextMenuButton
@@ -39,6 +54,7 @@ export const OrganizationProfile: FC<Props> = ({
               {
                 title: "Создать сотрудника",
                 icon: <PlusCircle />,
+                onClick: handleAddUser,
               },
             ]}
             size="small"
@@ -80,6 +96,7 @@ export const OrganizationProfile: FC<Props> = ({
                     key={user.id}
                     user={user}
                     translates={rolesTranslates.translates}
+                    handleEditUser={handleEditUser}
                   />
                 ))}
               </ListWrapper>

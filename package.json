@@ -11,13 +11,13 @@
     "apigen": "yarn swagger-typescript-api -p http://localhost:8000/api-json -o ./src/api/shared -n api.ts"
   },
   "dependencies": {
-    "@farfetched/core": "^0.8.14",
+    "@farfetched/core": "^0.12.2",
     "@types/lodash": "^4.17.0",
     "antd": "^5.8.2",
     "axios": "^1.4.0",
     "dayjs": "^1.11.10",
-    "effector": "^22.8.6",
-    "effector-react": "^22.5.3",
+    "effector": "^23.2.0",
+    "effector-react": "^23.2.0",
     "effector-storage": "^6.1.1",
     "formik": "^2.4.5",
     "lodash": "^4.17.21",

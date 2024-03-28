@@ -1,60 +1,65 @@
-import { FC, useMemo, useState } from "react";
-import { Footer, Grid, Wrapper } from "./EditUserModal.styled";
-import { Props } from "./EditUserModal.types";
+import { FC, useEffect, useMemo, useState } from "react";
+import { Footer, Grid, Wrapper } from "./CreateUserModal.styled";
+import { Props } from "./CreateUserModal.types";
 import { Divider, Input, Modal, Select } from "antd";
 import { FormItem } from "@/components/FormItem";
 import { Button } from "@/components/Button";
 import { useFormik } from "formik";
 import { RoleType } from "@/api/shared";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
-import { validationSchema } from "./EditUserModal.constants";
+import { validationSchema } from "./CreateUserModal.constants";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { omit } from "lodash";
 
-export const EditUserModal: FC<Props> = ({
-  userPayload,
+export const CreateUserModal: FC<Props> = ({
   handleClose,
   rolesTranslates,
-  isCurrentUser,
-  handleEdit,
-  isAdmin,
+  handleAddUser,
+  isModalOpen,
 }) => {
   const [showPassword, setShowPassword] = useState(true);
 
   const initialValues = useMemo(() => {
     return {
-      firstName: userPayload.firstName,
-      lastName: userPayload.lastName,
-      middleName: userPayload.middleName,
-      login: userPayload.login,
+      firstName: "",
+      lastName: "",
+      middleName: "",
+      login: "",
       passwordText: "",
       confirmPassword: "",
-      roles: userPayload.roles,
+      roles: [],
     };
-  }, [userPayload]);
+  }, []);
 
-  const { values, handleChange, setFieldValue, errors, handleSubmit } =
-    useFormik({
-      initialValues,
-      onSubmit: (values) => {
-        const { passwordText, ...payload } = omit(values, "confirmPassword");
+  const {
+    values,
+    handleChange,
+    setFieldValue,
+    errors,
+    handleSubmit,
+    resetForm,
+  } = useFormik({
+    initialValues,
+    onSubmit: (values) => {
+      const { passwordText, ...payload } = omit(values, "confirmPassword");
 
-        handleEdit({
-          ...payload,
-          password: passwordText || void 0,
-          userId: userPayload.id,
-        });
-      },
-      validationSchema,
-      enableReinitialize: true,
-      validateOnChange: false,
-    });
+      handleAddUser({
+        ...payload,
+        password: passwordText,
+      });
+    },
+    validationSchema,
+    enableReinitialize: true,
+    validateOnChange: false,
+  });
+
+  useEffect(resetForm, [isModalOpen, resetForm]);
 
   return (
     <Modal
-      open={Boolean(userPayload)}
+      open={isModalOpen}
       onCancel={handleClose}
-      title="Изменить данные"
+      title="Создать сотрудника"
       footer={
         <Footer>
           <Button size="small" type="ghost" onClick={handleClose}>
@@ -115,29 +120,27 @@ export const EditUserModal: FC<Props> = ({
             )}
           </FormItem>
         </Grid>
-        {isAdmin && (
-          <FormItem label="Роль">
-            <Select
-              placeholder="Введите отчество"
-              value={values.roles}
-              onChange={(values) => setFieldValue("roles", values)}
-              mode="multiple"
-            >
-              {Object.values(RoleType).map((role) => (
-                <Select.Option
-                  value={role}
-                  key={role}
-                  disabled={isCurrentUser && role === RoleType.HeadPhysician}
-                >
-                  {rolesTranslates.translates[role]}
-                </Select.Option>
-              ))}
-            </Select>
-          </FormItem>
-        )}
+
+        <FormItem label="Роль">
+          <Select
+            placeholder="Введите отчество"
+            value={values.roles}
+            onChange={(values) => setFieldValue("roles", values)}
+            mode="multiple"
+            status={errors.roles ? "error" : void 0}
+          >
+            {Object.values(RoleType).map((role) => (
+              <Select.Option value={role} key={role}>
+                {rolesTranslates.translates[role]}
+              </Select.Option>
+            ))}
+          </Select>
+          {errors.roles && <ErrorMessage>{errors.roles}</ErrorMessage>}
+        </FormItem>
+
         <Divider style={{ margin: "16px 0 0", padding: 0 }} />
         <Grid temp="1fr 1fr">
-          <FormItem label="Изменить пароль">
+          <FormItem label="Пароль">
             <Input
               placeholder="Введите пароль"
               value={values.passwordText}
@@ -151,7 +154,11 @@ export const EditUserModal: FC<Props> = ({
                   <Eye onClick={() => setShowPassword(true)} />
                 )
               }
+              status={errors.passwordText ? "error" : void 0}
             />
+            {errors.passwordText && (
+              <ErrorMessage>{errors.passwordText}</ErrorMessage>
+            )}
           </FormItem>
           {values.passwordText && (
             <FormItem label="Подтвердите пароль">
