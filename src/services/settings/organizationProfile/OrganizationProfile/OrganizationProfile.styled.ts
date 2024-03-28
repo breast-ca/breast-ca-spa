@@ -7,3 +7,9 @@ export const Wrapper = styled.div`
 `;
 
 export const InfoWrapper = styled.div``;
+
+export const ListWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
