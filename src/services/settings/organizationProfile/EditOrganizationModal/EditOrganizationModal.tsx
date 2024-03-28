@@ -10,12 +10,15 @@ export const EditOrganizationModal: FC<Props> = ({
   isOpen,
   handleClose,
   organization,
+  handleEditOrganization,
 }) => {
-  const { values, handleChange } = useFormik({
+  const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
       name: organization.name,
     },
-    onSubmit: () => {},
+    onSubmit: (values) => {
+      handleEditOrganization(values);
+    },
   });
 
   return (
@@ -23,6 +26,7 @@ export const EditOrganizationModal: FC<Props> = ({
       title="Редактировать организацию"
       isOpen={isOpen}
       handleClose={handleClose}
+      handleSubmit={handleSubmit}
     >
       <Wrapper>
         <FormItem label="Название">

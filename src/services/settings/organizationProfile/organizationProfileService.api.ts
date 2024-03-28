@@ -5,6 +5,8 @@ import {
   OrganizationResponseDto,
   UserResponseDto,
 } from "@/api/shared";
+import { createEffect } from "effector";
+import { EffectorAxiosError } from "@/types";
 
 export const organizationQuery = createQuery<[], OrganizationResponseDto>({
   handler: () => axios.get("organization/my"),
@@ -14,9 +16,10 @@ export const usersListQuery = createQuery<[], UserResponseDto[]>({
   handler: () => axios.get("user"),
 });
 
-export const editOrganizationMutation = createMutation<
-  OrganizationEditDto,
-  OrganizationResponseDto
->({
-  handler: (data) => axios.patch("organization/edit", data),
+export const editOrganizationMutation = createMutation({
+  effect: createEffect<
+    OrganizationEditDto,
+    OrganizationResponseDto,
+    EffectorAxiosError
+  >((data) => axios.patch("organization/edit", data)),
 });

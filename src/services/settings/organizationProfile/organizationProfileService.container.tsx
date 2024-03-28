@@ -1,6 +1,7 @@
 import { useUnit } from "effector-react";
 import { OrganizationProfile } from "./OrganizationProfile";
 import {
+  editOrganizationMutation,
   organizationQuery,
   usersListQuery,
 } from "./organizationProfileService.api";
@@ -26,6 +27,7 @@ export const OrganizationProfileContainer = () => {
     usersList,
     isEditModalOpen,
     closeEditModal,
+    handleEditOrganization,
   } = useUnit({
     organization: organizationQuery.$data,
     isLoading: organizationQuery.$pending,
@@ -33,6 +35,7 @@ export const OrganizationProfileContainer = () => {
     usersList: usersListQuery.$data,
     isEditModalOpen: organizationProfileService.outputs.$isEditModalOpen,
     closeEditModal: organizationProfileService.inputs.closeEditModal,
+    handleEditOrganization: editOrganizationMutation.start,
   });
 
   const isAdmin = user?.roles?.includes(RoleType.HeadPhysician) || false;
@@ -46,6 +49,7 @@ export const OrganizationProfileContainer = () => {
           isOpen={isEditModalOpen}
           handleClose={closeEditModal}
           organization={organization}
+          handleEditOrganization={handleEditOrganization}
         />
       )}
       <OrganizationProfile
