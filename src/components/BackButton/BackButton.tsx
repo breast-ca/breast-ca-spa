@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ArrowLeft, Wrapper } from "./BackButton.styled";
+import { ArrowLeft, BackCircleSC, Wrapper } from "./BackButton.styled";
 import { Props } from "./BackButton.types";
 
 export const BackButton: FC<Props> = () => {
@@ -12,3 +12,11 @@ export const BackButton: FC<Props> = () => {
 };
 
 export const GoBack = BackButton;
+
+export const BackCircle: FC<Props> = () => {
+  return (
+    <BackCircleSC to="..">
+      <ArrowLeft />
+    </BackCircleSC>
+  );
+};

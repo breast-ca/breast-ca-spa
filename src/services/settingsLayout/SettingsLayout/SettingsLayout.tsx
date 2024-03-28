@@ -1,6 +1,7 @@
 import { FC } from "react";
 import {
   Content,
+  LogoContent,
   LogoWrapper,
   Menu,
   OutletContent,
@@ -9,17 +10,19 @@ import {
 import { Props } from "./SettingsLayout.types";
 import { Outlet } from "react-router-dom";
 import { MenuList } from "@/services/mainLayout/MainLayout/MenuDrawer/MenuList";
-import { GoBack } from "@/components/BackButton";
 import { LogoIcon } from "@/services/login/LoginPage/assets/LogoIcon";
+import { BackCircle } from "@/components/BackButton/BackButton";
 
 export const SettingsLayout: FC<Props> = () => {
   return (
     <Wrapper>
       <LogoWrapper>
-        <LogoIcon />
+        <LogoContent>
+          <BackCircle />
+          <LogoIcon />
+        </LogoContent>
         <Content>
           <Menu>
-            <GoBack />
             <MenuList />
           </Menu>
           <OutletContent>

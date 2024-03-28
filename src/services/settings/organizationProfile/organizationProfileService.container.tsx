@@ -8,6 +8,7 @@ import { organizationProfileService } from ".";
 import { userQuery } from "@/services/user/userService.api";
 import { RoleType } from "@/api/shared";
 import { userService } from "@/services/user";
+import { EditOrganizationModal } from "./EditOrganizationModal";
 
 const {
   gates: { OrganizationGate },
@@ -18,11 +19,20 @@ const {
 } = userService;
 
 export const OrganizationProfileContainer = () => {
-  const { organization, isLoading, user, usersList } = useUnit({
+  const {
+    organization,
+    isLoading,
+    user,
+    usersList,
+    isEditModalOpen,
+    closeEditModal,
+  } = useUnit({
     organization: organizationQuery.$data,
     isLoading: organizationQuery.$pending,
     user: userQuery.$data,
     usersList: usersListQuery.$data,
+    isEditModalOpen: organizationProfileService.outputs.$isEditModalOpen,
+    closeEditModal: organizationProfileService.inputs.closeEditModal,
   });
 
   const isAdmin = user?.roles?.includes(RoleType.HeadPhysician) || false;
@@ -31,6 +41,13 @@ export const OrganizationProfileContainer = () => {
     <>
       <UserGate />
       <OrganizationGate />
+      {organization && (
+        <EditOrganizationModal
+          isOpen={isEditModalOpen}
+          handleClose={closeEditModal}
+          organization={organization}
+        />
+      )}
       <OrganizationProfile
         organization={organization}
         isLoading={isLoading}

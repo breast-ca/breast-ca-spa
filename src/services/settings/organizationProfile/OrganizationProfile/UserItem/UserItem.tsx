@@ -1,24 +1,34 @@
 import { FC } from "react";
-import { UserName, Wrapper } from "./UserItem.styled";
+import { Login, Roles, UserName, Wrapper } from "./UserItem.styled";
 import { Props } from "./UserItem.types";
 import { ContextMenuButton } from "@/components/ContextMenuButton";
 
-export const UserItem: FC<Props> = ({ user, translates, handleEditUser }) => {
+export const UserItem: FC<Props> = ({
+  user,
+  translates,
+  handleEditUser,
+  isAdmin,
+}) => {
   return (
     <Wrapper>
       <UserName>
-        {user.lastName} {user.firstName} {user.middleName}
+        <div>
+          {user.lastName} {user.firstName} {user.middleName}
+        </div>
+        <Login>{user.login}</Login>
       </UserName>
-      <div>{user.roles.map((role) => translates[role]).join(", ")}</div>
-      <ContextMenuButton
-        size="small"
-        menuButtons={[
-          {
-            title: "Редактировать",
-            onClick: () => handleEditUser(user),
-          },
-        ]}
-      />
+      <Roles>{user.roles.map((role) => translates[role]).join(", ")}</Roles>
+      {isAdmin && (
+        <ContextMenuButton
+          size="small"
+          menuButtons={[
+            {
+              title: "Редактировать",
+              onClick: () => handleEditUser(user),
+            },
+          ]}
+        />
+      )}
     </Wrapper>
   );
 };

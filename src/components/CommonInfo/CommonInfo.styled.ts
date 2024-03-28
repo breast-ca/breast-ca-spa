@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 0.75fr 1fr;
-  border-bottom: 1px solid #e4dfdc;
+  border-bottom: 1px solid #eeebe9;
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;

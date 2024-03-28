@@ -1,11 +1,22 @@
-import { createQuery } from "@farfetched/core";
+import { createMutation, createQuery } from "@farfetched/core";
 import { axios } from "@/api";
-import { OrganizationResponseDto, UserResponseDto } from "@/api/shared";
+import {
+  OrganizationEditDto,
+  OrganizationResponseDto,
+  UserResponseDto,
+} from "@/api/shared";
 
-export const organizationQuery = createQuery<void, OrganizationResponseDto>({
+export const organizationQuery = createQuery<[], OrganizationResponseDto>({
   handler: () => axios.get("organization/my"),
 });
 
-export const usersListQuery = createQuery<void, UserResponseDto[]>({
+export const usersListQuery = createQuery<[], UserResponseDto[]>({
   handler: () => axios.get("user"),
+});
+
+export const editOrganizationMutation = createMutation<
+  OrganizationEditDto,
+  OrganizationResponseDto
+>({
+  handler: (data) => axios.patch("organization/edit", data),
 });

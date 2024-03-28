@@ -1,4 +1,4 @@
-import { sample } from "effector";
+import { createEvent, createStore, sample } from "effector";
 import { createGate } from "effector-react";
 import {
   organizationQuery,
@@ -8,6 +8,13 @@ import { editUserMutation } from "../userProfile/editUserModal/editUserModalServ
 import { addUserMutation } from "../userProfile/createUserModal/createUserModalService.api";
 
 const OrganizationGate = createGate();
+
+const openEditModal = createEvent();
+const closeEditModal = createEvent();
+
+const $isEditModalOpen = createStore(false)
+  .on(openEditModal, () => true)
+  .on(closeEditModal, () => false);
 
 sample({
   clock: OrganizationGate.open,
@@ -20,7 +27,7 @@ sample({
 });
 
 export const organizationProfileService = {
-  inputs: {},
-  outputs: {},
+  inputs: { openEditModal, closeEditModal },
+  outputs: { $isEditModalOpen },
   gates: { OrganizationGate },
 };

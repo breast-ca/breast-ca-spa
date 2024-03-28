@@ -39,3 +39,9 @@ export const OutletContent = styled.div`
   box-shadow: 0 8px 16px #0000000e;
   border-radius: 24px;
 `;
+
+export const LogoContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 24px;
+`;

@@ -24,6 +24,7 @@ import {
   CreateUserModalContainer,
   addUserModalService,
 } from "../../userProfile/createUserModal";
+import { organizationProfileService } from "..";
 
 export const OrganizationProfile: FC<Props> = ({
   organization,
@@ -33,11 +34,13 @@ export const OrganizationProfile: FC<Props> = ({
 }) => {
   const [segment, setSegment] = useState<"info" | "members">("info");
 
-  const { rolesTranslates, handleEditUser, handleAddUser } = useUnit({
-    rolesTranslates: rolesTranslatesQuery.$data,
-    handleEditUser: editUserModalService.inputs.handleEditUser,
-    handleAddUser: addUserModalService.inputs.handleAddUser,
-  });
+  const { rolesTranslates, handleEditUser, handleAddUser, openEditModal } =
+    useUnit({
+      rolesTranslates: rolesTranslatesQuery.$data,
+      handleEditUser: editUserModalService.inputs.handleEditUser,
+      handleAddUser: addUserModalService.inputs.handleAddUser,
+      openEditModal: organizationProfileService.inputs.openEditModal,
+    });
 
   return (
     <Wrapper>
@@ -50,6 +53,7 @@ export const OrganizationProfile: FC<Props> = ({
               {
                 title: "Редактировать",
                 icon: <Pen />,
+                onClick: openEditModal,
               },
               {
                 title: "Создать сотрудника",
@@ -97,6 +101,7 @@ export const OrganizationProfile: FC<Props> = ({
                     user={user}
                     translates={rolesTranslates.translates}
                     handleEditUser={handleEditUser}
+                    isAdmin={isAdmin}
                   />
                 ))}
               </ListWrapper>
