@@ -44,10 +44,7 @@ export const AddPatientModal: FC<Props> = ({
 
     if (!payload.factAddress || !payload.jureAddress) return;
 
-    const isSame = compareAddresses(
-      omit(payload.factAddress, "id"),
-      omit(payload.jureAddress, "id")
-    );
+    const isSame = compareAddresses(payload.factAddress, payload.jureAddress);
 
     setFactAddressSame(isSame);
   }, [payload, setFactAddressSame]);

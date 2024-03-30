@@ -5,8 +5,14 @@ import { Wrapper } from "./PatientCommonInfo.styled";
 import dayjs from "dayjs";
 import { PatinetStatus } from "@/components/shared/PatinetStatus";
 import { getAddressString } from "@/utils/getAddressString";
+import { compareAddresses } from "@/services/patients/patientsList/PatientsList/addPatient/AddPatientModal/AddPatientModal.utils";
 
 export const PatientCommonInfo: FC<Props> = ({ patient }) => {
+  const isAddressesSame =
+    patient.factAddress &&
+    patient.jureAddress &&
+    compareAddresses(patient.factAddress, patient.jureAddress);
+
   return (
     <Wrapper>
       <CommonInfo
@@ -47,7 +53,9 @@ export const PatientCommonInfo: FC<Props> = ({ patient }) => {
           },
           {
             key: "Адрес проживания",
-            value: patient.jureAddress && getAddressString(patient.jureAddress),
+            value: isAddressesSame
+              ? "Совпадает с регистрацией"
+              : patient.jureAddress && getAddressString(patient.jureAddress),
           },
         ]}
       />

@@ -91,6 +91,7 @@ export interface CreateOrganizationDto {
 }
 
 export interface AddressResponseDto {
+  id: number;
   city: string;
   street: string;
   houseNumber: string;
