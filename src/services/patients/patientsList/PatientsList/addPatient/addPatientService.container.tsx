@@ -21,9 +21,9 @@ export const AddPatientContainer: FC<{ edit?: boolean }> = ({ edit }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    return createPatientMutation.finished.success.watch(({ result }) =>
-      navigate(`/patients/${result.id}`)
-    ).unsubscribe;
+    return createPatientMutation.finished.success.watch(({ result }) => {
+      navigate(`/patients/${result.id}`);
+    }).unsubscribe;
   }, [navigate]);
 
   return (

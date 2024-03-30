@@ -13,6 +13,7 @@ sample({
 
 sample({
   clock: editPatientMutation.finished.success,
+  filter: (patient) => Boolean(patient.params?.id),
   fn: ({ result: { id } }) => id,
   target: patientQuery.start,
 });

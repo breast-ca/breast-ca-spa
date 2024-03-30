@@ -12,9 +12,14 @@ export const StatusWrapper = styled.div<{ status: Status }>`
   border: 2px solid ${({ status }) => StatusColors[status]}2a;
   color: ${({ status }) => StatusColors[status]};
   background: white;
-  font-weight: 500;
   width: min-content;
   white-space: nowrap;
   padding: 0 12px;
+  height: 28px;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
   border-radius: 20px;
 `;

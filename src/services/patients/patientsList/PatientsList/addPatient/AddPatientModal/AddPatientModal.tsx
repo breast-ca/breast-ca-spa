@@ -1,13 +1,15 @@
 import { FC, useMemo } from "react";
 import { Footer, Grid, Wrapper } from "./AddPatientModal.styled";
 import { Props } from "./AddPatientModal.types";
-import { DatePicker, Input, Modal, Space } from "antd";
+import { DatePicker, Input, Modal, Select, Space } from "antd";
 import { Button } from "@/components/Button";
 import { FormItem } from "@/components/FormItem";
 import { useFormik } from "formik";
 import dayjs from "dayjs";
 import { validationSchema } from "./AddPatientModal.constants";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { Status } from "@/api/shared";
+import { StatusTranslates } from "@/constants/enums";
 
 export const AddPatientModal: FC<Props> = ({
   isOpen,
@@ -44,6 +46,7 @@ export const AddPatientModal: FC<Props> = ({
       insuranceOrganization: payload.insuranceOrganization,
       phoneNumber: payload.phoneNumber || "",
       birthDate: dayjs(new Date(payload.birthDate)),
+      status: payload.status,
     };
   }, [payload]);
 
@@ -132,7 +135,7 @@ export const AddPatientModal: FC<Props> = ({
             )}
           </FormItem>
         </Grid>
-        <Grid temp="1fr 1fr">
+        <Grid temp={edit ? "1fr 1fr 1fr" : "1fr 1fr"}>
           <FormItem label="Дата рождения">
             <DatePicker
               value={values.birthDate}
@@ -143,7 +146,9 @@ export const AddPatientModal: FC<Props> = ({
               status={errors.birthDate ? "error" : void 0}
             />
             {errors.birthDate && (
-              <ErrorMessage>{errors.birthDate}</ErrorMessage>
+              <ErrorMessage>
+                {typeof errors.birthDate === "string" ? errors.birthDate : null}
+              </ErrorMessage>
             )}
           </FormItem>
           <FormItem label="Номер телефона">
@@ -158,6 +163,20 @@ export const AddPatientModal: FC<Props> = ({
               <ErrorMessage>{errors.phoneNumber}</ErrorMessage>
             )}
           </FormItem>
+          {edit && (
+            <FormItem label="Статус">
+              <Select
+                value={values.status}
+                onChange={(status) => status && setFieldValue("status", status)}
+              >
+                {Object.values(Status).map((status) => (
+                  <Select.Option key={status} value={status}>
+                    {StatusTranslates[status]}
+                  </Select.Option>
+                ))}
+              </Select>
+            </FormItem>
+          )}
         </Grid>
         <Grid temp="1fr 1fr">
           <FormItem label="Паспорт">

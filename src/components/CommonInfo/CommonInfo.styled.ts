@@ -23,6 +23,9 @@ export const ValueWrapper = styled.div`
   color: rgba(39, 47, 90, 0.9);
   font-weight: 500;
   text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 `;
 
 export const SkeletonLoader = styled(Skeleton.Input)`

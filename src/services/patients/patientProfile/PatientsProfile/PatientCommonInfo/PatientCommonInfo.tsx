@@ -3,12 +3,22 @@ import { Props } from "./PatientCommonInfo.types";
 import { CommonInfo } from "@/components/CommonInfo";
 import { Wrapper } from "./PatientCommonInfo.styled";
 import dayjs from "dayjs";
+import { PatinetStatus } from "@/components/shared/PatinetStatus";
 
 export const PatientCommonInfo: FC<Props> = ({ patient }) => {
   return (
     <Wrapper>
       <CommonInfo
         items={[
+          {
+            key: "Статус",
+            value: (
+              <PatinetStatus
+                status={patient.status}
+                statusText={patient.statusText}
+              />
+            ),
+          },
           {
             key: "Дата рождения",
             value: dayjs(patient.birthDate).format("DD.MM.YYYY"),
