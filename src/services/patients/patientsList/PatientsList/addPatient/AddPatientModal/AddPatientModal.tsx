@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import {
   FactAddressTitle,
   Footer,
@@ -26,6 +26,8 @@ import { ErrorMessage } from "@/components/ErrorMessage";
 import { Status } from "@/api/shared";
 import { StatusTranslates } from "@/constants/enums";
 import { EditAddressForm } from "@/components/shared/EditAddressForm";
+import { compareAddresses } from "./AddPatientModal.utils";
+import { omit } from "lodash";
 
 export const AddPatientModal: FC<Props> = ({
   isOpen,
@@ -36,6 +38,19 @@ export const AddPatientModal: FC<Props> = ({
   editPatient,
 }) => {
   const [isFactAddressSame, setFactAddressSame] = useState(true);
+
+  useEffect(() => {
+    if (!payload) return;
+
+    if (!payload.factAddress || !payload.jureAddress) return;
+
+    const isSame = compareAddresses(
+      omit(payload.factAddress, "id"),
+      omit(payload.jureAddress, "id")
+    );
+
+    setFactAddressSame(isSame);
+  }, [payload, setFactAddressSame]);
 
   const initialValues = useMemo(() => {
     const addressTemp = {
