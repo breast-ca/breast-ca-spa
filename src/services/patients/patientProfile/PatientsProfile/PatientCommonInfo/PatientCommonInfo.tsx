@@ -4,6 +4,7 @@ import { CommonInfo } from "@/components/CommonInfo";
 import { Wrapper } from "./PatientCommonInfo.styled";
 import dayjs from "dayjs";
 import { PatinetStatus } from "@/components/shared/PatinetStatus";
+import { getAddressString } from "@/utils/getAddressString";
 
 export const PatientCommonInfo: FC<Props> = ({ patient }) => {
   return (
@@ -39,6 +40,14 @@ export const PatientCommonInfo: FC<Props> = ({ patient }) => {
           {
             key: "Страховой полис",
             value: `${patient.medicalInsurance} (${patient.insuranceOrganization})`,
+          },
+          {
+            key: "Адрес регистрации",
+            value: patient.factAddress && getAddressString(patient.factAddress),
+          },
+          {
+            key: "Адрес проживания",
+            value: patient.jureAddress && getAddressString(patient.jureAddress),
           },
         ]}
       />
