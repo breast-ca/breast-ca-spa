@@ -1,7 +1,7 @@
 import { Status } from "@/api/shared";
 import styled from "styled-components";
 
-const StatusColors = {
+export const StatusColors = {
   [Status.Treatment]: "#43D200",
   [Status.DispanseryRegistration]: "#C447FF",
   [Status.DispanseryObservation]: "#FF9447",

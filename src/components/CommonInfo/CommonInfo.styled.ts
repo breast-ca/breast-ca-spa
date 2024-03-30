@@ -10,6 +10,11 @@ export const Wrapper = styled.div`
   line-height: 16px;
   grid-gap: 15px;
   padding: 15px 0;
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
 `;
 
 export const KeyWrapper = styled.div`

@@ -1,5 +1,11 @@
 import { FC, useMemo } from "react";
-import { Footer, Grid, Wrapper } from "./AddPatientModal.styled";
+import {
+  Footer,
+  Grid,
+  PatinetStatusCircle,
+  PatinetStatusWrapper,
+  Wrapper,
+} from "./AddPatientModal.styled";
 import { Props } from "./AddPatientModal.types";
 import { DatePicker, Input, Modal, Select, Space } from "antd";
 import { Button } from "@/components/Button";
@@ -171,7 +177,10 @@ export const AddPatientModal: FC<Props> = ({
               >
                 {Object.values(Status).map((status) => (
                   <Select.Option key={status} value={status}>
-                    {StatusTranslates[status]}
+                    <PatinetStatusWrapper>
+                      <PatinetStatusCircle status={status} />
+                      {StatusTranslates[status]}
+                    </PatinetStatusWrapper>
                   </Select.Option>
                 ))}
               </Select>
