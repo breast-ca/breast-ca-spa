@@ -17,6 +17,9 @@ export enum RoleType {
   Surgeon = "Surgeon",
   Histologist = "Histologist",
   UltrasoundSpecialist = "UltrasoundSpecialist",
+  InstrumentalDiagnost = "InstrumentalDiagnost",
+  LaboratoryDiagnost = "LaboratoryDiagnost",
+  DepartmentHead = "DepartmentHead",
 }
 
 export interface UserResponseDto {
@@ -157,6 +160,7 @@ export interface ResponsePatientDto {
   phoneNumber: string;
   status: Status;
   statusText: string;
+  organizationId: number;
 }
 
 export interface EditPatientDto {
@@ -687,11 +691,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description **Роли:** 1. HeadPhysician (Главврач) 2. ClinicDoctor (ПОК) 3. Surgeon (Хирург)
+     * @description **Роли:** 1. HeadPhysician (Главврач) 2. ClinicDoctor (ПОК-врач) 3. Surgeon (Хирург)
      *
      * @tags Patients
      * @name PatientControllerCreatePatient
-     * @summary Главврач, ПОК, Хирург
+     * @summary Главврач, ПОК-врач, Хирург
      * @request POST:/api/patient
      * @secure
      */
@@ -710,11 +714,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Patients
-     * @name PatientControllerGetMyPatient
+     * @name PatientControllerGetPatientByOrganization
      * @request GET:/api/patient/my
      * @secure
      */
-    patientControllerGetMyPatient: (params: RequestParams = {}) =>
+    patientControllerGetPatientByOrganization: (params: RequestParams = {}) =>
       this.request<ResponsePatientDto, any>({
         path: `/api/patient/my`,
         method: "GET",
@@ -760,11 +764,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
-     * @description **Роли:** 1. HeadPhysician (Главврач) 2. Surgeon (Хирург) 3. ClinicDoctor (ПОК)
+     * @description **Роли:** 1. HeadPhysician (Главврач) 2. Surgeon (Хирург) 3. ClinicDoctor (ПОК-врач)
      *
      * @tags Diseases
      * @name DiseaseControllerDiseaseCreate
-     * @summary Главврач, Хирург, ПОК
+     * @summary Главврач, Хирург, ПОК-врач
      * @request POST:/api/disease
      * @secure
      */
