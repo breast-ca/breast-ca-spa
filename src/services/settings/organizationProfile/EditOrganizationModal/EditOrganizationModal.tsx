@@ -5,6 +5,7 @@ import { Modal } from "@/components/Modal";
 import { FormItem } from "@/components/FormItem";
 import { Input } from "antd";
 import { useFormik } from "formik";
+import { EditAddressForm } from "@/components/shared/EditAddressForm";
 
 export const EditOrganizationModal: FC<Props> = ({
   isOpen,
@@ -12,9 +13,17 @@ export const EditOrganizationModal: FC<Props> = ({
   organization,
   handleEditOrganization,
 }) => {
-  const { values, handleChange, handleSubmit } = useFormik({
+  const { values, handleChange, handleSubmit, setFieldValue } = useFormik({
     initialValues: {
       name: organization.name,
+      address: {
+        city: organization.address.city,
+        street: organization.address.street,
+        houseNumber: organization.address.houseNumber,
+        corpus: organization.address.corpus,
+        apartementNumber: organization.address.apartementNumber,
+        district: organization.address.district,
+      },
     },
     onSubmit: (values) => {
       handleEditOrganization(values);
@@ -37,6 +46,10 @@ export const EditOrganizationModal: FC<Props> = ({
             name="name"
           />
         </FormItem>
+        <EditAddressForm
+          address={values.address}
+          onChange={(field, value) => setFieldValue(`address.${field}`, value)}
+        />
       </Wrapper>
     </Modal>
   );

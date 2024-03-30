@@ -105,9 +105,18 @@ export interface OrganizationResponseDto {
   address: AddressResponseDto;
 }
 
+export interface EditAddressDto {
+  city: string;
+  street: string;
+  houseNumber: string;
+  corpus?: string;
+  apartementNumber?: string;
+  district: string;
+}
+
 export interface OrganizationEditDto {
   name?: string;
-  address?: number;
+  address?: EditAddressDto;
 }
 
 export interface CreatePatientDto {
@@ -162,6 +171,59 @@ export interface EditPatientDto {
   factAddress?: number;
   jureAddress?: number;
   phoneNumber?: string;
+  status?: Status;
+}
+
+export enum ICD {
+  C500 = "C500",
+  C501 = "C501",
+  C502 = "C502",
+  C503 = "C503",
+  C504 = "C504",
+  C505 = "C505",
+  C506 = "C506",
+}
+
+export enum TumorState {
+  Primary = "Primary",
+  Synch = "Synch",
+  Metachronic = "Metachronic",
+  Relapse = "Relapse",
+  Progression = "Progression",
+  ImplantReconstruction = "ImplantReconstruction",
+  ExpanderReconstruction = "ExpanderReconstruction",
+  PatchworkReconstruction = "PatchworkReconstruction",
+  CombinedReconstruction = "CombinedReconstruction",
+}
+
+export enum Side {
+  Left = "Left",
+  Right = "Right",
+  Both = "Both",
+}
+
+export interface CreateDiseaseDto {
+  ICD: ICD;
+  Number: number;
+  Name: string;
+  tumorState: TumorState;
+  side: Side;
+}
+
+export interface ResponseDiseaseDto {
+  ICD: ICD;
+  Number: number;
+  Name: string;
+  tumorState: TumorState;
+  side: Side;
+}
+
+export interface EditDiseaseDto {
+  ICD?: ICD;
+  Number?: number;
+  Name?: string;
+  tumorState?: Side;
+  side?: Side;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -688,6 +750,62 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     patientControllerEditPatient: (id: string, data: EditPatientDto, params: RequestParams = {}) =>
       this.request<EditPatientDto, any>({
         path: `/api/patient/${id}`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description **Роли:** 1. HeadPhysician (Главврач) 2. Surgeon (Хирург) 3. ClinicDoctor (ПОК)
+     *
+     * @tags Diseases
+     * @name DiseaseControllerDiseaseCreate
+     * @summary Главврач, Хирург, ПОК
+     * @request POST:/api/disease
+     * @secure
+     */
+    diseaseControllerDiseaseCreate: (data: CreateDiseaseDto, params: RequestParams = {}) =>
+      this.request<CreateDiseaseDto, any>({
+        path: `/api/disease`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Diseases
+     * @name DiseaseControllerDiseaseGet
+     * @request GET:/api/disease
+     * @secure
+     */
+    diseaseControllerDiseaseGet: (params: RequestParams = {}) =>
+      this.request<ResponseDiseaseDto, any>({
+        path: `/api/disease`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Diseases
+     * @name DiseaseControllerDiseaseEdit
+     * @request PATCH:/api/disease/{id}
+     * @secure
+     */
+    diseaseControllerDiseaseEdit: (id: number, data: EditDiseaseDto, params: RequestParams = {}) =>
+      this.request<EditDiseaseDto, any>({
+        path: `/api/disease/${id}`,
         method: "PATCH",
         body: data,
         secure: true,
