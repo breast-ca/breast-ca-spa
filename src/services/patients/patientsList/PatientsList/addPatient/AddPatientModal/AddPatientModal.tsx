@@ -9,11 +9,6 @@ import dayjs from "dayjs";
 import { validationSchema } from "./AddPatientModal.constants";
 import { ErrorMessage } from "@/components/ErrorMessage";
 
-import "dayjs/locale/pl";
-import locale from "antd/es/date-picker/locale/ru_RU";
-
-dayjs.locale("ru");
-
 export const AddPatientModal: FC<Props> = ({
   isOpen,
   handleClose,
@@ -146,7 +141,6 @@ export const AddPatientModal: FC<Props> = ({
               placeholder="Введите дату рождения"
               disabledDate={(date) => date.isAfter(new Date())}
               status={errors.birthDate ? "error" : void 0}
-              locale={locale}
             />
             {errors.birthDate && (
               <ErrorMessage>{errors.birthDate}</ErrorMessage>

@@ -23,7 +23,7 @@ export const PatientsList: FC<Props> = ({
     <Wrapper>
       <AddPatientContainer />
       <PageHeader title="Пациенты">
-        <Button icon={<PlusCircleFill />} onClick={handleAddPatient}>
+        <Button icon={<PlusCircleFill />} onClick={() => handleAddPatient()}>
           Создать пациента
         </Button>
       </PageHeader>
