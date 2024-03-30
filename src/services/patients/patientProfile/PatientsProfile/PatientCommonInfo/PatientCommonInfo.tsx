@@ -16,6 +16,7 @@ export const PatientCommonInfo: FC<Props> = ({ patient }) => {
   return (
     <Wrapper>
       <CommonInfo
+        card
         items={[
           {
             key: "Статус",

@@ -10,6 +10,7 @@ import { PatientCommonInfo } from "./PatientCommonInfo";
 import { ContextMenuButton } from "@/components/ContextMenuButton";
 import { Pen } from "react-bootstrap-icons";
 import { AddPatientContainer } from "../../patientsList/PatientsList/addPatient";
+import { DiseasesListContainer } from "./diseasesList";
 
 export const PatientsProfile: FC<Props> = ({
   isLoading,
@@ -68,6 +69,7 @@ export const PatientsProfile: FC<Props> = ({
             {segment === "commonInfo" && (
               <PatientCommonInfo patient={patient} />
             )}
+            {segment === "diseases" && <DiseasesListContainer />}
           </Content>
         )}
       </WithLoader>

@@ -4,6 +4,7 @@ export type CommonInfoProps = {
   items: CommonInfoItem[];
   className?: string;
   isLoading?: boolean;
+  card?: boolean;
 };
 
 export type CommonInfoItem = {

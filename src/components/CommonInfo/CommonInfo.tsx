@@ -1,5 +1,6 @@
 import { FC } from "react";
 import {
+  CardWrapper,
   KeyWrapper,
   SkeletonLoader,
   ValueWrapper,
@@ -11,16 +12,17 @@ export const CommonInfo: FC<CommonInfoProps> = ({
   items,
   className,
   isLoading,
+  card,
 }) => {
-  return (
-    <div className={className}>
+  const content = (
+    <>
       {items.map(({ key, value, hidden }) => {
         if (hidden) {
           return null;
         }
 
         return (
-          <Wrapper key={key}>
+          <Wrapper key={key} card={card}>
             <KeyWrapper>{key}</KeyWrapper>
             {isLoading ? (
               <SkeletonLoader active />
@@ -30,6 +32,12 @@ export const CommonInfo: FC<CommonInfoProps> = ({
           </Wrapper>
         );
       })}
-    </div>
+    </>
   );
+
+  if (card) {
+    return <CardWrapper>{content}</CardWrapper>;
+  }
+
+  return <div className={className}>{content}</div>;
 };

@@ -1,7 +1,18 @@
 import { Skeleton } from "antd";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { Card } from "../Card";
 
-export const Wrapper = styled.div`
+const standart = css`
+  &:last-child {
+    padding-bottom: 0;
+  }
+`;
+
+const card = css`
+  padding-right: 16px;
+`;
+
+export const Wrapper = styled.div<{ card?: boolean }>`
   display: grid;
   grid-template-columns: 0.75fr 1fr;
   border-bottom: 1px solid #eeebe9;
@@ -13,8 +24,9 @@ export const Wrapper = styled.div`
 
   &:last-child {
     border-bottom: none;
-    padding-bottom: 0;
   }
+
+  ${(props) => (props.card ? card : standart)}
 `;
 
 export const KeyWrapper = styled.div`
@@ -39,4 +51,8 @@ export const SkeletonLoader = styled(Skeleton.Input)`
     border-radius: 4px;
     max-height: 16px;
   }
+`;
+
+export const CardWrapper = styled(Card)`
+  padding: 0 0 0 16px;
 `;
