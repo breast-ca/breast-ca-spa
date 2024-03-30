@@ -129,8 +129,8 @@ export interface CreatePatientDto {
   insuranceOrganization: string;
   /** @format date-time */
   birthDate: string;
-  factAddress?: number;
-  jureAddress?: number;
+  factAddress?: CreateAddressDto;
+  jureAddress?: CreateAddressDto;
   phoneNumber: string;
 }
 
@@ -168,10 +168,10 @@ export interface EditPatientDto {
   insuranceOrganization?: string;
   /** @format date-time */
   birthDate?: string;
-  factAddress?: number;
-  jureAddress?: number;
   phoneNumber?: string;
   status?: Status;
+  factAddress?: EditAddressDto;
+  jureAddress?: EditAddressDto;
 }
 
 export enum ICD {

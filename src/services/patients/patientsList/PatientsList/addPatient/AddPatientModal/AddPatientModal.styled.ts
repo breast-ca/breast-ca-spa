@@ -35,3 +35,9 @@ export const PatinetStatusCircle = styled.div<{ status: Status }>`
   background-color: ${(props) => StatusColors[props.status]}58;
   border: 2px solid ${(props) => StatusColors[props.status]};
 `;
+
+export const FactAddressTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;

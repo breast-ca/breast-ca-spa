@@ -1,5 +1,6 @@
-import { FC, useMemo } from "react";
+import { FC, useMemo, useState } from "react";
 import {
+  FactAddressTitle,
   Footer,
   Grid,
   PatinetStatusCircle,
@@ -7,7 +8,15 @@ import {
   Wrapper,
 } from "./AddPatientModal.styled";
 import { Props } from "./AddPatientModal.types";
-import { DatePicker, Input, Modal, Select, Space } from "antd";
+import {
+  Checkbox,
+  DatePicker,
+  Divider,
+  Input,
+  Modal,
+  Select,
+  Space,
+} from "antd";
 import { Button } from "@/components/Button";
 import { FormItem } from "@/components/FormItem";
 import { useFormik } from "formik";
@@ -16,6 +25,7 @@ import { validationSchema } from "./AddPatientModal.constants";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { Status } from "@/api/shared";
 import { StatusTranslates } from "@/constants/enums";
+import { EditAddressForm } from "@/components/shared/EditAddressForm";
 
 export const AddPatientModal: FC<Props> = ({
   isOpen,
@@ -25,7 +35,18 @@ export const AddPatientModal: FC<Props> = ({
   payload,
   editPatient,
 }) => {
+  const [isFactAddressSame, setFactAddressSame] = useState(true);
+
   const initialValues = useMemo(() => {
+    const addressTemp = {
+      city: "",
+      street: "",
+      houseNumber: "",
+      corpus: "",
+      apartementNumber: "",
+      district: "",
+    };
+
     if (!payload) {
       return {
         name: "",
@@ -38,6 +59,8 @@ export const AddPatientModal: FC<Props> = ({
         insuranceOrganization: "",
         phoneNumber: "",
         birthDate: null as null | dayjs.Dayjs,
+        factAddress: addressTemp,
+        jureAddress: addressTemp,
       };
     }
 
@@ -53,6 +76,8 @@ export const AddPatientModal: FC<Props> = ({
       phoneNumber: payload.phoneNumber || "",
       birthDate: dayjs(new Date(payload.birthDate)),
       status: payload.status,
+      factAddress: payload.factAddress || addressTemp,
+      jureAddress: payload.jureAddress || addressTemp,
     };
   }, [payload]);
 
@@ -74,6 +99,10 @@ export const AddPatientModal: FC<Props> = ({
           ),
           passport: `${passportSeries} ${passportNumber}`,
           birthDate: birthDate.toISOString(),
+          jureAddress: values.jureAddress,
+          factAddress: isFactAddressSame
+            ? values.jureAddress
+            : values.factAddress,
         };
 
         if (edit && payload) {
@@ -249,6 +278,54 @@ export const AddPatientModal: FC<Props> = ({
             )}
           </FormItem>
         </Grid>
+        <Divider
+          orientation="left"
+          style={{
+            marginBottom: 0,
+            paddingBottom: 0,
+            width: "calc(100% + 48px)",
+            transform: "translateX(-24px)",
+          }}
+        >
+          Адрес регистрации
+        </Divider>
+        <EditAddressForm
+          temp="1fr 1fr 1fr"
+          address={values.jureAddress}
+          showApartment
+          onChange={(field, value) =>
+            setFieldValue(`jureAddress.${field}`, value)
+          }
+        />
+        <Divider
+          orientation="left"
+          style={{
+            marginBottom: 0,
+            paddingBottom: 0,
+            width: "calc(100% + 48px)",
+            transform: "translateX(-24px)",
+          }}
+        >
+          <FactAddressTitle>
+            Адрес проживания{" "}
+            <Checkbox
+              checked={isFactAddressSame}
+              onChange={(e) => setFactAddressSame(e.target.checked)}
+            >
+              Совпадает с регистрацией
+            </Checkbox>
+          </FactAddressTitle>
+        </Divider>
+        {!isFactAddressSame && (
+          <EditAddressForm
+            temp="1fr 1fr 1fr"
+            address={values.factAddress}
+            showApartment
+            onChange={(field, value) =>
+              setFieldValue(`factAddress.${field}`, value)
+            }
+          />
+        )}
       </Wrapper>
     </Modal>
   );

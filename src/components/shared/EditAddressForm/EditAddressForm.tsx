@@ -8,9 +8,10 @@ export const EditAddressForm: FC<Props> = ({
   address,
   showApartment,
   onChange,
+  temp,
 }) => {
   return (
-    <Wrapper>
+    <Wrapper temp={temp}>
       <FormItem label="Город">
         <Input
           value={address.city}
