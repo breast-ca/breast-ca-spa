@@ -3,19 +3,23 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding: 0 16px;
-  min-width: 1080px;
+  width: 100%;
 `;
 
 export const LogoWrapper = styled.div`
+  padding: 0 16px;
   margin-top: 24px;
   display: flex;
   flex-direction: column;
+  width: max-content;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1200px;
 `;
 
 export const Content = styled.div`
   margin-top: 24px;
-  width: 1200px;
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 3fr;
   gap: 24px;
