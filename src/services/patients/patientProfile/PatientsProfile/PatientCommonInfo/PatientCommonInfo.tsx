@@ -49,13 +49,13 @@ export const PatientCommonInfo: FC<Props> = ({ patient }) => {
           },
           {
             key: "Адрес регистрации",
-            value: patient.factAddress && getAddressString(patient.factAddress),
+            value: patient.jureAddress && getAddressString(patient.jureAddress),
           },
           {
             key: "Адрес проживания",
             value: isAddressesSame
               ? "Совпадает с регистрацией"
-              : patient.jureAddress && getAddressString(patient.jureAddress),
+              : patient.factAddress && getAddressString(patient.factAddress),
           },
         ]}
       />
