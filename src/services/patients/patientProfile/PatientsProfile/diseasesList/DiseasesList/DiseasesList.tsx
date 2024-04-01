@@ -3,10 +3,10 @@ import { CreateDiseasesItem, Wrapper } from "./DiseasesList.styled";
 import { Props } from "./DiseasesList.types";
 import { ClipboardPlus } from "react-bootstrap-icons";
 
-export const DiseasesList: FC<Props> = () => {
+export const DiseasesList: FC<Props> = ({ handleCreateDisease }) => {
   return (
     <Wrapper>
-      <CreateDiseasesItem>
+      <CreateDiseasesItem onClick={handleCreateDisease}>
         <ClipboardPlus />
         Паспорт заболевания
       </CreateDiseasesItem>
