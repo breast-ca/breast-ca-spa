@@ -187,6 +187,8 @@ export enum ICD {
   C504 = "C504",
   C505 = "C505",
   C506 = "C506",
+  C508 = "C508",
+  C509 = "C509",
 }
 
 export enum TumorState {
@@ -195,10 +197,7 @@ export enum TumorState {
   Metachronic = "Metachronic",
   Relapse = "Relapse",
   Progression = "Progression",
-  ImplantReconstruction = "ImplantReconstruction",
-  ExpanderReconstruction = "ExpanderReconstruction",
-  PatchworkReconstruction = "PatchworkReconstruction",
-  CombinedReconstruction = "CombinedReconstruction",
+  Reconstruction = "Reconstruction",
 }
 
 export enum Side {
@@ -207,12 +206,65 @@ export enum Side {
   Both = "Both",
 }
 
+export enum ReconstructionType {
+  ExtenderImplant = "ExtenderImplant",
+  Combined = "Combined",
+  Patchwork = "Patchwork",
+  Implant = "Implant",
+}
+
+export enum ProgressionType {
+  Liver = "Liver",
+  Lungs = "Lungs",
+  Brain = "Brain",
+  Bones = "Bones",
+  Marrow = "Marrow",
+  Skin = "Skin",
+  Nipple = "Nipple",
+  OtherBreast = "OtherBreast",
+  ChestWall = "ChestWall",
+  Thyroid = "Thyroid",
+  AbDomen = "AbDomen",
+  Spine = "Spine",
+  Ovaries = "Ovaries",
+}
+
+export enum RelapseType {
+  Underarm = "Underarm",
+  MicroMetastasis = "MicroMetastasis",
+  UnderClavicle = "UnderClavicle",
+  AboveClavicle = "AboveClavicle",
+  InMammar = "InMammar",
+  Neck = "Neck",
+}
+
 export interface CreateDiseaseDto {
   ICD: ICD;
-  Number: number;
-  Name: string;
+  number: number;
   tumorState: TumorState;
   side: Side;
+  reconstruction?: ReconstructionType;
+  progressions?: ProgressionType;
+  relapses?: RelapseType;
+  description?: string;
+  colour1: string;
+  colour2: string;
+}
+
+export interface DiseaseTranslateDto {
+  relapseTranslates: Record<string, string>;
+  progressionTranslates: Record<string, string>;
+  reconstructionTranslates: Record<string, string>;
+  sideTranslates: Record<string, string>;
+  tumorStateTranslates: Record<string, string>;
+  ICDDescriptions: Record<string, string>;
+  ICDCodes: Record<string, string>;
+  relapsePlace: Record<string, string>;
+}
+
+export enum RelapsePlace {
+  Local = "Local",
+  Regional = "Regional",
 }
 
 export interface ResponseDiseaseDto {
@@ -221,14 +273,28 @@ export interface ResponseDiseaseDto {
   Name: string;
   tumorState: TumorState;
   side: Side;
+  reconstruction?: ReconstructionType;
+  progressions?: ProgressionType;
+  relapses?: RelapseType;
+  description: string;
+  relapsePlace?: RelapsePlace;
+  colour1: string;
+  colour2: string;
 }
 
 export interface EditDiseaseDto {
   ICD?: ICD;
   Number?: number;
   Name?: string;
-  tumorState?: Side;
+  tumorState?: TumorState;
   side?: Side;
+  relapses?: RelapseType;
+  progressions?: ProgressionType;
+  reconstruction?: ReconstructionType;
+  description?: string;
+  relapsePlace?: RelapsePlace;
+  colour1?: string;
+  colour2?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -769,12 +835,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Diseases
      * @name DiseaseControllerDiseaseCreate
      * @summary Главврач, Хирург, ПОК-врач
-     * @request POST:/api/disease
+     * @request POST:/api/disease/{id}
      * @secure
      */
-    diseaseControllerDiseaseCreate: (data: CreateDiseaseDto, params: RequestParams = {}) =>
+    diseaseControllerDiseaseCreate: (id: string, data: CreateDiseaseDto, params: RequestParams = {}) =>
       this.request<CreateDiseaseDto, any>({
-        path: `/api/disease`,
+        path: `/api/disease/${id}`,
         method: "POST",
         body: data,
         secure: true,
@@ -787,13 +853,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Diseases
-     * @name DiseaseControllerDiseaseGet
-     * @request GET:/api/disease
+     * @name DiseaseControllerGetDiseaseById
+     * @request GET:/api/disease/{id}
      * @secure
      */
-    diseaseControllerDiseaseGet: (params: RequestParams = {}) =>
+    diseaseControllerGetDiseaseById: (id: string, params: RequestParams = {}) =>
       this.request<ResponseDiseaseDto, any>({
-        path: `/api/disease`,
+        path: `/api/disease/${id}`,
         method: "GET",
         secure: true,
         format: "json",
@@ -808,13 +874,47 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/api/disease/{id}
      * @secure
      */
-    diseaseControllerDiseaseEdit: (id: number, data: EditDiseaseDto, params: RequestParams = {}) =>
+    diseaseControllerDiseaseEdit: (id: string, data: EditDiseaseDto, params: RequestParams = {}) =>
       this.request<EditDiseaseDto, any>({
         path: `/api/disease/${id}`,
         method: "PATCH",
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Diseases
+     * @name DiseaseControllerGetDiseaseTranslates
+     * @request GET:/api/disease/translates
+     * @secure
+     */
+    diseaseControllerGetDiseaseTranslates: (params: RequestParams = {}) =>
+      this.request<DiseaseTranslateDto, any>({
+        path: `/api/disease/translates`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Diseases
+     * @name DiseaseControllerDiseaseGetAll
+     * @request GET:/api/disease/all/{id}
+     * @secure
+     */
+    diseaseControllerDiseaseGetAll: (id: string, params: RequestParams = {}) =>
+      this.request<ResponseDiseaseDto, any>({
+        path: `/api/disease/all/${id}`,
+        method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),

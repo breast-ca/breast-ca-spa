@@ -10,6 +10,10 @@ import localeData from "dayjs/plugin/localeData";
 import weekday from "dayjs/plugin/weekday";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 import weekYear from "dayjs/plugin/weekYear";
+import { useUnit } from "effector-react";
+import { authService } from "@/services/auth/authService.model";
+import { diseaseEnumsTranslationsQuery } from "@/services/patients/patientProfile/PatientsProfile/diseasesList/diseasesListService.api";
+import { useEffect } from "react";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
@@ -21,6 +25,17 @@ dayjs.extend(weekYear);
 dayjs.locale(ru);
 
 export const App = () => {
+  const { isAuth, getDiseaseEnums } = useUnit({
+    isAuth: authService.outputs.$isAuth,
+    getDiseaseEnums: diseaseEnumsTranslationsQuery.start,
+  });
+
+  useEffect(() => {
+    if (!isAuth) return;
+
+    getDiseaseEnums();
+  }, [isAuth, getDiseaseEnums]);
+
   return (
     <BrowserRouter>
       <ConfigProvider

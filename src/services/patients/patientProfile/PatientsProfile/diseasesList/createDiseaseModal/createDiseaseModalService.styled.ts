@@ -5,3 +5,9 @@ export const FormWrapper = styled.div`
   flex-direction: column;
   gap: 16px;
 `;
+
+export const Grid = styled.div<{ temp: string }>`
+  display: grid;
+  grid-template-columns: ${(props) => props.temp};
+  gap: 16px;
+`;
