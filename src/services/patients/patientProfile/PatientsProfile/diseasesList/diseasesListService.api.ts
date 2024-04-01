@@ -1,8 +1,9 @@
 import { createMutation, createQuery } from "@farfetched/core";
 import { axios } from "@/api";
-import { DiseaseTranslateDto } from "@/api/shared";
+import { DiseaseResponseDto, DiseaseTranslateDto } from "@/api/shared";
 import { createEffect } from "effector";
 import { CreateDiseaseRequestPayload } from "./diseasesListService.types";
+import { EffectorAxiosError } from "@/types";
 
 export const diseaseEnumsTranslationsQuery = createQuery<
   [],
@@ -12,7 +13,9 @@ export const diseaseEnumsTranslationsQuery = createQuery<
 });
 
 export const createDiseaseMutation = createMutation({
-  handler: createEffect<CreateDiseaseRequestPayload, void>(() =>
-    axios.post("disease/create")
-  ),
+  effect: createEffect<
+    CreateDiseaseRequestPayload,
+    DiseaseResponseDto,
+    EffectorAxiosError
+  >(({ patientId, ...data }) => axios.post(`disease/${patientId}`, data)),
 });

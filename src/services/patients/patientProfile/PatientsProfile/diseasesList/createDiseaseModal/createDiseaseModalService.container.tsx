@@ -21,13 +21,17 @@ import TextArea from "antd/es/input/TextArea";
 import { validationSchema } from "./createDiseaseModalService.constants";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { getRandomColors } from "./createDiseaseModalService.utils";
+import { createDiseaseMutation } from "../diseasesListService.api";
+import { patientQuery } from "../../../patientProfileService.api";
 
 export const CreateDiseaseModalContainer: FC<{
   diseaseEnums: DiseaseTranslateDto;
 }> = ({ diseaseEnums }) => {
-  const { closeModal, isOpen } = useUnit({
+  const { closeModal, isOpen, handleCreateDisease, patient } = useUnit({
     isOpen: createDiseaseModalService.outputs.$isModalOpen,
     closeModal: createDiseaseModalService.inputs.closeModal,
+    handleCreateDisease: createDiseaseMutation.start,
+    patient: patientQuery.$data,
   });
 
   const { values, setFieldValue, handleChange, errors, handleSubmit } =
@@ -94,15 +98,12 @@ export const CreateDiseaseModalContainer: FC<{
           data["progressions"] = values.progressions;
         }
 
-        message.info(
-          <div
-            style={{
-              width: 100,
-              height: 100,
-              background: `linear-gradient(45deg, ${colour1}, ${colour2})`,
-            }}
-          ></div>
-        );
+        if (!patient) {
+          message.error("Ошибка системы");
+          return;
+        }
+
+        handleCreateDisease({ ...data, patientId: patient.id });
       },
     });
 

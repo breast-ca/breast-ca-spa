@@ -272,10 +272,10 @@ export interface DiseaseTranslateDto {
   relapsePlace: Record<string, string>;
 }
 
-export interface ResponseDiseaseDto {
+export interface DiseaseResponseDto {
+  id: number;
   ICD: ICD;
-  Number: number;
-  Name: string;
+  number: number;
   tumorState: TumorState;
   side: Side;
   reconstruction?: ReconstructionType;
@@ -847,49 +847,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Diseases
      * @name DiseaseControllerDiseaseCreate
      * @summary Главврач, Хирург, ПОК-врач
-     * @request POST:/api/disease/{id}
+     * @request POST:/api/disease/{patientId}
      * @secure
      */
-    diseaseControllerDiseaseCreate: (id: string, data: CreateDiseaseDto, params: RequestParams = {}) =>
-      this.request<CreateDiseaseDto, any>({
-        path: `/api/disease/${id}`,
+    diseaseControllerDiseaseCreate: (patientId: string, data: CreateDiseaseDto, params: RequestParams = {}) =>
+      this.request<PatientResponseDto, any>({
+        path: `/api/disease/${patientId}`,
         method: "POST",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Diseases
-     * @name DiseaseControllerGetDiseaseById
-     * @request GET:/api/disease/{id}
-     * @secure
-     */
-    diseaseControllerGetDiseaseById: (id: string, params: RequestParams = {}) =>
-      this.request<ResponseDiseaseDto, any>({
-        path: `/api/disease/${id}`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Diseases
-     * @name DiseaseControllerDiseaseEdit
-     * @request PATCH:/api/disease/{id}
-     * @secure
-     */
-    diseaseControllerDiseaseEdit: (id: string, data: EditDiseaseDto, params: RequestParams = {}) =>
-      this.request<EditDiseaseDto, any>({
-        path: `/api/disease/${id}`,
-        method: "PATCH",
         body: data,
         secure: true,
         type: ContentType.Json,
@@ -919,14 +883,50 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Diseases
      * @name DiseaseControllerDiseaseGetAll
-     * @request GET:/api/disease/all/{id}
+     * @request GET:/api/disease/all/{patientId}
      * @secure
      */
-    diseaseControllerDiseaseGetAll: (id: string, params: RequestParams = {}) =>
-      this.request<ResponseDiseaseDto, any>({
-        path: `/api/disease/all/${id}`,
+    diseaseControllerDiseaseGetAll: (patientId: string, params: RequestParams = {}) =>
+      this.request<DiseaseResponseDto, any>({
+        path: `/api/disease/all/${patientId}`,
         method: "GET",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Diseases
+     * @name DiseaseControllerGetDiseaseById
+     * @request GET:/api/disease/{id}
+     * @secure
+     */
+    diseaseControllerGetDiseaseById: (id: string, params: RequestParams = {}) =>
+      this.request<DiseaseResponseDto, any>({
+        path: `/api/disease/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Diseases
+     * @name DiseaseControllerDiseaseEdit
+     * @request PATCH:/api/disease/{id}
+     * @secure
+     */
+    diseaseControllerDiseaseEdit: (id: string, data: EditDiseaseDto, params: RequestParams = {}) =>
+      this.request<EditDiseaseDto, any>({
+        path: `/api/disease/${id}`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
