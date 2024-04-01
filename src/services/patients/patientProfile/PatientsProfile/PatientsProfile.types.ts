@@ -1,7 +1,7 @@
-import { ResponsePatientDto } from "@/api/shared";
+import { PatientResponseDto } from "@/api/shared";
 
 export type Props = {
-  patient: ResponsePatientDto | null;
+  patient: PatientResponseDto | null;
   isLoading: boolean;
-  handleEdit: (payload: void | ResponsePatientDto) => void;
+  handleEdit: (payload: void | PatientResponseDto) => void;
 };

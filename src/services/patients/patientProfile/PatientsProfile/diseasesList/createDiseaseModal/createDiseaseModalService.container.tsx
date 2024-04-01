@@ -3,7 +3,7 @@ import { createDiseaseModalService } from ".";
 import { Modal } from "@/components/Modal";
 import { FormWrapper, Grid } from "./createDiseaseModalService.styled";
 import { FormItem } from "@/components/FormItem";
-import { Input, Select } from "antd";
+import { Input, Select, message } from "antd";
 import {
   CreateDiseaseDto,
   DiseaseTranslateDto,
@@ -20,6 +20,7 @@ import { useFormik } from "formik";
 import TextArea from "antd/es/input/TextArea";
 import { validationSchema } from "./createDiseaseModalService.constants";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { getRandomColors } from "./createDiseaseModalService.utils";
 
 export const CreateDiseaseModalContainer: FC<{
   diseaseEnums: DiseaseTranslateDto;
@@ -44,21 +45,64 @@ export const CreateDiseaseModalContainer: FC<{
       },
       validationSchema,
       validateOnChange: false,
-      onSubmit: (values) => {
+      onSubmit: (values): void => {
+        const { colour1, colour2 } = getRandomColors();
+
         const data: CreateDiseaseDto = {
           ICD: values.ICD!,
           number: values.number!,
           description: values.description,
           tumorState: values.tumorState!,
           side: values.side!,
-          colour1: "",
-          colour2: "",
+          colour1,
+          colour2,
         };
 
-        if (values.relapsePlace) {
+        if (values.tumorState === TumorState.Relapse) {
+          if (!values.relapsePlace) {
+            message.error("Необходимо выбрать тип рецидива");
+            return;
+          }
+
+          if (
+            values.relapsePlace === RelapsePlace.Regional &&
+            !values.relapses.length
+          ) {
+            message.error("Необходимо выбрать место рецидива");
+            return;
+          }
+
           data["relapsePlace"] = values.relapsePlace;
-          data["relapses"] = [];
+          data["relapses"] = values.relapses;
         }
+
+        if (values.tumorState === TumorState.Reconstruction) {
+          if (!values.reconstruction) {
+            message.error("Необходимо выбрать тип реконструкции");
+            return;
+          }
+
+          data["reconstruction"] = values.reconstruction;
+        }
+
+        if (values.tumorState === TumorState.Progression) {
+          if (!values.progressions.length) {
+            message.error("Необходимо выбрать место прогрессии");
+            return;
+          }
+
+          data["progressions"] = values.progressions;
+        }
+
+        message.info(
+          <div
+            style={{
+              width: 100,
+              height: 100,
+              background: `linear-gradient(45deg, ${colour1}, ${colour2})`,
+            }}
+          ></div>
+        );
       },
     });
 
@@ -198,7 +242,14 @@ export const CreateDiseaseModalContainer: FC<{
         )}
         {values.tumorState === TumorState.Progression && (
           <FormItem label="Место прогрессирования">
-            <Select mode="multiple" placeholder="Выберите">
+            <Select
+              mode="multiple"
+              placeholder="Выберите"
+              value={values.progressions}
+              onChange={(progressions) =>
+                setFieldValue("progressions", progressions)
+              }
+            >
               {Object.values(ProgressionType).map((progression) => (
                 <Select.Option key={progression} value={progression}>
                   {diseaseEnums.progressionTranslates[progression]}

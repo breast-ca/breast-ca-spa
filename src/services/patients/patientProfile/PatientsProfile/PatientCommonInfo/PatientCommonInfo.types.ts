@@ -1,5 +1,5 @@
-import { ResponsePatientDto } from "@/api/shared";
+import { PatientResponseDto } from "@/api/shared";
 
 export type Props = {
-  patient: ResponsePatientDto;
+  patient: PatientResponseDto;
 };

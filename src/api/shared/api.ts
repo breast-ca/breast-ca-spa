@@ -145,7 +145,7 @@ export enum Status {
   Dead = "Dead",
 }
 
-export interface ResponsePatientDto {
+export interface PatientResponseDto {
   id: number;
   name: string;
   surname: string;
@@ -159,8 +159,12 @@ export interface ResponsePatientDto {
   jureAddress?: AddressResponseDto;
   phoneNumber: string;
   status: Status;
-  statusText: string;
   organizationId: number;
+}
+
+export interface PatientsListResponseDto {
+  items: PatientResponseDto[];
+  total: number;
 }
 
 export interface EditPatientDto {
@@ -785,10 +789,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/patient/my
      * @secure
      */
-    patientControllerGetPatientByOrganization: (params: RequestParams = {}) =>
-      this.request<ResponsePatientDto, any>({
+    patientControllerGetPatientByOrganization: (
+      query: {
+        pageSize: string;
+        pageNumber: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<PatientsListResponseDto, any>({
         path: `/api/patient/my`,
         method: "GET",
+        query: query,
         secure: true,
         format: "json",
         ...params,
@@ -803,7 +814,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     patientControllerGetPatientById: (id: string, params: RequestParams = {}) =>
-      this.request<ResponsePatientDto, any>({
+      this.request<PatientResponseDto, any>({
         path: `/api/patient/${id}`,
         method: "GET",
         secure: true,

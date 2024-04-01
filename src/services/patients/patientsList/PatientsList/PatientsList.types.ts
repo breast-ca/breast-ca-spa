@@ -1,7 +1,7 @@
-import { ResponsePatientDto } from "@/api/shared";
+import { PatientResponseDto } from "@/api/shared";
 
 export type Props = {
   handleAddPatient: () => void;
-  patientsList: ResponsePatientDto[] | null;
+  patientsList: PatientResponseDto[] | null;
   isLoading: boolean;
 };

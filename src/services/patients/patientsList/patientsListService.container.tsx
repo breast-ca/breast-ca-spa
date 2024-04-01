@@ -20,7 +20,7 @@ export const PatientsListContainer = () => {
       <PatientsGate />
       <PatientsList
         handleAddPatient={handleAddPatient}
-        patientsList={patientsList}
+        patientsList={patientsList?.items || []}
         isLoading={isLoading}
       />
     </>

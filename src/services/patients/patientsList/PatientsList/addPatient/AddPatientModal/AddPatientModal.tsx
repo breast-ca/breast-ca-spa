@@ -27,7 +27,6 @@ import { Status } from "@/api/shared";
 import { StatusTranslates } from "@/constants/enums";
 import { EditAddressForm } from "@/components/shared/EditAddressForm";
 import { compareAddresses } from "./AddPatientModal.utils";
-import { omit } from "lodash";
 
 export const AddPatientModal: FC<Props> = ({
   isOpen,

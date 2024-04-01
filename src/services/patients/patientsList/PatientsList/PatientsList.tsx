@@ -13,6 +13,7 @@ import { AddPatientContainer } from "./addPatient";
 import { Empty, Skeleton } from "antd";
 import dayjs from "dayjs";
 import { PatinetStatus } from "@/components/shared/PatinetStatus";
+import { StatusTranslates } from "@/constants/enums";
 
 export const PatientsList: FC<Props> = ({
   handleAddPatient,
@@ -43,7 +44,7 @@ export const PatientsList: FC<Props> = ({
               </PatientName>
               <PatinetStatus
                 status={item.status}
-                statusText={item.statusText}
+                statusText={StatusTranslates[item.status]}
               />
               <div>{dayjs(item.birthDate).format("DD.MM.YYYY")}</div>
             </PatientItem>
