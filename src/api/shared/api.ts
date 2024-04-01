@@ -238,17 +238,23 @@ export enum RelapseType {
   Neck = "Neck",
 }
 
+export enum RelapsePlace {
+  Local = "Local",
+  Regional = "Regional",
+}
+
 export interface CreateDiseaseDto {
   ICD: ICD;
   number: number;
   tumorState: TumorState;
   side: Side;
   reconstruction?: ReconstructionType;
-  progressions?: ProgressionType;
-  relapses?: RelapseType;
+  progressions?: ProgressionType[];
+  relapses?: RelapseType[];
   description?: string;
   colour1: string;
   colour2: string;
+  relapsePlace?: RelapsePlace;
 }
 
 export interface DiseaseTranslateDto {
@@ -260,11 +266,6 @@ export interface DiseaseTranslateDto {
   ICDDescriptions: Record<string, string>;
   ICDCodes: Record<string, string>;
   relapsePlace: Record<string, string>;
-}
-
-export enum RelapsePlace {
-  Local = "Local",
-  Regional = "Regional",
 }
 
 export interface ResponseDiseaseDto {

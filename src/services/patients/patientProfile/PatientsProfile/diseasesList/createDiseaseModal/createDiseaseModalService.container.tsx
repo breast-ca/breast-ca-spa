@@ -5,17 +5,21 @@ import { FormWrapper, Grid } from "./createDiseaseModalService.styled";
 import { FormItem } from "@/components/FormItem";
 import { Input, Select } from "antd";
 import {
+  CreateDiseaseDto,
   DiseaseTranslateDto,
   ICD,
   ProgressionType,
   ReconstructionType,
+  RelapsePlace,
   RelapseType,
   Side,
   TumorState,
 } from "@/api/shared";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useFormik } from "formik";
 import TextArea from "antd/es/input/TextArea";
+import { validationSchema } from "./createDiseaseModalService.constants";
+import { ErrorMessage } from "@/components/ErrorMessage";
 
 export const CreateDiseaseModalContainer: FC<{
   diseaseEnums: DiseaseTranslateDto;
@@ -25,25 +29,50 @@ export const CreateDiseaseModalContainer: FC<{
     closeModal: createDiseaseModalService.inputs.closeModal,
   });
 
-  const { values, setFieldValue, handleChange } = useFormik({
-    initialValues: {
-      ICD: null as ICD | null,
-      Number: null as number | null,
-      Name: "",
-      tumorState: null as TumorState | null,
-      side: null as Side | null,
-      reconstruction: null as ReconstructionType | null,
-      progressions: null as ProgressionType | null,
-      relapses: null as RelapseType | null,
-      description: "",
-    },
-    onSubmit: () => {},
-  });
+  const { values, setFieldValue, handleChange, errors, handleSubmit } =
+    useFormik({
+      initialValues: {
+        ICD: null as ICD | null,
+        number: null as number | null,
+        description: "",
+        tumorState: null as TumorState | null,
+        side: null as Side | null,
+        reconstruction: null as ReconstructionType | null,
+        progressions: [] as ProgressionType[],
+        relapses: [] as RelapseType[],
+        relapsePlace: null as RelapsePlace | null,
+      },
+      validationSchema,
+      validateOnChange: false,
+      onSubmit: (values) => {
+        const data: CreateDiseaseDto = {
+          ICD: values.ICD!,
+          number: values.number!,
+          description: values.description,
+          tumorState: values.tumorState!,
+          side: values.side!,
+          colour1: "",
+          colour2: "",
+        };
+
+        if (values.relapsePlace) {
+          data["relapsePlace"] = values.relapsePlace;
+          data["relapses"] = [];
+        }
+      },
+    });
+
+  useEffect(() => {
+    if (!values.ICD) return;
+
+    setFieldValue("description", diseaseEnums.ICDDescriptions[values.ICD]);
+  }, [diseaseEnums.ICDDescriptions, setFieldValue, values.ICD]);
 
   return (
     <Modal
       title="Создать паспорт заболевания"
       isOpen={isOpen}
+      handleSubmit={handleSubmit}
       handleClose={closeModal}
     >
       <FormWrapper>
@@ -53,6 +82,7 @@ export const CreateDiseaseModalContainer: FC<{
               placeholder="Укажите код МКБ"
               value={values.ICD}
               onChange={(icd) => setFieldValue("ICD", icd)}
+              status={errors.ICD ? "error" : void 0}
             >
               {Object.values(ICD).map((icd) => (
                 <Select.Option key={icd} value={icd}>
@@ -60,9 +90,18 @@ export const CreateDiseaseModalContainer: FC<{
                 </Select.Option>
               ))}
             </Select>
+            {errors.ICD && <ErrorMessage>{errors.ICD}</ErrorMessage>}
           </FormItem>
           <FormItem label="Номер опухоли">
-            <Input type="number" placeholder="Введите номер опухоли" />
+            <Input
+              value={values.number || ""}
+              name="number"
+              onChange={handleChange}
+              type="number"
+              placeholder="Введите номер опухоли"
+              status={errors.number ? "error" : void 0}
+            />
+            {errors.number && <ErrorMessage>{errors.number}</ErrorMessage>}
           </FormItem>
         </Grid>
         <FormItem label="Описание диагноза">
@@ -71,22 +110,33 @@ export const CreateDiseaseModalContainer: FC<{
             value={values.description}
             onChange={handleChange}
             placeholder="Введите описание"
+            status={errors.description ? "error" : void 0}
           />
+          {errors.description && (
+            <ErrorMessage>{errors.description}</ErrorMessage>
+          )}
         </FormItem>
         <FormItem label="Сторона поражения">
-          <Select placeholder="Выберите тип">
+          <Select
+            placeholder="Выберите сторону"
+            value={values.side}
+            onChange={(side) => setFieldValue("side", side)}
+            status={errors.side ? "error" : void 0}
+          >
             {Object.values(Side).map((side) => (
               <Select.Option key={side} value={side}>
                 {diseaseEnums.sideTranslates[side]}
               </Select.Option>
             ))}
           </Select>
+          {errors.side && <ErrorMessage>{errors.side}</ErrorMessage>}
         </FormItem>
         <FormItem label="Тип состояния опухолевого процесса">
           <Select
             placeholder="Выберите тип"
             value={values.tumorState}
             onChange={(tumorState) => setFieldValue("tumorState", tumorState)}
+            status={errors.tumorState ? "error" : void 0}
           >
             {Object.values(TumorState).map((tumorState) => (
               <Select.Option key={tumorState} value={tumorState}>
@@ -94,7 +144,69 @@ export const CreateDiseaseModalContainer: FC<{
               </Select.Option>
             ))}
           </Select>
+          {errors.tumorState && (
+            <ErrorMessage>{errors.tumorState}</ErrorMessage>
+          )}
         </FormItem>
+        {values.tumorState === TumorState.Reconstruction && (
+          <FormItem label="Тип реконструкции">
+            <Select
+              value={values.reconstruction}
+              placeholder="Выберите тип"
+              onChange={(type) => setFieldValue("reconstruction", type)}
+            >
+              {Object.values(ReconstructionType).map((reconstruction) => (
+                <Select.Option key={reconstruction} value={reconstruction}>
+                  {diseaseEnums.reconstructionTranslates[reconstruction]}
+                </Select.Option>
+              ))}
+            </Select>
+          </FormItem>
+        )}
+        {values.tumorState === TumorState.Relapse && (
+          <>
+            <FormItem label="Тип рецидива">
+              <Select
+                placeholder="Выберите тип"
+                value={values.relapsePlace}
+                onChange={(type) => setFieldValue("relapsePlace", type)}
+              >
+                {Object.values(RelapsePlace).map((place) => (
+                  <Select.Option key={place} value={place}>
+                    {diseaseEnums.relapsePlace[place]}
+                  </Select.Option>
+                ))}
+              </Select>
+            </FormItem>
+            {values.relapsePlace === RelapsePlace.Regional && (
+              <FormItem label="Место рецидива">
+                <Select
+                  placeholder="Выберите тип"
+                  mode="multiple"
+                  value={values.relapses}
+                  onChange={(type) => setFieldValue("relapses", type)}
+                >
+                  {Object.values(RelapseType).map((reconstruction) => (
+                    <Select.Option key={reconstruction} value={reconstruction}>
+                      {diseaseEnums.relapseTranslates[reconstruction]}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </FormItem>
+            )}
+          </>
+        )}
+        {values.tumorState === TumorState.Progression && (
+          <FormItem label="Место прогрессирования">
+            <Select mode="multiple" placeholder="Выберите">
+              {Object.values(ProgressionType).map((progression) => (
+                <Select.Option key={progression} value={progression}>
+                  {diseaseEnums.progressionTranslates[progression]}
+                </Select.Option>
+              ))}
+            </Select>
+          </FormItem>
+        )}
       </FormWrapper>
     </Modal>
   );
