@@ -6,9 +6,19 @@ export const Wrapper = styled.div`
   gap: 24px;
 `;
 
+export const TitleWrapper = styled.div`
+  display: flex;
+  gap: 16px;
+  align-items: center;
+`;
+
 export const DiseaseDescription = styled.span`
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
+  max-width: 600px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
 `;
 
 export const InfosWrapper = styled.div`
@@ -33,4 +43,14 @@ export const SegmentedWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+export const DiseaseCode = styled.span<{ colour1: string; colour2: string }>`
+  padding: 0px 8px;
+  font-size: 16px;
+  border-radius: 20px;
+  color: white;
+
+  background: ${(props) =>
+    `linear-gradient(45deg, ${props.colour1}, ${props.colour2})`};
 `;

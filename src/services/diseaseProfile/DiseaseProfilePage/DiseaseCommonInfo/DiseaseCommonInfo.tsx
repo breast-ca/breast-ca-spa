@@ -38,9 +38,24 @@ export const DiseaseCommonInfo: FC<Props> = ({ disease, diseaseEnums }) => {
         },
         {
           key: "Место рецидива",
-          value: disease.relapses,
+          value: disease.relapses
+            ?.map((relapse) => diseaseEnums.relapseTranslates[relapse])
+            .join(", "),
+          column: true,
         }
       );
+    }
+
+    if (disease.progressions?.length) {
+      infos.push({
+        key: "Место прогрессирования",
+        value: disease.progressions
+          ?.map(
+            (progression) => diseaseEnums.progressionTranslates[progression]
+          )
+          .join(", "),
+        column: true,
+      });
     }
 
     return infos;

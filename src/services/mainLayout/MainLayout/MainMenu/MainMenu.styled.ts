@@ -18,6 +18,7 @@ export const MenuPanel = styled.div`
   align-items: center;
   position: fixed;
   background-color: var(--light);
+  z-index: 2;
 
   .active {
     ${activeMenuItemCSS}

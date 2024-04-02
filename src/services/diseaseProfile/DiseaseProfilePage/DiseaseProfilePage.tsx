@@ -1,9 +1,11 @@
 import { FC, useMemo } from "react";
 import {
+  DiseaseCode,
   DiseaseDescription,
   InfosItemWrapper,
   InfosWrapper,
   SegmentedWrapper,
+  TitleWrapper,
   Wrapper,
 } from "./DiseaseProfilePage.styled";
 import { DiseaseProfileSegment, Props } from "./DiseaseProfilePage.types";
@@ -12,7 +14,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { ContextMenuButton } from "@/components/ContextMenuButton";
 import { usePatientInfoPanel } from "@/services/mainLayout/mainLayoutService.hooks";
 import { getDisesasInfos } from "@/services/patients/patientProfile/PatientsProfile/diseasesList/DiseasesList/DiseasesList.utils";
-import { Empty } from "antd";
+import { Empty, Tooltip } from "antd";
 import { Segmented } from "@/components/Segmented";
 import { Button } from "@/components/Button";
 import { Pen, PlusCircleFill } from "react-bootstrap-icons";
@@ -31,10 +33,14 @@ export const DiseaseProfilePage: FC<Props> = ({
     if (!disease) return null;
 
     return (
-      <>
-        {diseaseEnums.ICDCodes[disease.ICD]}{" "}
-        <DiseaseDescription>{disease?.description}</DiseaseDescription>
-      </>
+      <TitleWrapper>
+        <DiseaseCode colour1={disease.colour1} colour2={disease.colour2}>
+          {diseaseEnums.ICDCodes[disease.ICD]}
+        </DiseaseCode>{" "}
+        <Tooltip color="white" placement="bottom" title={disease.description}>
+          <DiseaseDescription>{disease.description}</DiseaseDescription>
+        </Tooltip>
+      </TitleWrapper>
     );
   }, [disease, diseaseEnums.ICDCodes]);
 
@@ -52,7 +58,10 @@ export const DiseaseProfilePage: FC<Props> = ({
       <WithLoader isLoading={isLoading}>
         {disease && (
           <>
-            <PageHeader goBack title={diseaseTitle}>
+            <PageHeader
+              goBack={`/patients/${disease.patient.id}/disease`}
+              title={diseaseTitle}
+            >
               <ContextMenuButton
                 menuButtons={[
                   {
