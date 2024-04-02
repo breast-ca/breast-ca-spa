@@ -13,6 +13,7 @@ import {
 import { Props } from "./DiseasesList.types";
 import { ClipboardPlus } from "react-bootstrap-icons";
 import { getDisesasInfos } from "./DiseasesList.utils";
+import { useNavigate } from "react-router-dom";
 
 export const DiseasesList: FC<Props> = ({
   handleCreateDisease,
@@ -20,6 +21,8 @@ export const DiseasesList: FC<Props> = ({
   diseasesList,
   diseaseEnums,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       {isLoading && (
@@ -33,7 +36,11 @@ export const DiseasesList: FC<Props> = ({
           const infos = getDisesasInfos(disease, diseaseEnums);
 
           return (
-            <DiseaseItem key={disease.id} disease={disease}>
+            <DiseaseItem
+              key={disease.id}
+              disease={disease}
+              onClick={() => navigate(`/disease/${disease.id}`)}
+            >
               <InfoPanel>
                 {infos.map((text) => (
                   <InfoPanelItem key={text}>{text}</InfoPanelItem>

@@ -1,8 +1,7 @@
 import { ArrowLeftShort } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const Wrapper = styled(Link)`
+export const Wrapper = styled.div`
   height: 24px;
   width: min-content;
   display: flex;
@@ -28,7 +27,7 @@ export const ArrowLeft = styled(ArrowLeftShort)`
   font-size: 20px;
 `;
 
-export const BackCircleSC = styled(Link)`
+export const BackCircleSC = styled.div`
   width: 42px;
   height: 42px;
   background: white;

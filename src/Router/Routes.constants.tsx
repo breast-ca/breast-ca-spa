@@ -8,9 +8,11 @@ import { PatientProfileContainer } from "@/services/patients/patientProfile/pati
 import { SettingsLayoutContainer } from "@/services/settingsLayout/settingsLayoutService.container";
 import { UserProfileContainer } from "@/services/settings/userProfile/userProfileService.container";
 import { OrganizationProfileContainer } from "@/services/settings/organizationProfile";
+import { DiseaseProfileContainer } from "@/services/diseaseProfile";
+import { AboutPage } from "@/services/settings/AboutPage";
 
 export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
-  const authToutes = [
+  const authRoutes = [
     {
       path: "*",
       element: <Navigate to="/patients" />,
@@ -33,30 +35,7 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
         },
         {
           path: "/settings/about",
-          element: (
-            <div>
-              <PageHeader title="О программе" />
-              <div
-                style={{
-                  lineHeight: "28px",
-                  marginTop: "8px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div>
-                  <span style={{ fontFamily: "monospace" }}>
-                    BreastCa [0.0.1] :{" "}
-                    <span style={{ color: "red", fontFamily: "monospace" }}>
-                      {" "}
-                      Alpha
-                    </span>
-                  </span>{" "}
-                </div>
-                <strong>ООО "А-Тим Тек" 2024</strong>
-              </div>
-            </div>
-          ),
+          element: <AboutPage />,
         },
       ],
     },
@@ -73,6 +52,10 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
           element: <PatientProfileContainer />,
         },
         {
+          path: "/disease/:id/:segment?",
+          element: <DiseaseProfileContainer />,
+        },
+        {
           path: "/messages",
           element: <PageHeader title="Консилиум" />,
         },
@@ -85,7 +68,7 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
   ];
 
   return isAuth
-    ? authToutes
+    ? authRoutes
     : [
         {
           path: "*",

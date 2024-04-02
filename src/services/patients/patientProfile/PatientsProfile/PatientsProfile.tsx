@@ -22,7 +22,7 @@ export const PatientsProfile: FC<Props> = ({
   return (
     <Wrapper>
       <AddPatientContainer edit />
-      <BackButton />
+      <BackButton path="/patients" />
       <WithLoader isLoading={isLoading}>
         {!patient && (
           <Empty
