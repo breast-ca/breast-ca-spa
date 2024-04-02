@@ -1,20 +1,42 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PatientsProfile } from "./PatientsProfile";
 import { patinetProfileService } from ".";
 import { useUnit } from "effector-react";
 import { patientQuery } from "./patientProfileService.api";
 import { addPatientService } from "../patientsList/PatientsList/addPatient";
+import { useCallback, useEffect } from "react";
+import { PatientSegment } from "./PatientsProfile/PatientsProfile.types";
 
 const { PatinetGate } = patinetProfileService.gates;
 
 export const PatientProfileContainer = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id, segment } = useParams<{
+    id: string;
+    segment: PatientSegment;
+  }>();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!segment) navigate("common");
+  }, [navigate, segment]);
 
   const { patient, isLoading, handleEdit } = useUnit({
     patient: patientQuery.$data,
     isLoading: patientQuery.$pending,
     handleEdit: addPatientService.inputs.handleOpenModal,
   });
+
+  const handleChangeSegment = useCallback(
+    (segment: PatientSegment) => {
+      const path = `/patients/${id}/${segment}`;
+
+      console.log(path);
+
+      navigate(path);
+    },
+    [id, navigate]
+  );
 
   return (
     <>
@@ -23,6 +45,8 @@ export const PatientProfileContainer = () => {
         patient={patient}
         isLoading={isLoading}
         handleEdit={handleEdit}
+        segment={segment}
+        handleChangeSegment={handleChangeSegment}
       />
     </>
   );

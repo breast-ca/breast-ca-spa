@@ -1,6 +1,6 @@
 import { DiseaseResponseDto } from "@/api/shared";
 import { Skeleton } from "antd";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const Wrapper = styled.div`
   width: min-content;
@@ -9,25 +9,41 @@ export const Wrapper = styled.div`
   gap: 24px;
 `;
 
+const cardAnimate = keyframes`
+  0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+`;
+
 export const DiseaseItem = styled.div<{ disease: DiseaseResponseDto }>`
   width: 380px;
   height: 210px;
   border-radius: 16px;
-  background: ${({ disease }) =>
-    `linear-gradient(45deg, ${disease.colour1}, ${disease.colour2})`};
 
   padding: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-sizing: border-box;
   cursor: pointer;
-  transition: 0.2s;
+  box-sizing: border-box;
 
-  border: 2px solid white;
+  background: ${({ disease }) =>
+    `linear-gradient(45deg, ${disease.colour1}, ${disease.colour2})`};
+
+  background-size: 100% 100%;
+  transition:
+    0.2s,
+    background-size 0.2s ease;
 
   &:hover {
-    box-shadow: 0 8px 24px #16060934;
+    background-size: 400% 400%;
+    animation: ${cardAnimate} 5s ease infinite;
     transform: scale(1.05);
   }
 `;
@@ -44,9 +60,13 @@ export const DiseaseCode = styled.div`
 `;
 
 export const Description = styled.div`
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
+  /* white-space: nowrap; */
+  /* text-overflow: ellipsis; */
+  /* overflow-x: hidden; */
+  line-height: 18px;
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 0.8;
 `;
 
 export const CreateDiseasesItem = styled.div`

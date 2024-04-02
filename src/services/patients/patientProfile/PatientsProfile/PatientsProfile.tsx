@@ -1,6 +1,6 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Content, Wrapper } from "./PatientsProfile.styled";
-import { Props } from "./PatientsProfile.types";
+import { PatientSegment, Props } from "./PatientsProfile.types";
 import { BackButton } from "@/components/BackButton";
 import { WithLoader } from "@/components/WithLoader";
 import { Empty } from "antd";
@@ -16,11 +16,9 @@ export const PatientsProfile: FC<Props> = ({
   isLoading,
   patient,
   handleEdit,
+  segment,
+  handleChangeSegment,
 }) => {
-  const [segment, setSegment] = useState<"commonInfo" | "diseases">(
-    "commonInfo"
-  );
-
   return (
     <Wrapper>
       <AddPatientContainer edit />
@@ -51,25 +49,21 @@ export const PatientsProfile: FC<Props> = ({
             </PageHeader>
             <Segmented
               value={segment}
-              onChange={(value) =>
-                setSegment(value as "commonInfo" | "diseases")
-              }
+              onChange={(value) => handleChangeSegment(value as PatientSegment)}
               block={false}
               options={[
                 {
                   label: "Общая информация",
-                  value: "commonInfo",
+                  value: "common",
                 },
                 {
                   label: "Заболевания",
-                  value: "diseases",
+                  value: "disease",
                 },
               ]}
             />
-            {segment === "commonInfo" && (
-              <PatientCommonInfo patient={patient} />
-            )}
-            {segment === "diseases" && <DiseasesListContainer />}
+            {segment === "common" && <PatientCommonInfo patient={patient} />}
+            {segment === "disease" && <DiseasesListContainer />}
           </Content>
         )}
       </WithLoader>
