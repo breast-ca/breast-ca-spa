@@ -1,12 +1,9 @@
-import { useUnit } from "effector-react";
-import { createDiseaseModalService } from ".";
 import { Modal } from "@/components/Modal";
-import { FormWrapper, Grid } from "./createDiseaseModalService.styled";
-import { FormItem } from "@/components/FormItem";
-import { Input, Select, message } from "antd";
+import { useUnit } from "effector-react";
+import { editDiseaseModalService } from ".";
+import { validationSchema } from "./editDiseaseModalService.constants";
 import {
-  CreateDiseaseDto,
-  DiseaseTranslateDto,
+  EditDiseaseDto,
   ICD,
   ProgressionType,
   ReconstructionType,
@@ -15,23 +12,22 @@ import {
   Side,
   TumorState,
 } from "@/api/shared";
-import { FC, useEffect } from "react";
+import { Input, Select, message } from "antd";
 import { useFormik } from "formik";
-import TextArea from "antd/es/input/TextArea";
-import { validationSchema } from "./createDiseaseModalService.constants";
+import { editDiseaseMutation } from "./editDiseaseModalService.api";
+import { FormWrapper, Grid } from "./editDiseaseModalService.styled";
+import { FormItem } from "@/components/FormItem";
+import { diseaseEnumsTranslationsQuery } from "@/services/patients/patientProfile/PatientsProfile/diseasesList/diseasesListService.api";
 import { ErrorMessage } from "@/components/ErrorMessage";
-import { getRandomColors } from "./createDiseaseModalService.utils";
-import { patientQuery } from "../../../patientProfileService.api";
-import { createDiseaseMutation } from "./createDiseaseModalService.api";
+import TextArea from "antd/es/input/TextArea";
+import { useEffect } from "react";
 
-export const CreateDiseaseModalContainer: FC<{
-  diseaseEnums: DiseaseTranslateDto;
-}> = ({ diseaseEnums }) => {
-  const { closeModal, isOpen, handleCreateDisease, patient } = useUnit({
-    isOpen: createDiseaseModalService.outputs.$isModalOpen,
-    closeModal: createDiseaseModalService.inputs.closeModal,
-    handleCreateDisease: createDiseaseMutation.start,
-    patient: patientQuery.$data,
+export const EditDiseaseModalContainer = () => {
+  const { payload, handleClose, handleEdit, diseaseEnums } = useUnit({
+    payload: editDiseaseModalService.outputs.$payload,
+    handleClose: editDiseaseModalService.inputs.handleClose,
+    handleEdit: editDiseaseMutation.start,
+    diseaseEnums: diseaseEnumsTranslationsQuery.$data,
   });
 
   const {
@@ -43,30 +39,28 @@ export const CreateDiseaseModalContainer: FC<{
     resetForm,
   } = useFormik({
     initialValues: {
-      ICD: null as ICD | null,
-      number: null as number | null,
-      description: "",
-      tumorState: null as TumorState | null,
-      side: null as Side | null,
-      reconstruction: null as ReconstructionType | null,
-      progressions: [] as ProgressionType[],
-      relapses: [] as RelapseType[],
-      relapsePlace: null as RelapsePlace | null,
+      ICD: payload?.ICD,
+      number: payload?.number,
+      description: payload?.description,
+      tumorState: payload?.tumorState,
+      side: payload?.side,
+      reconstruction: payload?.reconstruction,
+      progressions: payload?.progressions,
+      relapses: payload?.relapses,
+      relapsePlace: payload?.relapsePlace,
     },
     validationSchema,
     validateOnChange: false,
     enableReinitialize: true,
     onSubmit: (values): void => {
-      const { colour1, colour2 } = getRandomColors();
+      if (!payload || !diseaseEnums) return;
 
-      const data: CreateDiseaseDto = {
+      const data: EditDiseaseDto = {
         ICD: values.ICD!,
         number: values.number!,
         description: values.description,
         tumorState: values.tumorState!,
         side: values.side!,
-        colour1,
-        colour2,
       };
 
       if (values.tumorState === TumorState.Relapse) {
@@ -77,7 +71,7 @@ export const CreateDiseaseModalContainer: FC<{
 
         if (
           values.relapsePlace === RelapsePlace.Regional &&
-          !values.relapses.length
+          !values?.relapses?.length
         ) {
           message.error("Необходимо выбрать место рецидива");
           return;
@@ -97,7 +91,7 @@ export const CreateDiseaseModalContainer: FC<{
       }
 
       if (values.tumorState === TumorState.Progression) {
-        if (!values.progressions.length) {
+        if (!values?.progressions?.length) {
           message.error("Необходимо выбрать место прогрессии");
           return;
         }
@@ -105,37 +99,28 @@ export const CreateDiseaseModalContainer: FC<{
         data["progressions"] = values.progressions;
       }
 
-      if (!patient) {
-        message.error("Ошибка системы");
-        return;
-      }
-
-      handleCreateDisease({ ...data, patientId: patient.id });
+      handleEdit({ ...data, id: payload.id });
     },
   });
 
   useEffect(() => {
-    return createDiseaseMutation.finished.success.watch(() => resetForm())
-      .unsubscribe;
+    return resetForm;
   }, [resetForm]);
 
-  useEffect(() => {
-    if (!values.ICD) return;
-
-    setFieldValue("description", diseaseEnums.ICDDescriptions[values.ICD]);
-  }, [diseaseEnums.ICDDescriptions, setFieldValue, values.ICD]);
+  if (!payload || !diseaseEnums) return null;
 
   return (
     <Modal
-      title="Создать паспорт заболевания"
-      isOpen={isOpen}
+      title="Редактировать"
+      isOpen={Boolean(payload)}
+      handleClose={handleClose}
       handleSubmit={handleSubmit}
-      handleClose={closeModal}
     >
       <FormWrapper>
         <Grid temp="1fr 1fr">
           <FormItem label="Код МКБ">
             <Select
+              disabled
               placeholder="Укажите код МКБ"
               value={values.ICD}
               onChange={(icd) => setFieldValue("ICD", icd)}
@@ -151,6 +136,7 @@ export const CreateDiseaseModalContainer: FC<{
           </FormItem>
           <FormItem label="Номер опухоли">
             <Input
+              disabled
               value={values.number || ""}
               name="number"
               onChange={handleChange}
@@ -190,6 +176,7 @@ export const CreateDiseaseModalContainer: FC<{
         </FormItem>
         <FormItem label="Тип состояния опухолевого процесса">
           <Select
+            disabled
             placeholder="Выберите тип"
             value={values.tumorState}
             onChange={(tumorState) => setFieldValue("tumorState", tumorState)}

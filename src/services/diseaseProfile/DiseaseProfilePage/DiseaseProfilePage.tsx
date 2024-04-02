@@ -15,12 +15,13 @@ import { getDisesasInfos } from "@/services/patients/patientProfile/PatientsProf
 import { Empty } from "antd";
 import { Segmented } from "@/components/Segmented";
 import { Button } from "@/components/Button";
-import { PlusCircleFill } from "react-bootstrap-icons";
+import { Pen, PlusCircleFill } from "react-bootstrap-icons";
 
 export const DiseaseProfilePage: FC<Props> = ({
   isLoading,
   disease,
   diseaseEnums,
+  handleEdit,
 }) => {
   const diseaseTitle = useMemo(() => {
     if (!disease) return null;
@@ -46,7 +47,9 @@ export const DiseaseProfilePage: FC<Props> = ({
         {disease && (
           <>
             <PageHeader goBack title={diseaseTitle}>
-              <ContextMenuButton />
+              <ContextMenuButton
+                menuButtons={[{ title: "Редактировать", icon: <Pen />, onClick: handleEdit }]}
+              />
             </PageHeader>
             <InfosWrapper>
               {infos?.map((info) => (

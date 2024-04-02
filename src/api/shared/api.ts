@@ -133,8 +133,8 @@ export interface CreatePatientDto {
   insuranceOrganization: string;
   /** @format date-time */
   birthDate: string;
-  factAddress?: CreateAddressDto;
-  jureAddress?: CreateAddressDto;
+  factAddress: CreateAddressDto;
+  jureAddress: CreateAddressDto;
   phoneNumber: string;
 }
 
@@ -155,8 +155,8 @@ export interface PatientResponseDto {
   passport: string;
   insuranceOrganization: string;
   birthDate: string;
-  factAddress?: AddressResponseDto;
-  jureAddress?: AddressResponseDto;
+  factAddress: AddressResponseDto;
+  jureAddress: AddressResponseDto;
   phoneNumber: string;
   status: Status;
   organizationId: number;
@@ -305,8 +305,7 @@ export interface DiseaseFullResponseDto {
 
 export interface EditDiseaseDto {
   ICD?: ICD;
-  Number?: number;
-  Name?: string;
+  number?: number;
   tumorState?: TumorState;
   side?: Side;
   relapses?: RelapseType;
@@ -944,6 +943,46 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         secure: true,
         type: ContentType.Json,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags file-storage
+     * @name FileStorageControllerUploadFile
+     * @request POST:/api/file-storage/upload
+     * @secure
+     */
+    fileStorageControllerUploadFile: (
+      data: {
+        /** @format binary */
+        file?: File;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/file-storage/upload`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.FormData,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags file-storage
+     * @name FileStorageControllerGetFile
+     * @request GET:/api/file-storage/file/{path}
+     * @secure
+     */
+    fileStorageControllerGetFile: (path: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/file-storage/file/${path}`,
+        method: "GET",
+        secure: true,
         ...params,
       }),
   };
