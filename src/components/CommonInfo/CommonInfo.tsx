@@ -16,18 +16,18 @@ export const CommonInfo: FC<CommonInfoProps> = ({
 }) => {
   const content = (
     <>
-      {items.map(({ key, value, hidden }) => {
+      {items.map(({ key, value, hidden, column }) => {
         if (hidden) {
           return null;
         }
 
         return (
-          <Wrapper key={key} card={card}>
+          <Wrapper key={key} card={card} column={column}>
             <KeyWrapper>{key}</KeyWrapper>
             {isLoading ? (
               <SkeletonLoader active />
             ) : (
-              <ValueWrapper>{value || "—"}</ValueWrapper>
+              <ValueWrapper column={column}>{value || "—"}</ValueWrapper>
             )}
           </Wrapper>
         );

@@ -47,14 +47,17 @@ export const PatientCommonInfo: FC<Props> = ({ patient, card = true }) => {
           },
           {
             key: "Страховой полис",
+            column: true,
             value: `${patient.medicalInsurance} (${patient.insuranceOrganization})`,
           },
           {
             key: "Адрес регистрации",
+            column: true,
             value: patient.jureAddress && getAddressString(patient.jureAddress),
           },
           {
             key: "Адрес проживания",
+            column: true,
             value: isAddressesSame
               ? "Совпадает с регистрацией"
               : patient.factAddress && getAddressString(patient.factAddress),

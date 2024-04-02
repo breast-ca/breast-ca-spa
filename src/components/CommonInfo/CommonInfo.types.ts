@@ -11,4 +11,5 @@ export type CommonInfoItem = {
   key: string;
   value: ReactNode;
   hidden?: boolean;
+  column?: boolean;
 };

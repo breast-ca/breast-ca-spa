@@ -8,6 +8,6 @@ export const Wrapper = styled.div`
 
 export const Title = styled.div`
   font-weight: 700;
-  font-size: 24px;
-  opacity: 0.6;
+  font-size: 20px;
+  opacity: 0.9;
 `;

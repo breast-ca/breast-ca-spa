@@ -12,7 +12,13 @@ const card = css`
   padding-right: 16px;
 `;
 
-export const Wrapper = styled.div<{ card?: boolean }>`
+const columnStyles = css`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+export const Wrapper = styled.div<{ card?: boolean; column?: boolean }>`
   display: grid;
   grid-template-columns: 0.75fr 1fr;
   border-bottom: 1px solid #eeebe9;
@@ -21,6 +27,7 @@ export const Wrapper = styled.div<{ card?: boolean }>`
   line-height: 16px;
   grid-gap: 15px;
   padding: 15px 0;
+  ${({ column }) => column && columnStyles}
 
   &:last-child {
     border-bottom: none;
@@ -36,13 +43,13 @@ export const KeyWrapper = styled.div`
   align-items: center;
 `;
 
-export const ValueWrapper = styled.div`
+export const ValueWrapper = styled.div<{ column?: boolean }>`
   color: rgba(39, 47, 90, 0.9);
   font-weight: 500;
-  text-align: right;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  text-align: ${({ column }) => (column ? "left" : "right")};
+  justify-content: ${({ column }) => (column ? "flex-start" : "flex-end")};
 `;
 
 export const SkeletonLoader = styled(Skeleton.Input)`
