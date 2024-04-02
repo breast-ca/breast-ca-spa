@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { PatinetStatus } from "@/components/shared/PatinetStatus";
 import { getAddressString } from "@/utils/getAddressString";
 import { compareAddresses } from "@/services/patients/patientsList/PatientsList/addPatient/AddPatientModal/AddPatientModal.utils";
+import { StatusTranslates } from "@/constants/enums";
 
 export const PatientCommonInfo: FC<Props> = ({ patient }) => {
   const isAddressesSame =
@@ -23,7 +24,7 @@ export const PatientCommonInfo: FC<Props> = ({ patient }) => {
             value: (
               <PatinetStatus
                 status={patient.status}
-                statusText={patient.statusText}
+                statusText={StatusTranslates[patient.status]}
               />
             ),
           },

@@ -287,6 +287,22 @@ export interface DiseaseResponseDto {
   colour2: string;
 }
 
+export interface DiseaseFullResponseDto {
+  id: number;
+  ICD: ICD;
+  number: number;
+  tumorState: TumorState;
+  side: Side;
+  reconstruction?: ReconstructionType;
+  progressions?: ProgressionType;
+  relapses?: RelapseType;
+  description: string;
+  relapsePlace?: RelapsePlace;
+  colour1: string;
+  colour2: string;
+  patient: PatientResponseDto;
+}
+
 export interface EditDiseaseDto {
   ICD?: ICD;
   Number?: number;
@@ -904,7 +920,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     diseaseControllerGetDiseaseById: (id: string, params: RequestParams = {}) =>
-      this.request<DiseaseResponseDto, any>({
+      this.request<DiseaseFullResponseDto, any>({
         path: `/api/disease/${id}`,
         method: "GET",
         secure: true,

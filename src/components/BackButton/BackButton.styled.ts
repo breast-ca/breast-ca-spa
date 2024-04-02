@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+  cursor: pointer;
 
   padding: 0 12px 0 6px;
   border-radius: 20px;
@@ -38,6 +39,7 @@ export const BackCircleSC = styled.div`
   align-items: center;
   justify-content: center;
   color: black;
+  cursor: pointer;
 
   svg {
     font-size: 26px;
