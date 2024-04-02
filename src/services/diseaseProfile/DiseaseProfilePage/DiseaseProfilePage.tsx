@@ -17,6 +17,7 @@ import { Segmented } from "@/components/Segmented";
 import { Button } from "@/components/Button";
 import { Pen, PlusCircleFill } from "react-bootstrap-icons";
 import { useNavigate, useParams } from "react-router-dom";
+import { DiseaseCommonInfo } from "./DiseaseCommonInfo";
 
 export const DiseaseProfilePage: FC<Props> = ({
   isLoading,
@@ -94,6 +95,12 @@ export const DiseaseProfilePage: FC<Props> = ({
               />
               <Button icon={<PlusCircleFill />}>Новый анализ</Button>
             </SegmentedWrapper>
+            {segment === "common" && (
+              <DiseaseCommonInfo
+                disease={disease}
+                diseaseEnums={diseaseEnums}
+              />
+            )}
           </>
         )}
         {!disease && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}

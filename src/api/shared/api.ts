@@ -279,8 +279,8 @@ export interface DiseaseResponseDto {
   tumorState: TumorState;
   side: Side;
   reconstruction?: ReconstructionType;
-  progressions?: ProgressionType;
-  relapses?: RelapseType;
+  progressions?: ProgressionType[];
+  relapses?: RelapseType[];
   description: string;
   relapsePlace?: RelapsePlace;
   colour1: string;
@@ -294,8 +294,8 @@ export interface DiseaseFullResponseDto {
   tumorState: TumorState;
   side: Side;
   reconstruction?: ReconstructionType;
-  progressions?: ProgressionType;
-  relapses?: RelapseType;
+  progressions?: ProgressionType[];
+  relapses?: RelapseType[];
   description: string;
   relapsePlace?: RelapsePlace;
   colour1: string;
@@ -309,8 +309,8 @@ export interface EditDiseaseDto {
   tumorState?: TumorState;
   side?: Side;
   relapses?: RelapseType;
-  progressions?: ProgressionType;
-  reconstruction?: ReconstructionType;
+  progressions?: ProgressionType[];
+  reconstruction?: ReconstructionType[];
   description?: string;
   relapsePlace?: RelapsePlace;
   colour1?: string;
