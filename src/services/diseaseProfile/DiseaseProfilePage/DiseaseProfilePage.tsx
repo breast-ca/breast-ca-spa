@@ -1,15 +1,11 @@
 import { FC, useMemo } from "react";
-import {
-  DiseaseDescription,
-  DiseaseProfileGrid,
-  Wrapper,
-} from "./DiseaseProfilePage.styled";
+import { DiseaseDescription, Wrapper } from "./DiseaseProfilePage.styled";
 import { Props } from "./DiseaseProfilePage.types";
 import { GoBack } from "@/components/BackButton";
 import { WithLoader } from "@/components/WithLoader";
 import { PageHeader } from "@/components/PageHeader";
 import { ContextMenuButton } from "@/components/ContextMenuButton";
-import { PatientInfo } from "@/components/shared/PatientInfo";
+import { usePatientInfoPanel } from "@/services/mainLayout/mainLayoutService.hooks";
 
 export const DiseaseProfilePage: FC<Props> = ({
   isLoading,
@@ -27,17 +23,16 @@ export const DiseaseProfilePage: FC<Props> = ({
     );
   }, [disease, diseaseEnums.ICDCodes]);
 
+  usePatientInfoPanel(disease?.patient);
+
   return [
     <GoBack />,
     <Wrapper>
       <WithLoader isLoading={isLoading}>
         {disease && (
-          <DiseaseProfileGrid>
-            <PageHeader title={diseaseTitle}>
-              <ContextMenuButton />
-            </PageHeader>
-            <PatientInfo patient={disease.patient} />
-          </DiseaseProfileGrid>
+          <PageHeader title={diseaseTitle}>
+            <ContextMenuButton />
+          </PageHeader>
         )}
       </WithLoader>
     </Wrapper>,
