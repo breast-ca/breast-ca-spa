@@ -8,7 +8,7 @@ import { getAddressString } from "@/utils/getAddressString";
 import { compareAddresses } from "@/services/patients/patientsList/PatientsList/addPatient/AddPatientModal/AddPatientModal.utils";
 import { StatusTranslates } from "@/constants/enums";
 
-export const PatientCommonInfo: FC<Props> = ({ patient }) => {
+export const PatientCommonInfo: FC<Props> = ({ patient, card = true }) => {
   const isAddressesSame =
     patient.factAddress &&
     patient.jureAddress &&
@@ -17,7 +17,7 @@ export const PatientCommonInfo: FC<Props> = ({ patient }) => {
   return (
     <Wrapper>
       <CommonInfo
-        card
+        card={card}
         items={[
           {
             key: "Статус",

@@ -9,7 +9,7 @@ export const PatientInfo: FC<Props> = ({ patient }) => {
       <Title>
         {patient.surname} {patient.name} {patient.middleName || ""}
       </Title>
-      <PatientCommonInfo patient={patient} />
+      <PatientCommonInfo patient={patient} card={false} />
     </Wrapper>
   );
 };

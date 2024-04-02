@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { Content, Wrapper } from "./PatientsProfile.styled";
 import { PatientSegment, Props } from "./PatientsProfile.types";
-import { BackButton } from "@/components/BackButton";
 import { WithLoader } from "@/components/WithLoader";
 import { Empty } from "antd";
 import { PageHeader } from "@/components/PageHeader";
@@ -22,7 +21,6 @@ export const PatientsProfile: FC<Props> = ({
   return (
     <Wrapper>
       <AddPatientContainer edit />
-      <BackButton path="/patients" />
       <WithLoader isLoading={isLoading}>
         {!patient && (
           <Empty
@@ -33,6 +31,7 @@ export const PatientsProfile: FC<Props> = ({
         {patient && (
           <Content>
             <PageHeader
+              goBack="/patients"
               title={`${patient.surname} ${patient.name} ${
                 patient.middleName || ""
               }`}

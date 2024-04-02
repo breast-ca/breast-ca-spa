@@ -22,6 +22,7 @@ export const Content = styled.div`
 
 export const PatientInfoWrapper = styled.div`
   box-sizing: border-box;
+  min-height: 100vh;
   padding: 16px 16px 16px 24px;
   border-left: 1px solid #0000001f;
 `;

@@ -1,7 +1,6 @@
 import { FC, useMemo } from "react";
 import { DiseaseDescription, Wrapper } from "./DiseaseProfilePage.styled";
 import { Props } from "./DiseaseProfilePage.types";
-import { GoBack } from "@/components/BackButton";
 import { WithLoader } from "@/components/WithLoader";
 import { PageHeader } from "@/components/PageHeader";
 import { ContextMenuButton } from "@/components/ContextMenuButton";
@@ -25,16 +24,15 @@ export const DiseaseProfilePage: FC<Props> = ({
 
   usePatientInfoPanel(disease?.patient);
 
-  return [
-    <GoBack />,
+  return (
     <Wrapper>
       <WithLoader isLoading={isLoading}>
         {disease && (
-          <PageHeader title={diseaseTitle}>
+          <PageHeader goBack title={diseaseTitle}>
             <ContextMenuButton />
           </PageHeader>
         )}
       </WithLoader>
-    </Wrapper>,
-  ];
+    </Wrapper>
+  );
 };

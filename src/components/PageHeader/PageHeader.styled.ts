@@ -11,4 +11,7 @@ export const Title = styled.div`
   font-size: 24px;
   font-weight: bold;
   color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 16px;
 `;
