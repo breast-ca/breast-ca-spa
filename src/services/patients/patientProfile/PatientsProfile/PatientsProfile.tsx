@@ -31,7 +31,7 @@ export const PatientsProfile: FC<Props> = ({
         {patient && (
           <Content>
             <PageHeader
-              goBack="/patients"
+              goBack
               title={`${patient.surname} ${patient.name} ${
                 patient.middleName || ""
               }`}

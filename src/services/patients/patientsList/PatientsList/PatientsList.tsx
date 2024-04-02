@@ -38,7 +38,7 @@ export const PatientsList: FC<Props> = ({
       {Boolean(patientsList?.length) && (
         <ListWrapper>
           {patientsList?.map((item) => (
-            <PatientItem key={item.id} to={`/patients/${item.id}`}>
+            <PatientItem key={item.id} to={`/patients/${item.id}/common`}>
               <PatientName>
                 {item.surname} {item.name} {item.middleName}
               </PatientName>

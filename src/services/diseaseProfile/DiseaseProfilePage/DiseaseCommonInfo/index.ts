@@ -1,0 +1,1 @@
+export { DiseaseCommonInfo } from './DiseaseCommonInfo';

@@ -6,7 +6,7 @@ import {
   SegmentedWrapper,
   Wrapper,
 } from "./DiseaseProfilePage.styled";
-import { Props } from "./DiseaseProfilePage.types";
+import { DiseaseProfileSegment, Props } from "./DiseaseProfilePage.types";
 import { WithLoader } from "@/components/WithLoader";
 import { PageHeader } from "@/components/PageHeader";
 import { ContextMenuButton } from "@/components/ContextMenuButton";
@@ -16,6 +16,7 @@ import { Empty } from "antd";
 import { Segmented } from "@/components/Segmented";
 import { Button } from "@/components/Button";
 import { Pen, PlusCircleFill } from "react-bootstrap-icons";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const DiseaseProfilePage: FC<Props> = ({
   isLoading,
@@ -23,6 +24,8 @@ export const DiseaseProfilePage: FC<Props> = ({
   diseaseEnums,
   handleEdit,
 }) => {
+  const { segment } = useParams<{ segment?: DiseaseProfileSegment }>();
+
   const diseaseTitle = useMemo(() => {
     if (!disease) return null;
 
@@ -41,6 +44,8 @@ export const DiseaseProfilePage: FC<Props> = ({
     [disease, diseaseEnums]
   );
 
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <WithLoader isLoading={isLoading}>
@@ -48,7 +53,13 @@ export const DiseaseProfilePage: FC<Props> = ({
           <>
             <PageHeader goBack title={diseaseTitle}>
               <ContextMenuButton
-                menuButtons={[{ title: "Редактировать", icon: <Pen />, onClick: handleEdit }]}
+                menuButtons={[
+                  {
+                    title: "Редактировать",
+                    icon: <Pen />,
+                    onClick: handleEdit,
+                  },
+                ]}
               />
             </PageHeader>
             <InfosWrapper>
@@ -58,7 +69,15 @@ export const DiseaseProfilePage: FC<Props> = ({
             </InfosWrapper>
             <SegmentedWrapper>
               <Segmented
+                value={segment}
+                onChange={(value) =>
+                  navigate(`/disease/${disease.id}/${value}`)
+                }
                 options={[
+                  {
+                    label: "Паспорт",
+                    value: "common",
+                  },
                   {
                     label: "Маршрутная карта",
                     value: "therapy",

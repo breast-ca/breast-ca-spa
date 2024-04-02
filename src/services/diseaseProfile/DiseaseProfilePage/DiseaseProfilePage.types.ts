@@ -6,3 +6,9 @@ export type Props = {
   diseaseEnums: DiseaseTranslateDto;
   handleEdit: () => void;
 };
+
+export type DiseaseProfileSegment =
+  | "common"
+  | "therapy"
+  | "analisis"
+  | "consilium";

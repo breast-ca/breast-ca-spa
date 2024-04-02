@@ -39,7 +39,7 @@ export const DiseasesList: FC<Props> = ({
             <DiseaseItem
               key={disease.id}
               disease={disease}
-              onClick={() => navigate(`/disease/${disease.id}`)}
+              onClick={() => navigate(`/disease/${disease.id}/common`)}
             >
               <InfoPanel>
                 {infos.map((text) => (

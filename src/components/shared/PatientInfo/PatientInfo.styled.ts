@@ -1,4 +1,5 @@
 import { Pen } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -23,5 +24,14 @@ export const PenSC = styled(Pen)`
 
   &:hover {
     opacity: 1;
+  }
+`;
+
+export const LinkSC = styled(Link)`
+  color: black;
+  transition: 0.2s;
+
+  &:hover {
+    color: var(--primary);
   }
 `;

@@ -4,7 +4,7 @@ import { patinetProfileService } from ".";
 import { useUnit } from "effector-react";
 import { patientQuery } from "./patientProfileService.api";
 import { addPatientService } from "../patientsList/PatientsList/addPatient";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { PatientSegment } from "./PatientsProfile/PatientsProfile.types";
 
 const { PatinetGate } = patinetProfileService.gates;
@@ -16,10 +16,6 @@ export const PatientProfileContainer = () => {
   }>();
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!segment) navigate("common");
-  }, [navigate, segment]);
 
   const { patient, isLoading, handleEdit } = useUnit({
     patient: patientQuery.$data,

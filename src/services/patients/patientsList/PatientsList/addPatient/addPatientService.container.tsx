@@ -22,7 +22,7 @@ export const AddPatientContainer: FC<{ edit?: boolean }> = ({ edit }) => {
 
   useEffect(() => {
     return createPatientMutation.finished.success.watch(({ result }) => {
-      navigate(`/patients/${result.id}`);
+      navigate(`/patients/${result.id}/common`);
     }).unsubscribe;
   }, [navigate]);
 
