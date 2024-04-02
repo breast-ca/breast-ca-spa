@@ -34,78 +34,90 @@ export const CreateDiseaseModalContainer: FC<{
     patient: patientQuery.$data,
   });
 
-  const { values, setFieldValue, handleChange, errors, handleSubmit } =
-    useFormik({
-      initialValues: {
-        ICD: null as ICD | null,
-        number: null as number | null,
-        description: "",
-        tumorState: null as TumorState | null,
-        side: null as Side | null,
-        reconstruction: null as ReconstructionType | null,
-        progressions: [] as ProgressionType[],
-        relapses: [] as RelapseType[],
-        relapsePlace: null as RelapsePlace | null,
-      },
-      validationSchema,
-      validateOnChange: false,
-      onSubmit: (values): void => {
-        const { colour1, colour2 } = getRandomColors();
+  const {
+    values,
+    setFieldValue,
+    handleChange,
+    errors,
+    handleSubmit,
+    resetForm,
+  } = useFormik({
+    initialValues: {
+      ICD: null as ICD | null,
+      number: null as number | null,
+      description: "",
+      tumorState: null as TumorState | null,
+      side: null as Side | null,
+      reconstruction: null as ReconstructionType | null,
+      progressions: [] as ProgressionType[],
+      relapses: [] as RelapseType[],
+      relapsePlace: null as RelapsePlace | null,
+    },
+    validationSchema,
+    validateOnChange: false,
+    enableReinitialize: true,
+    onSubmit: (values): void => {
+      const { colour1, colour2 } = getRandomColors();
 
-        const data: CreateDiseaseDto = {
-          ICD: values.ICD!,
-          number: values.number!,
-          description: values.description,
-          tumorState: values.tumorState!,
-          side: values.side!,
-          colour1,
-          colour2,
-        };
+      const data: CreateDiseaseDto = {
+        ICD: values.ICD!,
+        number: values.number!,
+        description: values.description,
+        tumorState: values.tumorState!,
+        side: values.side!,
+        colour1,
+        colour2,
+      };
 
-        if (values.tumorState === TumorState.Relapse) {
-          if (!values.relapsePlace) {
-            message.error("Необходимо выбрать тип рецидива");
-            return;
-          }
-
-          if (
-            values.relapsePlace === RelapsePlace.Regional &&
-            !values.relapses.length
-          ) {
-            message.error("Необходимо выбрать место рецидива");
-            return;
-          }
-
-          data["relapsePlace"] = values.relapsePlace;
-          data["relapses"] = values.relapses;
-        }
-
-        if (values.tumorState === TumorState.Reconstruction) {
-          if (!values.reconstruction) {
-            message.error("Необходимо выбрать тип реконструкции");
-            return;
-          }
-
-          data["reconstruction"] = values.reconstruction;
-        }
-
-        if (values.tumorState === TumorState.Progression) {
-          if (!values.progressions.length) {
-            message.error("Необходимо выбрать место прогрессии");
-            return;
-          }
-
-          data["progressions"] = values.progressions;
-        }
-
-        if (!patient) {
-          message.error("Ошибка системы");
+      if (values.tumorState === TumorState.Relapse) {
+        if (!values.relapsePlace) {
+          message.error("Необходимо выбрать тип рецидива");
           return;
         }
 
-        handleCreateDisease({ ...data, patientId: patient.id });
-      },
-    });
+        if (
+          values.relapsePlace === RelapsePlace.Regional &&
+          !values.relapses.length
+        ) {
+          message.error("Необходимо выбрать место рецидива");
+          return;
+        }
+
+        data["relapsePlace"] = values.relapsePlace;
+        data["relapses"] = values.relapses;
+      }
+
+      if (values.tumorState === TumorState.Reconstruction) {
+        if (!values.reconstruction) {
+          message.error("Необходимо выбрать тип реконструкции");
+          return;
+        }
+
+        data["reconstruction"] = values.reconstruction;
+      }
+
+      if (values.tumorState === TumorState.Progression) {
+        if (!values.progressions.length) {
+          message.error("Необходимо выбрать место прогрессии");
+          return;
+        }
+
+        data["progressions"] = values.progressions;
+      }
+
+      if (!patient) {
+        message.error("Ошибка системы");
+        return;
+      }
+
+      handleCreateDisease({ ...data, patientId: patient.id });
+    },
+  });
+
+  useEffect(() => {
+    return createDiseaseMutation.finished.success.watch(() => resetForm())
+      .unsubscribe;
+  }, []);
 
   useEffect(() => {
     if (!values.ICD) return;

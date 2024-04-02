@@ -4,20 +4,40 @@ import {
   CreateDiseaseModalContainer,
   createDiseaseModalService,
 } from "./createDiseaseModal";
-import { diseaseEnumsTranslationsQuery } from "./diseasesListService.api";
+import {
+  diseaseEnumsTranslationsQuery,
+  diseasesListQuery,
+} from "./diseasesListService.api";
+import { useParams } from "react-router-dom";
+import { diseasesListService } from ".";
+
+const {
+  gates: { DiseasesGate },
+} = diseasesListService;
 
 export const DiseasesListContainer = () => {
-  const { handleCreateDisease, diseaseEnums } = useUnit({
-    handleCreateDisease: createDiseaseModalService.inputs.openModal,
-    diseaseEnums: diseaseEnumsTranslationsQuery.$data,
-  });
+  const { id } = useParams<{ id: string }>();
+
+  const { handleCreateDisease, diseaseEnums, isLoading, diseasesList } =
+    useUnit({
+      handleCreateDisease: createDiseaseModalService.inputs.openModal,
+      diseaseEnums: diseaseEnumsTranslationsQuery.$data,
+      diseasesList: diseasesListQuery.$data,
+      isLoading: diseasesListQuery.$pending,
+    });
+
+  if (!diseaseEnums) return null;
 
   return (
     <>
-      {diseaseEnums && (
-        <CreateDiseaseModalContainer diseaseEnums={diseaseEnums} />
-      )}
-      <DiseasesList handleCreateDisease={handleCreateDisease} />
+      {id && <DiseasesGate patientId={Number(id)} />}
+      <CreateDiseaseModalContainer diseaseEnums={diseaseEnums} />
+      <DiseasesList
+        handleCreateDisease={handleCreateDisease}
+        isLoading={isLoading}
+        diseasesList={diseasesList || []}
+        diseaseEnums={diseaseEnums}
+      />
     </>
   );
 };

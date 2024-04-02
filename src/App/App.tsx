@@ -25,16 +25,17 @@ dayjs.extend(weekYear);
 dayjs.locale(ru);
 
 export const App = () => {
-  const { isAuth, getDiseaseEnums } = useUnit({
+  const { isAuth, getDiseaseEnums, diseasesEnums } = useUnit({
     isAuth: authService.outputs.$isAuth,
     getDiseaseEnums: diseaseEnumsTranslationsQuery.start,
+    diseasesEnums: diseaseEnumsTranslationsQuery.$data,
   });
 
   useEffect(() => {
-    if (!isAuth) return;
+    if (!isAuth || diseasesEnums) return;
 
     getDiseaseEnums();
-  }, [isAuth, getDiseaseEnums]);
+  }, [isAuth, getDiseaseEnums, diseasesEnums]);
 
   return (
     <BrowserRouter>

@@ -1,11 +1,14 @@
 import { createGate } from "effector-react";
-import { createDiseaseMutation } from "./diseasesListService.api";
+import {
+  createDiseaseMutation,
+  diseasesListQuery,
+} from "./diseasesListService.api";
 import { message } from "antd";
 import { getAxiosError } from "@/utils/getAxiosError";
 import { sample } from "effector";
 import { createDiseaseModalService } from "./createDiseaseModal";
 
-const DiseasesGate = createGate();
+const DiseasesGate = createGate<{ patientId: number }>();
 
 createDiseaseMutation.finished.success.watch(() =>
   message.success("Паспорт создан!")
@@ -18,6 +21,13 @@ createDiseaseMutation.finished.failure.watch((e) =>
 sample({
   source: createDiseaseMutation.finished.success,
   target: createDiseaseModalService.inputs.closeModal,
+});
+
+sample({
+  clock: [DiseasesGate.open, createDiseaseMutation.finished.success],
+  source: DiseasesGate.state,
+  fn: ({ patientId }) => patientId,
+  target: diseasesListQuery.start,
 });
 
 export const diseasesListService = {
