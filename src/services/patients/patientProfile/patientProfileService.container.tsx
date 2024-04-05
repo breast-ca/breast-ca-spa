@@ -27,9 +27,7 @@ export const PatientProfileContainer = () => {
     (segment: PatientSegment) => {
       const path = `/patients/${id}/${segment}`;
 
-      console.log(path);
-
-      navigate(path);
+      navigate(path, { replace: true });
     },
     [id, navigate]
   );

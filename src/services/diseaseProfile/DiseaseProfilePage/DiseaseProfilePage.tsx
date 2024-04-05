@@ -58,10 +58,7 @@ export const DiseaseProfilePage: FC<Props> = ({
       <WithLoader isLoading={isLoading}>
         {disease && (
           <>
-            <PageHeader
-              goBack={`/patients/${disease.patient.id}/disease`}
-              title={diseaseTitle}
-            >
+            <PageHeader goBack title={diseaseTitle}>
               <ContextMenuButton
                 menuButtons={[
                   {
@@ -81,7 +78,7 @@ export const DiseaseProfilePage: FC<Props> = ({
               <Segmented
                 value={segment}
                 onChange={(value) =>
-                  navigate(`/disease/${disease.id}/${value}`)
+                  navigate(`/disease/${disease.id}/${value}`, { replace: true })
                 }
                 options={[
                   {

@@ -1,5 +1,5 @@
 import { LoginResponseDto } from "@/api/shared";
-import { createDomain, forward } from "effector";
+import { createDomain, sample } from "effector";
 import { persist } from "effector-storage/local";
 
 const domain = createDomain("authService");
@@ -31,9 +31,9 @@ persist({
   sync: true,
 });
 
-forward({
-  from: signOut,
-  to: tokenErased,
+sample({
+  clock: signOut,
+  target: tokenErased,
 });
 
 const $isAuth = $accessToken.map(Boolean);
