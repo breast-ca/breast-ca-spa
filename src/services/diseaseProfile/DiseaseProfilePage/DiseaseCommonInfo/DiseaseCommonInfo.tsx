@@ -58,6 +58,13 @@ export const DiseaseCommonInfo: FC<Props> = ({ disease, diseaseEnums }) => {
       });
     }
 
+    if (disease.reconstruction) {
+      infos.push({
+        key: "Тип реконструкции",
+        value: diseaseEnums.reconstructionTranslates[disease.reconstruction],
+      });
+    }
+
     return infos;
   }, [disease, diseaseEnums]);
 
