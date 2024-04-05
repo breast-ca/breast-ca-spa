@@ -42,7 +42,7 @@ const sizesOfButton: {
     height: 42,
     padding: 20,
     fontSize: 16,
-    borderRadius: 12,
+    borderRadius: 10,
   },
   small: {
     height: 32,

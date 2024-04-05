@@ -62,10 +62,10 @@ export const CreateUserModal: FC<Props> = ({
       title="Создать сотрудника"
       footer={
         <Footer>
-          <Button size="small" type="ghost" onClick={handleClose}>
+          <Button type="ghost" onClick={handleClose}>
             Отмена
           </Button>
-          <Button size="small" onClick={() => handleSubmit()}>
+          <Button onClick={() => handleSubmit()}>
             Сохранить
           </Button>
         </Footer>

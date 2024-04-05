@@ -375,12 +375,12 @@ export const AddPatientModal: FC<Props> = ({
       maskClosable={false}
       footer={
         <Footer>
-          <Button type="ghost" onClick={handleClose} size="small">
+          <Button size="middle" type="ghost" onClick={handleClose}>
             Отмена
           </Button>
           <Button
+            size="middle"
             type="primary"
-            size="small"
             onClick={
               segment === "address" ? handleSubmit : () => setSegment("address")
             }

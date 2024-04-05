@@ -19,10 +19,10 @@ export const Modal: FC<Props> = ({
       centered
       footer={
         <Footer>
-          <Button size="small" type="ghost" onClick={handleClose}>
+          <Button size="middle" type="ghost" onClick={handleClose}>
             Отмена
           </Button>
-          <Button size="small" onClick={handleSubmit}>
+          <Button size="middle" onClick={handleSubmit}>
             Сохранить
           </Button>
         </Footer>

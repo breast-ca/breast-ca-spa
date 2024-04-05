@@ -57,10 +57,10 @@ export const EditUserModal: FC<Props> = ({
       title="Изменить данные"
       footer={
         <Footer>
-          <Button size="small" type="ghost" onClick={handleClose}>
+          <Button type="ghost" onClick={handleClose}>
             Отмена
           </Button>
-          <Button size="small" onClick={() => handleSubmit()}>
+          <Button onClick={() => handleSubmit()}>
             Сохранить
           </Button>
         </Footer>
