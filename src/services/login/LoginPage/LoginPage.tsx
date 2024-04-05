@@ -34,6 +34,7 @@ export const LoginPage: FC<Props> = ({ handleLogin, isLoading }) => {
         <LoginPanel>
           <FormItem label="Логин">
             <Input
+              size="large"
               name="login"
               onChange={handleChange}
               value={values.login}
@@ -45,6 +46,7 @@ export const LoginPage: FC<Props> = ({ handleLogin, isLoading }) => {
           </FormItem>
           <FormItem label="Пароль">
             <Input
+              size="large"
               name="password"
               onChange={handleChange}
               value={values.password}

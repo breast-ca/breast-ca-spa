@@ -308,13 +308,34 @@ export interface EditDiseaseDto {
   number?: number;
   tumorState?: TumorState;
   side?: Side;
-  relapses?: RelapseType;
+  relapses?: RelapseType[];
   progressions?: ProgressionType[];
-  reconstruction?: ReconstructionType[];
+  reconstruction?: ReconstructionType;
   description?: string;
   relapsePlace?: RelapsePlace;
   colour1?: string;
   colour2?: string;
+}
+
+export enum AnalysisType {
+  Ultrasound = "Ultrasound",
+  Biopsy = "Biopsy",
+  XRay = "XRay",
+  ComputerTomography = "ComputerTomography",
+  Mammography = "Mammography",
+  BoneScan = "BoneScan",
+  MRI = "MRI",
+  PETCT = "PETCT",
+  CommonBloodAnalysis = "CommonBloodAnalysis",
+  CommonUrineAnalysis = "CommonUrineAnalysis",
+  BloodBiochemistry = "BloodBiochemistry",
+  Markers = "Markers",
+}
+
+export interface CreateAnalysisDto {
+  analysisType: AnalysisType;
+  /** @format date-time */
+  creationTime: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -983,6 +1004,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/file-storage/file/${path}`,
         method: "GET",
         secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags analysis
+     * @name AnalysisControllerCreateAnalysis
+     * @request POST:/api/analysis/{diseaseId}
+     * @secure
+     */
+    analysisControllerCreateAnalysis: (diseaseId: string, data: CreateAnalysisDto, params: RequestParams = {}) =>
+      this.request<CreateAnalysisDto, any>({
+        path: `/api/analysis/${diseaseId}`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };

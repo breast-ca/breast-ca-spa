@@ -136,6 +136,7 @@ export const CreateDiseaseModalContainer: FC<{
         <Grid temp="1fr 1fr">
           <FormItem label="Код МКБ">
             <Select
+              size="large"
               placeholder="Укажите код МКБ"
               value={values.ICD}
               onChange={(icd) => setFieldValue("ICD", icd)}
@@ -151,6 +152,7 @@ export const CreateDiseaseModalContainer: FC<{
           </FormItem>
           <FormItem label="Номер опухоли">
             <Input
+              size="large"
               value={values.number || ""}
               name="number"
               onChange={handleChange}
@@ -163,6 +165,7 @@ export const CreateDiseaseModalContainer: FC<{
         </Grid>
         <FormItem label="Описание диагноза">
           <TextArea
+            size="large"
             name="description"
             value={values.description}
             onChange={handleChange}
@@ -175,6 +178,7 @@ export const CreateDiseaseModalContainer: FC<{
         </FormItem>
         <FormItem label="Сторона поражения">
           <Select
+            size="large"
             placeholder="Выберите сторону"
             value={values.side}
             onChange={(side) => setFieldValue("side", side)}
@@ -190,6 +194,7 @@ export const CreateDiseaseModalContainer: FC<{
         </FormItem>
         <FormItem label="Тип состояния опухолевого процесса">
           <Select
+            size="large"
             placeholder="Выберите тип"
             value={values.tumorState}
             onChange={(tumorState) => setFieldValue("tumorState", tumorState)}
@@ -208,6 +213,7 @@ export const CreateDiseaseModalContainer: FC<{
         {values.tumorState === TumorState.Reconstruction && (
           <FormItem label="Тип реконструкции">
             <Select
+              size="large"
               value={values.reconstruction}
               placeholder="Выберите тип"
               onChange={(type) => setFieldValue("reconstruction", type)}
@@ -224,6 +230,7 @@ export const CreateDiseaseModalContainer: FC<{
           <>
             <FormItem label="Тип рецидива">
               <Select
+                size="large"
                 placeholder="Выберите тип"
                 value={values.relapsePlace}
                 onChange={(type) => setFieldValue("relapsePlace", type)}
@@ -238,6 +245,7 @@ export const CreateDiseaseModalContainer: FC<{
             {values.relapsePlace === RelapsePlace.Regional && (
               <FormItem label="Место рецидива">
                 <Select
+                  size="large"
                   placeholder="Выберите тип"
                   mode="multiple"
                   value={values.relapses}
@@ -256,6 +264,7 @@ export const CreateDiseaseModalContainer: FC<{
         {values.tumorState === TumorState.Progression && (
           <FormItem label="Место прогрессирования">
             <Select
+              size="large"
               mode="multiple"
               placeholder="Выберите"
               value={values.progressions}

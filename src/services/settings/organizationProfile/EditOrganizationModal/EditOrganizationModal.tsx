@@ -40,6 +40,7 @@ export const EditOrganizationModal: FC<Props> = ({
       <Wrapper>
         <FormItem label="Название">
           <Input
+            size="large"
             placeholder="Название организации"
             value={values.name}
             onChange={handleChange}

@@ -72,6 +72,7 @@ export const EditUserModal: FC<Props> = ({
         <Grid temp="1fr 1fr">
           <FormItem label="Логин">
             <Input
+              size="large"
               placeholder="Введите логин"
               value={values.login}
               name="login"
@@ -82,6 +83,7 @@ export const EditUserModal: FC<Props> = ({
           </FormItem>
           <FormItem label="Фамилия">
             <Input
+              size="large"
               placeholder="Введите фамилия"
               value={values.lastName}
               name="lastName"
@@ -92,6 +94,7 @@ export const EditUserModal: FC<Props> = ({
           </FormItem>
           <FormItem label="Имя">
             <Input
+              size="large"
               placeholder="Введите имя"
               value={values.firstName}
               name="firstName"
@@ -104,6 +107,7 @@ export const EditUserModal: FC<Props> = ({
           </FormItem>
           <FormItem label="Отчество">
             <Input
+              size="large"
               placeholder="Введите отчество"
               value={values.middleName}
               name="middleName"
@@ -118,6 +122,7 @@ export const EditUserModal: FC<Props> = ({
         {isAdmin && (
           <FormItem label="Роль">
             <Select
+              size="large"
               placeholder="Введите отчество"
               value={values.roles}
               onChange={(values) => setFieldValue("roles", values)}
@@ -139,6 +144,7 @@ export const EditUserModal: FC<Props> = ({
         <Grid temp="1fr 1fr">
           <FormItem label="Изменить пароль">
             <Input
+              size="large"
               placeholder="Введите пароль"
               value={values.passwordText}
               name="passwordText"
@@ -156,6 +162,7 @@ export const EditUserModal: FC<Props> = ({
           {values.passwordText && (
             <FormItem label="Подтвердите пароль">
               <Input
+                size="large"
                 placeholder="Введите пароль"
                 value={values.confirmPassword}
                 name="confirmPassword"

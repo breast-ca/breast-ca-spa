@@ -150,6 +150,7 @@ export const AddPatientModal: FC<Props> = ({
         <Grid temp="1fr 1fr 1fr">
           <FormItem label="Фамилия">
             <Input
+              size="large"
               value={values.surname}
               name="surname"
               onChange={handleChange}
@@ -160,6 +161,7 @@ export const AddPatientModal: FC<Props> = ({
           </FormItem>
           <FormItem label="Имя">
             <Input
+              size="large"
               value={values.name}
               name="name"
               onChange={handleChange}
@@ -170,6 +172,7 @@ export const AddPatientModal: FC<Props> = ({
           </FormItem>
           <FormItem label="Отчество">
             <Input
+              size="large"
               value={values.middleName}
               name="middleName"
               onChange={handleChange}
@@ -184,6 +187,7 @@ export const AddPatientModal: FC<Props> = ({
         <Grid temp={edit ? "1fr 1fr 1fr" : "1fr 1fr"}>
           <FormItem label="Дата рождения">
             <DatePicker
+              size="large"
               value={values.birthDate}
               onChange={(date) => setFieldValue("birthDate", date)}
               format="DD.MM.YYYY"
@@ -199,6 +203,7 @@ export const AddPatientModal: FC<Props> = ({
           </FormItem>
           <FormItem label="Номер телефона">
             <Input
+              size="large"
               placeholder="Введите номер"
               value={values.phoneNumber}
               name="phoneNumber"
@@ -212,6 +217,7 @@ export const AddPatientModal: FC<Props> = ({
           {edit && (
             <FormItem label="Статус">
               <Select
+                size="large"
                 value={values.status}
                 onChange={(status) => status && setFieldValue("status", status)}
               >
@@ -231,6 +237,7 @@ export const AddPatientModal: FC<Props> = ({
           <FormItem label="Паспорт">
             <Space.Compact style={{ width: "100%" }}>
               <Input
+                size="large"
                 placeholder="Серия"
                 value={values.passportSeries}
                 name="passportSeries"
@@ -239,6 +246,7 @@ export const AddPatientModal: FC<Props> = ({
                 status={errors.passportSeries ? "error" : void 0}
               />
               <Input
+                size="large"
                 placeholder="Номер"
                 value={values.passportNumber}
                 name="passportNumber"
@@ -250,6 +258,7 @@ export const AddPatientModal: FC<Props> = ({
           </FormItem>
           <FormItem label="СНИЛС">
             <Input
+              size="large"
               placeholder="Введите номер СНИЛС"
               type="number"
               value={values.individualInsurance}
@@ -265,6 +274,7 @@ export const AddPatientModal: FC<Props> = ({
         <Grid temp="1fr 1fr">
           <FormItem label="Номер cтрахового полиса">
             <Input
+              size="large"
               value={values.medicalInsurance}
               name="medicalInsurance"
               onChange={handleChange}
@@ -278,6 +288,7 @@ export const AddPatientModal: FC<Props> = ({
           </FormItem>
           <FormItem label="Страховая организация">
             <Input
+              size="large"
               value={values.insuranceOrganization}
               name="insuranceOrganization"
               onChange={handleChange}
