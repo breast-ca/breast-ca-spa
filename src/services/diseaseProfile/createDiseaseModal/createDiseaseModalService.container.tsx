@@ -21,7 +21,7 @@ import TextArea from "antd/es/input/TextArea";
 import { validationSchema } from "./createDiseaseModalService.constants";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { getRandomColors } from "./createDiseaseModalService.utils";
-import { patientQuery } from "../../../patientProfileService.api";
+import { patientQuery } from "../../patients/patientProfile/patientProfileService.api";
 import { createDiseaseMutation } from "./createDiseaseModalService.api";
 
 export const CreateDiseaseModalContainer: FC<{

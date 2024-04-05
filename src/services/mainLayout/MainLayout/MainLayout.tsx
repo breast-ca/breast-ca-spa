@@ -13,7 +13,7 @@ import { PatientInfo } from "@/components/shared/PatientInfo";
 import {
   AddPatientContainer,
   addPatientService,
-} from "@/services/patients/patientsList/PatientsList/addPatient";
+} from "@/services/patients/addPatient";
 import { useUnit } from "effector-react";
 
 export const MainLayout: FC<Props> = ({ handleSignOut, user, patientInfo }) => {

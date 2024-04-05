@@ -9,7 +9,7 @@ import { Props } from "./PatientsList.types";
 import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/Button";
 import { PlusCircleFill } from "react-bootstrap-icons";
-import { AddPatientContainer } from "./addPatient";
+import { AddPatientContainer } from "../../addPatient";
 import { Empty, Skeleton } from "antd";
 import dayjs from "dayjs";
 import { PatinetStatus } from "@/components/shared/PatinetStatus";

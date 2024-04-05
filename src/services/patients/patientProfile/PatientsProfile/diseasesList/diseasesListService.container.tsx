@@ -3,7 +3,7 @@ import { DiseasesList } from "./DiseasesList";
 import {
   CreateDiseaseModalContainer,
   createDiseaseModalService,
-} from "./createDiseaseModal";
+} from "../../../../diseaseProfile/createDiseaseModal";
 import {
   diseaseEnumsTranslationsQuery,
   diseasesListQuery,

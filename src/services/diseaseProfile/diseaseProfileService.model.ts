@@ -1,7 +1,7 @@
 import { sample } from "effector";
 import { createGate } from "effector-react";
 import { diseaseQuery } from "./diseaseProfileService.api";
-import { editPatientMutation } from "../patients/patientsList/PatientsList/addPatient/addPatientService.api";
+import { editPatientMutation } from "../patients/addPatient/addPatientService.api";
 import { editDiseaseMutation } from "./editDiseaseModal/editDiseaseModalService.api";
 
 const DiseaseGate = createGate<{ id: number }>();

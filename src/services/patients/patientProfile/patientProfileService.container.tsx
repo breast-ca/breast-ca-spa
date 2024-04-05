@@ -3,7 +3,7 @@ import { PatientsProfile } from "./PatientsProfile";
 import { patinetProfileService } from ".";
 import { useUnit } from "effector-react";
 import { patientQuery } from "./patientProfileService.api";
-import { addPatientService } from "../patientsList/PatientsList/addPatient";
+import { addPatientService } from "../addPatient";
 import { useCallback } from "react";
 import { PatientSegment } from "./PatientsProfile/PatientsProfile.types";
 

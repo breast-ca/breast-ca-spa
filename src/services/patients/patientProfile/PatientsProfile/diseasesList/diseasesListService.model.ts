@@ -3,8 +3,8 @@ import { diseasesListQuery } from "./diseasesListService.api";
 import { message } from "antd";
 import { getAxiosError } from "@/utils/getAxiosError";
 import { sample } from "effector";
-import { createDiseaseModalService } from "./createDiseaseModal";
-import { createDiseaseMutation } from "./createDiseaseModal/createDiseaseModalService.api";
+import { createDiseaseModalService } from "../../../../diseaseProfile/createDiseaseModal";
+import { createDiseaseMutation } from "../../../../diseaseProfile/createDiseaseModal/createDiseaseModalService.api";
 
 const DiseasesGate = createGate<{ patientId: number }>();
 

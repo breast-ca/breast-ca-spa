@@ -2,7 +2,7 @@ import { useUnit } from "effector-react";
 import { PatientsList } from "./PatientsList";
 import { parientsQuery } from "./patientsListService.api";
 import { patientsListService } from ".";
-import { addPatientService } from "./PatientsList/addPatient";
+import { addPatientService } from "../addPatient";
 
 const {
   gates: { PatientsGate },

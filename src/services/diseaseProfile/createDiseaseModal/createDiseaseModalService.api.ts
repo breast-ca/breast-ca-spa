@@ -1,7 +1,7 @@
 import { axios } from "@/api";
 import { createMutation } from "@farfetched/core";
 import { createEffect } from "effector";
-import { CreateDiseaseRequestPayload } from "../diseasesListService.types";
+import { CreateDiseaseRequestPayload } from "../../patients/patientProfile/PatientsProfile/diseasesList/diseasesListService.types";
 import { DiseaseResponseDto } from "@/api/shared";
 import { EffectorAxiosError } from "@/types";
 

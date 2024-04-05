@@ -8,7 +8,7 @@ import { Segmented } from "@/components/Segmented";
 import { PatientCommonInfo } from "./PatientCommonInfo";
 import { ContextMenuButton } from "@/components/ContextMenuButton";
 import { Pen } from "react-bootstrap-icons";
-import { AddPatientContainer } from "../../patientsList/PatientsList/addPatient";
+import { AddPatientContainer } from "../../addPatient";
 import { DiseasesListContainer } from "./diseasesList";
 
 export const PatientsProfile: FC<Props> = ({
