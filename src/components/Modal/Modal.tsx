@@ -10,6 +10,7 @@ export const Modal: FC<Props> = ({
   children,
   handleClose,
   handleSubmit,
+  disabled,
 }) => {
   return (
     <ModalAntd
@@ -22,7 +23,7 @@ export const Modal: FC<Props> = ({
           <Button size="middle" type="ghost" onClick={handleClose}>
             Отмена
           </Button>
-          <Button size="middle" onClick={handleSubmit}>
+          <Button size="middle" onClick={handleSubmit} disabled={disabled}>
             Сохранить
           </Button>
         </Footer>

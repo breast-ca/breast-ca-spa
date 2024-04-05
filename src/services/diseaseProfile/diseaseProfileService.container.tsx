@@ -8,6 +8,10 @@ import {
   EditDiseaseModalContainer,
   editDiseaseModalService,
 } from "./editDiseaseModal";
+import {
+  CreateAnalisisContainer,
+  createAnalisisService,
+} from "./createAnalisis";
 
 const {
   gates: { DiseaseGate },
@@ -16,24 +20,28 @@ const {
 export const DiseaseProfileContainer = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { disease, isLoading, diseaseEnums, handleEdit } = useUnit({
-    disease: diseaseQuery.$data,
-    isLoading: diseaseQuery.$pending,
-    diseaseEnums: diseaseEnumsTranslationsQuery.$data,
-    handleEdit: editDiseaseModalService.inputs.handleEdit,
-  });
+  const { disease, isLoading, diseaseEnums, handleEdit, handleCreateAnalisis } =
+    useUnit({
+      disease: diseaseQuery.$data,
+      isLoading: diseaseQuery.$pending,
+      diseaseEnums: diseaseEnumsTranslationsQuery.$data,
+      handleEdit: editDiseaseModalService.inputs.handleEdit,
+      handleCreateAnalisis: createAnalisisService.inputs.openModal,
+    });
 
   if (!diseaseEnums) return;
 
   return (
     <>
-      <EditDiseaseModalContainer />
       {id && <DiseaseGate id={Number(id)} />}
+      <EditDiseaseModalContainer />
+      <CreateAnalisisContainer />
       <DiseaseProfilePage
         disease={disease}
         isLoading={isLoading}
         diseaseEnums={diseaseEnums}
         handleEdit={() => disease && handleEdit(disease)}
+        handleCreateAnalisis={handleCreateAnalisis}
       />
     </>
   );

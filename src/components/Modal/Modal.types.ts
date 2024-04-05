@@ -6,4 +6,5 @@ export type Props = {
   children?: ReactNode;
   handleClose?: () => void;
   handleSubmit?: () => void;
+  disabled?: boolean;
 };

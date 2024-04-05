@@ -5,6 +5,7 @@ export type Props = {
   isLoading: boolean;
   diseaseEnums: DiseaseTranslateDto;
   handleEdit: () => void;
+  handleCreateAnalisis: () => void;
 };
 
 export type DiseaseProfileSegment =
