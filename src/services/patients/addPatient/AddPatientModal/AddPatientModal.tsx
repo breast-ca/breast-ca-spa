@@ -5,6 +5,7 @@ import {
   Grid,
   PatinetStatusCircle,
   PatinetStatusWrapper,
+  SementedWrapper,
   Wrapper,
 } from "./AddPatientModal.styled";
 import { Props } from "./AddPatientModal.types";
@@ -27,6 +28,7 @@ import { Status } from "@/api/shared";
 import { StatusTranslates } from "@/constants/enums";
 import { EditAddressForm } from "@/components/shared/EditAddressForm";
 import { compareAddresses } from "./AddPatientModal.utils";
+import { Segmented } from "@/components/Segmented";
 
 export const AddPatientModal: FC<Props> = ({
   isOpen,
@@ -37,6 +39,11 @@ export const AddPatientModal: FC<Props> = ({
   editPatient,
 }) => {
   const [isFactAddressSame, setFactAddressSame] = useState(true);
+  const [segment, setSegment] = useState<"info" | "address">("info");
+
+  useEffect(() => {
+    setSegment("info");
+  }, [isOpen, setSegment]);
 
   useEffect(() => {
     if (!payload) return;
@@ -92,40 +99,271 @@ export const AddPatientModal: FC<Props> = ({
     };
   }, [payload]);
 
-  const { values, handleChange, setFieldValue, errors, handleSubmit } =
-    useFormik({
-      initialValues,
-      validationSchema,
-      validateOnChange: false,
-      onSubmit: (values) => {
-        if (!values.birthDate) return;
+  const {
+    values,
+    handleChange,
+    setFieldValue,
+    errors,
+    handleSubmit,
+    resetForm,
+  } = useFormik({
+    initialValues,
+    validationSchema,
+    validateOnChange: false,
+    onSubmit: (values) => {
+      if (!values.birthDate) return;
 
-        const { passportNumber, passportSeries, birthDate, ...preparedValues } =
-          values;
+      const { passportNumber, passportSeries, birthDate, ...preparedValues } =
+        values;
 
-        const data = {
-          ...Object.entries(preparedValues).reduce(
-            (acc, [key, value]) => ({ ...acc, [key]: String(value) }),
-            {} as typeof preparedValues
-          ),
-          passport: `${passportSeries} ${passportNumber}`,
-          birthDate: birthDate.toISOString(),
-          jureAddress: values.jureAddress,
-          factAddress: isFactAddressSame
-            ? values.jureAddress
-            : values.factAddress,
-        };
+      const data = {
+        ...Object.entries(preparedValues).reduce(
+          (acc, [key, value]) => ({ ...acc, [key]: String(value) }),
+          {} as typeof preparedValues
+        ),
+        passport: `${passportSeries} ${passportNumber}`,
+        birthDate: birthDate.toISOString(),
+        jureAddress: values.jureAddress,
+        factAddress: isFactAddressSame
+          ? values.jureAddress
+          : values.factAddress,
+      };
 
-        if (edit && payload) {
-          editPatient({ ...data, id: payload?.id });
-        } else {
-          handleCreatePatinet(data);
+      if (edit && payload) {
+        editPatient({ ...data, id: payload?.id });
+      } else {
+        handleCreatePatinet(data);
+      }
+
+      return void 0;
+    },
+    enableReinitialize: true,
+  });
+
+  useEffect(() => {
+    if (isOpen) return;
+
+    resetForm();
+  }, [isOpen, resetForm]);
+
+  useEffect(() => {
+    const errorsList = Object.values(errors).filter(Boolean);
+
+    if (!errorsList.length) return;
+
+    setSegment("info");
+  }, [errors]);
+
+  const baseForm = (
+    <>
+      <Grid temp="1fr 1fr 1fr">
+        <FormItem label="Фамилия">
+          <Input
+            size="large"
+            value={values.surname}
+            name="surname"
+            onChange={handleChange}
+            placeholder="Введите фамилию"
+            status={errors.surname ? "error" : void 0}
+          />
+          {errors.surname && <ErrorMessage>{errors.surname}</ErrorMessage>}
+        </FormItem>
+        <FormItem label="Имя">
+          <Input
+            size="large"
+            value={values.name}
+            name="name"
+            onChange={handleChange}
+            placeholder="Введите имя"
+            status={errors.name ? "error" : void 0}
+          />
+          {errors.name && <ErrorMessage>{errors.name}</ErrorMessage>}
+        </FormItem>
+        <FormItem label="Отчество">
+          <Input
+            size="large"
+            value={values.middleName}
+            name="middleName"
+            onChange={handleChange}
+            placeholder="Введите отчество"
+            status={errors.middleName ? "error" : void 0}
+          />
+          {errors.middleName && (
+            <ErrorMessage>{errors.middleName}</ErrorMessage>
+          )}
+        </FormItem>
+      </Grid>
+      <Grid temp={edit ? "1fr 1fr 1fr" : "1fr 1fr"}>
+        <FormItem label="Дата рождения">
+          <DatePicker
+            size="large"
+            value={values.birthDate}
+            onChange={(date) => setFieldValue("birthDate", date)}
+            format="DD.MM.YYYY"
+            placeholder="Введите дату рождения"
+            disabledDate={(date) => date.isAfter(new Date())}
+            status={errors.birthDate ? "error" : void 0}
+          />
+          {errors.birthDate && (
+            <ErrorMessage>
+              {typeof errors.birthDate === "string" ? errors.birthDate : null}
+            </ErrorMessage>
+          )}
+        </FormItem>
+        <FormItem label="Номер телефона">
+          <Input
+            size="large"
+            placeholder="Введите номер"
+            value={values.phoneNumber}
+            name="phoneNumber"
+            onChange={handleChange}
+            status={errors.phoneNumber ? "error" : void 0}
+          />
+          {errors.phoneNumber && (
+            <ErrorMessage>{errors.phoneNumber}</ErrorMessage>
+          )}
+        </FormItem>
+        {edit && (
+          <FormItem label="Статус">
+            <Select
+              size="large"
+              value={values.status}
+              onChange={(status) => status && setFieldValue("status", status)}
+            >
+              {Object.values(Status).map((status) => (
+                <Select.Option key={status} value={status}>
+                  <PatinetStatusWrapper>
+                    <PatinetStatusCircle status={status} />
+                    {StatusTranslates[status]}
+                  </PatinetStatusWrapper>
+                </Select.Option>
+              ))}
+            </Select>
+          </FormItem>
+        )}
+      </Grid>
+      <Grid temp="1fr 1fr">
+        <FormItem label="Паспорт">
+          <Space.Compact style={{ width: "100%" }}>
+            <Input
+              size="large"
+              placeholder="Серия"
+              value={values.passportSeries}
+              name="passportSeries"
+              onChange={handleChange}
+              type="number"
+              status={errors.passportSeries ? "error" : void 0}
+            />
+            <Input
+              size="large"
+              placeholder="Номер"
+              value={values.passportNumber}
+              name="passportNumber"
+              onChange={handleChange}
+              type="number"
+              status={errors.passportNumber ? "error" : void 0}
+            />
+          </Space.Compact>
+        </FormItem>
+        <FormItem label="СНИЛС">
+          <Input
+            size="large"
+            placeholder="Введите номер СНИЛС"
+            type="number"
+            value={values.individualInsurance}
+            name="individualInsurance"
+            onChange={handleChange}
+            status={errors.individualInsurance ? "error" : void 0}
+          />
+          {errors.individualInsurance && (
+            <ErrorMessage>{errors.individualInsurance}</ErrorMessage>
+          )}
+        </FormItem>
+      </Grid>
+      <Grid temp="1fr 1fr">
+        <FormItem label="Номер cтрахового полиса">
+          <Input
+            size="large"
+            value={values.medicalInsurance}
+            name="medicalInsurance"
+            onChange={handleChange}
+            placeholder="Введите номер полиса"
+            type="number"
+            status={errors.medicalInsurance ? "error" : void 0}
+          />
+          {errors.medicalInsurance && (
+            <ErrorMessage>{errors.medicalInsurance}</ErrorMessage>
+          )}
+        </FormItem>
+        <FormItem label="Страховая организация">
+          <Input
+            size="large"
+            value={values.insuranceOrganization}
+            name="insuranceOrganization"
+            onChange={handleChange}
+            placeholder="Введите название"
+            status={errors.insuranceOrganization ? "error" : void 0}
+          />
+          {errors.insuranceOrganization && (
+            <ErrorMessage>{errors.insuranceOrganization}</ErrorMessage>
+          )}
+        </FormItem>
+      </Grid>
+    </>
+  );
+
+  const addressesForm = (
+    <>
+      <Divider
+        orientation="left"
+        style={{
+          marginBottom: 0,
+          paddingBottom: 0,
+          width: "calc(100% + 48px)",
+          transform: "translateX(-24px)",
+        }}
+      >
+        Адрес регистрации
+      </Divider>
+      <EditAddressForm
+        temp="1fr 1fr 1fr"
+        address={values.jureAddress}
+        showApartment
+        onChange={(field, value) =>
+          setFieldValue(`jureAddress.${field}`, value)
         }
-
-        return void 0;
-      },
-      enableReinitialize: true,
-    });
+      />
+      <Divider
+        orientation="left"
+        style={{
+          marginBottom: 0,
+          paddingBottom: 0,
+          width: "calc(100% + 48px)",
+          transform: "translateX(-24px)",
+        }}
+      >
+        <FactAddressTitle>
+          Адрес проживания{" "}
+          <Checkbox
+            checked={isFactAddressSame}
+            onChange={(e) => setFactAddressSame(e.target.checked)}
+          >
+            Совпадает с регистрацией
+          </Checkbox>
+        </FactAddressTitle>
+      </Divider>
+      {!isFactAddressSame && (
+        <EditAddressForm
+          temp="1fr 1fr 1fr"
+          address={values.factAddress}
+          showApartment
+          onChange={(field, value) =>
+            setFieldValue(`factAddress.${field}`, value)
+          }
+        />
+      )}
+    </>
+  );
 
   return (
     <Modal
@@ -140,214 +378,33 @@ export const AddPatientModal: FC<Props> = ({
           <Button type="ghost" onClick={handleClose} size="small">
             Отмена
           </Button>
-          <Button type="primary" size="small" onClick={handleSubmit}>
-            Сохранить
+          <Button
+            type="primary"
+            size="small"
+            onClick={
+              segment === "address" ? handleSubmit : () => setSegment("address")
+            }
+          >
+            {segment === "address" ? "Сохранить" : "Далее"}
           </Button>
         </Footer>
       }
     >
       <Wrapper>
-        <Grid temp="1fr 1fr 1fr">
-          <FormItem label="Фамилия">
-            <Input
-              size="large"
-              value={values.surname}
-              name="surname"
-              onChange={handleChange}
-              placeholder="Введите фамилию"
-              status={errors.surname ? "error" : void 0}
-            />
-            {errors.surname && <ErrorMessage>{errors.surname}</ErrorMessage>}
-          </FormItem>
-          <FormItem label="Имя">
-            <Input
-              size="large"
-              value={values.name}
-              name="name"
-              onChange={handleChange}
-              placeholder="Введите имя"
-              status={errors.name ? "error" : void 0}
-            />
-            {errors.name && <ErrorMessage>{errors.name}</ErrorMessage>}
-          </FormItem>
-          <FormItem label="Отчество">
-            <Input
-              size="large"
-              value={values.middleName}
-              name="middleName"
-              onChange={handleChange}
-              placeholder="Введите отчество"
-              status={errors.middleName ? "error" : void 0}
-            />
-            {errors.middleName && (
-              <ErrorMessage>{errors.middleName}</ErrorMessage>
-            )}
-          </FormItem>
-        </Grid>
-        <Grid temp={edit ? "1fr 1fr 1fr" : "1fr 1fr"}>
-          <FormItem label="Дата рождения">
-            <DatePicker
-              size="large"
-              value={values.birthDate}
-              onChange={(date) => setFieldValue("birthDate", date)}
-              format="DD.MM.YYYY"
-              placeholder="Введите дату рождения"
-              disabledDate={(date) => date.isAfter(new Date())}
-              status={errors.birthDate ? "error" : void 0}
-            />
-            {errors.birthDate && (
-              <ErrorMessage>
-                {typeof errors.birthDate === "string" ? errors.birthDate : null}
-              </ErrorMessage>
-            )}
-          </FormItem>
-          <FormItem label="Номер телефона">
-            <Input
-              size="large"
-              placeholder="Введите номер"
-              value={values.phoneNumber}
-              name="phoneNumber"
-              onChange={handleChange}
-              status={errors.phoneNumber ? "error" : void 0}
-            />
-            {errors.phoneNumber && (
-              <ErrorMessage>{errors.phoneNumber}</ErrorMessage>
-            )}
-          </FormItem>
-          {edit && (
-            <FormItem label="Статус">
-              <Select
-                size="large"
-                value={values.status}
-                onChange={(status) => status && setFieldValue("status", status)}
-              >
-                {Object.values(Status).map((status) => (
-                  <Select.Option key={status} value={status}>
-                    <PatinetStatusWrapper>
-                      <PatinetStatusCircle status={status} />
-                      {StatusTranslates[status]}
-                    </PatinetStatusWrapper>
-                  </Select.Option>
-                ))}
-              </Select>
-            </FormItem>
-          )}
-        </Grid>
-        <Grid temp="1fr 1fr">
-          <FormItem label="Паспорт">
-            <Space.Compact style={{ width: "100%" }}>
-              <Input
-                size="large"
-                placeholder="Серия"
-                value={values.passportSeries}
-                name="passportSeries"
-                onChange={handleChange}
-                type="number"
-                status={errors.passportSeries ? "error" : void 0}
-              />
-              <Input
-                size="large"
-                placeholder="Номер"
-                value={values.passportNumber}
-                name="passportNumber"
-                onChange={handleChange}
-                type="number"
-                status={errors.passportNumber ? "error" : void 0}
-              />
-            </Space.Compact>
-          </FormItem>
-          <FormItem label="СНИЛС">
-            <Input
-              size="large"
-              placeholder="Введите номер СНИЛС"
-              type="number"
-              value={values.individualInsurance}
-              name="individualInsurance"
-              onChange={handleChange}
-              status={errors.individualInsurance ? "error" : void 0}
-            />
-            {errors.individualInsurance && (
-              <ErrorMessage>{errors.individualInsurance}</ErrorMessage>
-            )}
-          </FormItem>
-        </Grid>
-        <Grid temp="1fr 1fr">
-          <FormItem label="Номер cтрахового полиса">
-            <Input
-              size="large"
-              value={values.medicalInsurance}
-              name="medicalInsurance"
-              onChange={handleChange}
-              placeholder="Введите номер полиса"
-              type="number"
-              status={errors.medicalInsurance ? "error" : void 0}
-            />
-            {errors.medicalInsurance && (
-              <ErrorMessage>{errors.medicalInsurance}</ErrorMessage>
-            )}
-          </FormItem>
-          <FormItem label="Страховая организация">
-            <Input
-              size="large"
-              value={values.insuranceOrganization}
-              name="insuranceOrganization"
-              onChange={handleChange}
-              placeholder="Введите название"
-              status={errors.insuranceOrganization ? "error" : void 0}
-            />
-            {errors.insuranceOrganization && (
-              <ErrorMessage>{errors.insuranceOrganization}</ErrorMessage>
-            )}
-          </FormItem>
-        </Grid>
-        <Divider
-          orientation="left"
-          style={{
-            marginBottom: 0,
-            paddingBottom: 0,
-            width: "calc(100% + 48px)",
-            transform: "translateX(-24px)",
-          }}
-        >
-          Адрес регистрации
-        </Divider>
-        <EditAddressForm
-          temp="1fr 1fr 1fr"
-          address={values.jureAddress}
-          showApartment
-          onChange={(field, value) =>
-            setFieldValue(`jureAddress.${field}`, value)
-          }
-        />
-        <Divider
-          orientation="left"
-          style={{
-            marginBottom: 0,
-            paddingBottom: 0,
-            width: "calc(100% + 48px)",
-            transform: "translateX(-24px)",
-          }}
-        >
-          <FactAddressTitle>
-            Адрес проживания{" "}
-            <Checkbox
-              checked={isFactAddressSame}
-              onChange={(e) => setFactAddressSame(e.target.checked)}
-            >
-              Совпадает с регистрацией
-            </Checkbox>
-          </FactAddressTitle>
-        </Divider>
-        {!isFactAddressSame && (
-          <EditAddressForm
-            temp="1fr 1fr 1fr"
-            address={values.factAddress}
-            showApartment
-            onChange={(field, value) =>
-              setFieldValue(`factAddress.${field}`, value)
-            }
+        <SementedWrapper>
+          <Segmented
+            width={"100% important"}
+            value={segment}
+            onChange={(value) => setSegment(value as "info" | "address")}
+            options={[
+              { label: "Информация", value: "info" },
+              { label: "Адрес", value: "address" },
+            ]}
+            block
           />
-        )}
+        </SementedWrapper>
+        {segment === "info" && baseForm}
+        {segment === "address" && addressesForm}
       </Wrapper>
     </Modal>
   );

@@ -41,3 +41,8 @@ export const FactAddressTitle = styled.div`
   align-items: center;
   gap: 16px;
 `;
+
+export const SementedWrapper = styled.div`
+  margin-top: 8px;
+  width: 100%;
+`;
