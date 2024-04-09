@@ -39,7 +39,6 @@ export const LoginPage: FC<Props> = ({ handleLogin, isLoading }) => {
               onChange={handleChange}
               value={values.login}
               placeholder="Введите ваш логин"
-              size="large"
               status={errors.login ? "error" : void 0}
             />
             {errors.login && <ErrorMessage>{errors.login}</ErrorMessage>}
@@ -51,7 +50,6 @@ export const LoginPage: FC<Props> = ({ handleLogin, isLoading }) => {
               onChange={handleChange}
               value={values.password}
               placeholder="Введите ваш пароль"
-              size="large"
               type={showPassword ? "text" : "password"}
               status={errors.password ? "error" : void 0}
               suffix={
