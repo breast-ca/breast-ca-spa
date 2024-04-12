@@ -6,3 +6,8 @@ export type EffectorAxiosError = {
     };
   };
 };
+
+export enum OrderByRule {
+  Ascending = "Ascending",
+  Descending = "Descending",
+}

@@ -1,9 +1,7 @@
 import { FC } from "react";
 import {
   ListContent,
-  ListWrapper,
   PatientBirthDate,
-  PatientItem,
   PatientName,
   Wrapper,
 } from "./PatientsList.styled";
@@ -12,11 +10,12 @@ import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/Button";
 import { PlusCircleFill } from "react-bootstrap-icons";
 import { AddPatientContainer } from "../../addPatient";
-import { Empty, Pagination, Skeleton } from "antd";
+import { Pagination } from "antd";
 import dayjs from "dayjs";
 import { PatinetStatus } from "@/components/shared/PatinetStatus";
 import { StatusTranslates } from "@/constants/enums";
 import { SearchForm } from "./SearchForm";
+import { Table } from "@/components/Table";
 
 export const PatientsList: FC<Props> = ({
   handleAddPatient,
@@ -36,32 +35,42 @@ export const PatientsList: FC<Props> = ({
           Создать пациента
         </Button>
       </PageHeader>
-      {isLoading && <Skeleton active />}
-      {!isLoading && !patients.length && (
-        <Empty
-          image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description="Пока нет пациентов"
-        />
-      )}
       <ListContent>
         <SearchForm />
         {Boolean(patients.length) && (
-          <ListWrapper>
-            {patients.map((item) => (
-              <PatientItem key={item.id} to={`/patients/${item.id}/common`}>
-                <PatientName>
-                  {item.surname} {item.name} {item.middleName}
-                </PatientName>
-                <PatinetStatus
-                  status={item.status}
-                  statusText={StatusTranslates[item.status]}
-                />
-                <PatientBirthDate>
-                  {dayjs(item.birthDate).format("DD.MM.YYYY")}
-                </PatientBirthDate>
-              </PatientItem>
-            ))}
-          </ListWrapper>
+          <Table
+            columns={[
+              {
+                label: "ФИО",
+                render: (item) => (
+                  <PatientName>
+                    {item.surname} {item.name} {item.middleName}
+                  </PatientName>
+                ),
+                size: "2fr",
+              },
+              {
+                label: "Статус",
+                render: (item) => (
+                  <PatinetStatus
+                    status={item.status}
+                    statusText={StatusTranslates[item.status]}
+                  />
+                ),
+                size: "1fr",
+              },
+              {
+                label: "Дата рождения",
+                render: (item) => (
+                  <PatientBirthDate>
+                    {dayjs(item.birthDate).format("DD.MM.YYYY")}
+                  </PatientBirthDate>
+                ),
+                size: "1fr",
+              },
+            ]}
+            elements={patients}
+          />
         )}
         <Pagination
           disabled={isLoading}
