@@ -39,6 +39,7 @@ export const PatientsList: FC<Props> = ({
         <SearchForm />
         {Boolean(patients.length) && (
           <Table
+            link={(elem) => `/patients/${elem.id}/common`}
             columns={[
               {
                 label: "ФИО",
@@ -48,6 +49,11 @@ export const PatientsList: FC<Props> = ({
                   </PatientName>
                 ),
                 size: "2fr",
+              },
+              {
+                label: "СНИЛС",
+                render: (item) => <div>{item.individualInsurance}</div>,
+                size: "1fr",
               },
               {
                 label: "Статус",

@@ -31,15 +31,17 @@ export const Header = styled.div<{
   css?: string;
 }>`
   width: 100%;
-  background: #f3f5f6;
   min-height: 50px;
   display: grid;
   grid-gap: 16px;
   grid-template-columns: ${({ temp }) => temp};
-  color: rgba(39, 47, 90, 0.9);
   font-weight: 400;
   font-size: 12px;
   align-items: center;
+
+  background: #ffeeee;
+  border-radius: 8px;
+
   ${({ css }) => css || ""}
 `;
 
