@@ -30,6 +30,15 @@ import { EditAddressForm } from "@/components/shared/EditAddressForm";
 import { compareAddresses } from "./AddPatientModal.utils";
 import { Segmented } from "@/components/Segmented";
 
+export const StatusItem: FC<{ status: Status }> = ({ status }) => {
+  return (
+    <PatinetStatusWrapper>
+      <PatinetStatusCircle status={status} />
+      {StatusTranslates[status]}
+    </PatinetStatusWrapper>
+  );
+};
+
 export const AddPatientModal: FC<Props> = ({
   isOpen,
   handleClose,
@@ -232,10 +241,7 @@ export const AddPatientModal: FC<Props> = ({
             >
               {Object.values(Status).map((status) => (
                 <Select.Option key={status} value={status}>
-                  <PatinetStatusWrapper>
-                    <PatinetStatusCircle status={status} />
-                    {StatusTranslates[status]}
-                  </PatinetStatusWrapper>
+                  <StatusItem status={status} />
                 </Select.Option>
               ))}
             </Select>
@@ -266,13 +272,12 @@ export const AddPatientModal: FC<Props> = ({
           </Space.Compact>
         </FormItem>
         <FormItem label="СНИЛС">
-          <Input
+          <Input.OTP
+            length={11}
+            variant="filled"
             size="large"
-            placeholder="Введите номер СНИЛС"
-            type="number"
             value={values.individualInsurance}
-            name="individualInsurance"
-            onChange={handleChange}
+            onChange={(value) => setFieldValue("individualInsurance", value)}
             status={errors.individualInsurance ? "error" : void 0}
           />
           {errors.individualInsurance && (
