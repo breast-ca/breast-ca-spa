@@ -10,7 +10,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/Button";
 import { PlusCircleFill } from "react-bootstrap-icons";
 import { AddPatientContainer } from "../../addPatient";
-import { Empty, Skeleton } from "antd";
+import { Empty, Pagination, Skeleton } from "antd";
 import dayjs from "dayjs";
 import { PatinetStatus } from "@/components/shared/PatinetStatus";
 import { StatusTranslates } from "@/constants/enums";
@@ -19,7 +19,12 @@ export const PatientsList: FC<Props> = ({
   handleAddPatient,
   patientsList,
   isLoading,
+  pageNumber,
+  pageSize,
+  setPageNumber,
 }) => {
+  const patients = patientsList?.items || [];
+
   return (
     <Wrapper>
       <AddPatientContainer />
@@ -29,15 +34,15 @@ export const PatientsList: FC<Props> = ({
         </Button>
       </PageHeader>
       {isLoading && <Skeleton active />}
-      {!isLoading && !patientsList?.length && (
+      {!isLoading && !patients.length && (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           description="Пока нет пациентов"
         />
       )}
-      {Boolean(patientsList?.length) && (
+      {Boolean(patients.length) && (
         <ListWrapper>
-          {patientsList?.map((item) => (
+          {patients.map((item) => (
             <PatientItem key={item.id} to={`/patients/${item.id}/common`}>
               <PatientName>
                 {item.surname} {item.name} {item.middleName}
@@ -49,6 +54,12 @@ export const PatientsList: FC<Props> = ({
               <div>{dayjs(item.birthDate).format("DD.MM.YYYY")}</div>
             </PatientItem>
           ))}
+          <Pagination
+            total={patientsList?.total}
+            pageSize={pageSize}
+            current={pageNumber}
+            onChange={(page) => setPageNumber(page)}
+          />
         </ListWrapper>
       )}
     </Wrapper>

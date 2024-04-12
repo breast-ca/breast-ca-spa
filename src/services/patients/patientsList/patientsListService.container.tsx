@@ -5,14 +5,26 @@ import { patientsListService } from ".";
 import { addPatientService } from "../addPatient";
 
 const {
+  inputs,
+  outputs,
   gates: { PatientsGate },
 } = patientsListService;
 
 export const PatientsListContainer = () => {
-  const { handleAddPatient, patientsList, isLoading } = useUnit({
+  const {
+    handleAddPatient,
+    patientsList,
+    isLoading,
+    setPageNumber,
+    pageNumber,
+    pageSize,
+  } = useUnit({
     handleAddPatient: addPatientService.inputs.handleOpenModal,
     patientsList: parientsQuery.$data,
     isLoading: parientsQuery.$pending,
+    pageNumber: outputs.$pageNumber,
+    pageSize: outputs.$pageSize,
+    setPageNumber: inputs.setPageNumber,
   });
 
   return (
@@ -20,8 +32,11 @@ export const PatientsListContainer = () => {
       <PatientsGate />
       <PatientsList
         handleAddPatient={handleAddPatient}
-        patientsList={patientsList?.items || []}
+        patientsList={patientsList}
         isLoading={isLoading}
+        pageSize={pageSize}
+        pageNumber={pageNumber}
+        setPageNumber={setPageNumber}
       />
     </>
   );

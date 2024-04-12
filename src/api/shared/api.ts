@@ -827,8 +827,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     patientControllerGetPatientByOrganization: (
       query: {
-        pageSize: string;
-        pageNumber: string;
+        pageSize: number;
+        pageNumber: number;
       },
       params: RequestParams = {},
     ) =>
@@ -1015,18 +1015,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/api/analysis/{diseaseId}
      * @secure
      */
-    analysisControllerCreateAnalysis: (
-      diseaseId: string,
-      query: {
-        patientId: string;
-      },
-      data: CreateAnalysisDto,
-      params: RequestParams = {},
-    ) =>
+    analysisControllerCreateAnalysis: (diseaseId: string, data: CreateAnalysisDto, params: RequestParams = {}) =>
       this.request<CreateAnalysisDto, any>({
         path: `/api/analysis/${diseaseId}`,
         method: "POST",
-        query: query,
         body: data,
         secure: true,
         type: ContentType.Json,
