@@ -4,7 +4,6 @@ export const Wrapper = styled.div``;
 
 export const ListContent = styled.div`
   margin-top: 24px;
-  max-width: 1080px;
   display: flex;
   flex-direction: column;
   gap: 24px;

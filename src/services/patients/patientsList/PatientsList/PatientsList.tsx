@@ -37,7 +37,7 @@ export const PatientsList: FC<Props> = ({
       </PageHeader>
       <ListContent>
         <SearchForm />
-        {Boolean(patients.length) && (
+        {Boolean(patients) && (
           <Table
             isLoading={isLoading}
             link={(elem) => `/patients/${elem.id}/common`}
@@ -79,13 +79,15 @@ export const PatientsList: FC<Props> = ({
             elements={patients}
           />
         )}
-        <Pagination
-          disabled={isLoading}
-          total={patientsList?.total}
-          pageSize={pageSize}
-          current={pageNumber}
-          onChange={(page) => setPageNumber(page)}
-        />
+        {Boolean(patients.length) && (
+          <Pagination
+            disabled={isLoading}
+            total={patientsList?.total}
+            pageSize={pageSize}
+            current={pageNumber}
+            onChange={(page) => setPageNumber(page)}
+          />
+        )}
       </ListContent>
     </Wrapper>
   );

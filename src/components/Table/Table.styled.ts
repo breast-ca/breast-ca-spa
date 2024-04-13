@@ -10,7 +10,6 @@ const stickyWrapperCss = css`
 `;
 
 export const Wrapper = styled.div<{ floating: boolean; isSticky?: boolean }>`
-  max-width: 1200px;
   width: 100%;
   overflow-x: auto;
   ${({ isSticky }) => (isSticky ? stickyWrapperCss : "")}

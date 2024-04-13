@@ -826,12 +826,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     patientControllerGetPatientByOrganization: (
-      query: {
-        pageSize: number;
-        pageNumber: number;
-        firstName: string;
-        lastName: string;
-        middleName: string;
+      query?: {
+        pageSize?: number;
+        pageNumber?: number;
+        firstName?: string;
+        lastName?: string;
+        middleName?: string;
+        status?: "Treatment" | "DispanseryObservation" | "DispanseryRegistration" | "Dead";
       },
       params: RequestParams = {},
     ) =>
