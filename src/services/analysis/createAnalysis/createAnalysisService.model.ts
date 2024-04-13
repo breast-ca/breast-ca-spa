@@ -7,7 +7,7 @@ const $isModalOpen = createStore(false)
   .on(openModal, () => true)
   .reset(closeModal);
 
-export const createAnalisisService = {
+export const createAnalysisService = {
   inputs: { openModal, closeModal },
   outputs: { $isModalOpen },
 };

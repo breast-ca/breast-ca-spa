@@ -26,7 +26,7 @@ export const DiseaseProfilePage: FC<Props> = ({
   disease,
   diseaseEnums,
   handleEdit,
-  handleCreateAnalisis,
+  handleCreateAnalysis,
 }) => {
   const { segment } = useParams<{ segment?: DiseaseProfileSegment }>();
 
@@ -92,7 +92,7 @@ export const DiseaseProfilePage: FC<Props> = ({
                   },
                   {
                     label: "Анализы",
-                    value: "analisis",
+                    value: "Analysis",
                   },
                   {
                     label: "Консилиумы",
@@ -100,7 +100,7 @@ export const DiseaseProfilePage: FC<Props> = ({
                   },
                 ]}
               />
-              <Button icon={<PlusCircleFill />} onClick={handleCreateAnalisis}>
+              <Button icon={<PlusCircleFill />} onClick={handleCreateAnalysis}>
                 Новый анализ
               </Button>
             </SegmentedWrapper>

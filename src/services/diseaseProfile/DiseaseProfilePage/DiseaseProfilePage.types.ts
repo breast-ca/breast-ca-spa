@@ -5,11 +5,7 @@ export type Props = {
   isLoading: boolean;
   diseaseEnums: DiseaseTranslateDto;
   handleEdit: () => void;
-  handleCreateAnalisis: () => void;
+  handleCreateAnalysis: () => void;
 };
 
-export type DiseaseProfileSegment =
-  | "common"
-  | "therapy"
-  | "analisis"
-  | "consilium";
+export type DiseaseProfileSegment = "common" | "therapy" | "Analysis" | "consilium";

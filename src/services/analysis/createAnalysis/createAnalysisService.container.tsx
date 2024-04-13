@@ -4,13 +4,13 @@ import { useUnit } from "effector-react";
 import { Modal } from "@/components/Modal";
 import { FormItem } from "@/components/FormItem";
 import { AnalysisType } from "@/api/shared";
-import { createAnalisisService } from ".";
-import { CreateAnalisisContainerProps } from "./createAnalisisService.types";
+import { createAnalysisService } from ".";
+import { CreateAnalysisContainerProps } from "./createAnalysisService.types";
 
-const { inputs, outputs } = createAnalisisService;
+const { inputs, outputs } = createAnalysisService;
 
-export const CreateAnalisisContainer: FC<CreateAnalisisContainerProps> = ({
-  analisisTranslates,
+export const CreateAnalysisContainer: FC<CreateAnalysisContainerProps> = ({
+  AnalysisTranslates,
 }) => {
   const [type, setType] = useState<AnalysisType | null>(null);
 
@@ -43,7 +43,7 @@ export const CreateAnalisisContainer: FC<CreateAnalisisContainerProps> = ({
               value={type}
               disabled={type !== AnalysisType.Ultrasound}
             >
-              {analisisTranslates.analisis[type]}
+              {AnalysisTranslates.analysis[type]}
             </Select.Option>
           ))}
         </Select>

@@ -317,8 +317,8 @@ export interface EditDiseaseDto {
   colour2?: string;
 }
 
-export interface AnalisisTranslatesDto {
-  analisis: Record<string, string>;
+export interface AnalysisTranslatesDto {
+  analysis: Record<string, string>;
 }
 
 export enum AnalysisType {
@@ -1025,7 +1025,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     analysisControllerGetTranslates: (params: RequestParams = {}) =>
-      this.request<any, AnalisisTranslatesDto>({
+      this.request<any, AnalysisTranslatesDto>({
         path: `/api/analysis/translates`,
         method: "GET",
         secure: true,

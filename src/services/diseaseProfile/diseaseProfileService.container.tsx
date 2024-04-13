@@ -9,18 +9,18 @@ import {
   editDiseaseModalService,
 } from "./editDiseaseModal";
 import {
-  CreateAnalisisContainer,
-  createAnalisisService,
-} from "../analisis/createAnalisis";
-import { analisisService } from "../analisis";
+  CreateAnalysisContainer,
+  createAnalysisService,
+} from "../analysis/createAnalysis";
+import { AnalysisService } from "../analysis";
 
 const {
   gates: { DiseaseGate },
 } = diseaseProfileService;
 
 const {
-  gates: { AnalisisTranslatesGate },
-} = analisisService;
+  gates: { AnalysisTranslatesGate },
+} = AnalysisService;
 
 export const DiseaseProfileContainer = () => {
   const { id } = useParams<{ id: string }>();
@@ -30,15 +30,15 @@ export const DiseaseProfileContainer = () => {
     isLoading,
     diseaseEnums,
     handleEdit,
-    handleCreateAnalisis,
-    analisisTranslates,
+    handleCreateAnalysis,
+    AnalysisTranslates,
   } = useUnit({
     disease: diseaseQuery.$data,
     isLoading: diseaseQuery.$pending,
     diseaseEnums: diseaseEnumsTranslationsQuery.$data,
     handleEdit: editDiseaseModalService.inputs.handleEdit,
-    handleCreateAnalisis: createAnalisisService.inputs.openModal,
-    analisisTranslates: analisisService.outputs.$translates,
+    handleCreateAnalysis: createAnalysisService.inputs.openModal,
+    AnalysisTranslates: AnalysisService.outputs.$translates,
   });
 
   if (!diseaseEnums) return null;
@@ -47,16 +47,16 @@ export const DiseaseProfileContainer = () => {
     <>
       {id && <DiseaseGate id={Number(id)} />}
       <EditDiseaseModalContainer />
-      {analisisTranslates && (
-        <CreateAnalisisContainer analisisTranslates={analisisTranslates} />
+      {AnalysisTranslates && (
+        <CreateAnalysisContainer AnalysisTranslates={AnalysisTranslates} />
       )}
-      <AnalisisTranslatesGate />
+      <AnalysisTranslatesGate />
       <DiseaseProfilePage
         disease={disease}
         isLoading={isLoading}
         diseaseEnums={diseaseEnums}
         handleEdit={() => disease && handleEdit(disease)}
-        handleCreateAnalisis={handleCreateAnalisis}
+        handleCreateAnalysis={handleCreateAnalysis}
       />
     </>
   );

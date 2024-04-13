@@ -1,3 +1,0 @@
-export const AnalisisContainer = () => {
-  return <></>;
-};

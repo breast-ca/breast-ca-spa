@@ -1,7 +1,7 @@
-import { EOrderByRule } from 'api/types';
+import { OrderByRule } from "@/types";
 
 export type SortButtonProps = {
-  onChange: (value?: EOrderByRule) => void;
-  value?: EOrderByRule;
+  onChange: (value?: OrderByRule) => void;
+  value?: OrderByRule;
   className?: string;
 };
