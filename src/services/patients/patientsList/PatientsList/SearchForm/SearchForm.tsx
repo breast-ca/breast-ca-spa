@@ -17,7 +17,7 @@ export const SearchForm: FC<Props> = () => {
     setSearchForm: inputs.setSearchForm,
   });
 
-  const { values, handleChange, handleSubmit } = useFormik({
+  const { values, handleChange, handleSubmit, setFieldValue } = useFormik({
     initialValues: searchState,
     enableReinitialize: true,
     onSubmit: (values) => void setSearchForm(values),
@@ -55,14 +55,28 @@ export const SearchForm: FC<Props> = () => {
           onChange={handleChange}
         />
       </Space.Compact>
-      <Select size="large" variant="filled" placeholder="Статус">
+      <Input
+        size="large"
+        variant="filled"
+        placeholder="Снилс"
+        value={values.individualInsurance}
+        name="individualInsurance"
+        onChange={handleChange}
+      />
+      <Select
+        size="large"
+        variant="filled"
+        placeholder="Статус"
+        allowClear
+        value={values.status}
+        onChange={(value) => setFieldValue("status", value)}
+      >
         {Object.values(Status).map((status) => (
           <Select.Option key={status} value={status}>
             <StatusItem status={status} />
           </Select.Option>
         ))}
       </Select>
-      <Input size="large" variant="filled" placeholder="Снилс" />
     </Wrapper>
   );
 };

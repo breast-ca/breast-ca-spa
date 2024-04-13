@@ -832,6 +832,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         firstName?: string;
         lastName?: string;
         middleName?: string;
+        individualInsurance?: string;
         status?: "Treatment" | "DispanseryObservation" | "DispanseryRegistration" | "Dead";
       },
       params: RequestParams = {},

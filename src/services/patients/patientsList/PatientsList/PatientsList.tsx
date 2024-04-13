@@ -52,6 +52,15 @@ export const PatientsList: FC<Props> = ({
                 size: "2fr",
               },
               {
+                label: "Дата рождения",
+                render: (item) => (
+                  <PatientBirthDate>
+                    {dayjs(item.birthDate).format("DD.MM.YYYY")}
+                  </PatientBirthDate>
+                ),
+                size: "1fr",
+              },
+              {
                 label: "СНИЛС",
                 render: (item) => <div>{item.individualInsurance}</div>,
                 size: "1fr",
@@ -63,15 +72,6 @@ export const PatientsList: FC<Props> = ({
                     status={item.status}
                     statusText={StatusTranslates[item.status]}
                   />
-                ),
-                size: "1fr",
-              },
-              {
-                label: "Дата рождения",
-                render: (item) => (
-                  <PatientBirthDate>
-                    {dayjs(item.birthDate).format("DD.MM.YYYY")}
-                  </PatientBirthDate>
                 ),
                 size: "1fr",
               },

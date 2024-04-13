@@ -23,6 +23,8 @@ const [$searchForm, setSearchForm] = createStoreUnit<PatientsListSearchForm>({
   firstName: "",
   lastName: "",
   middleName: "",
+  individualInsurance: "",
+  status: null,
 });
 
 sample({
