@@ -28,7 +28,9 @@ const [$searchForm, setSearchForm] = createStoreUnit<PatientsListSearchForm>({
 });
 
 sample({
+  source: parientsQuery.$data,
   clock: setSearchForm,
+  filter: (data) => Boolean(data),
   target: resetPageNumber,
 });
 
@@ -44,14 +46,24 @@ const $queryParams: Store<PatientsListQuery> = combine(
 );
 
 sample({
-  source: $queryParams,
+  source: combine($queryParams, parientsQuery.$data, (params, data) => ({
+    params,
+    data,
+  })),
   clock: PatientsGate.open,
+  filter: ({ data }) => !data,
+  fn: ({ params }) => params,
   target: parientsQuery.start,
 });
 
 sample({
   clock: $queryParams,
   target: parientsQuery.start,
+});
+
+sample({
+  clock: PatientsGate.close,
+  target: parientsQuery.reset,
 });
 
 export const patientsListService = {

@@ -66,6 +66,11 @@ export const RowLink = styled(Link)<{ temp: string; css?: string }>`
   ${RowStyle}
   grid-template-columns: ${({ temp }) => temp};
   ${({ css }) => css || ""}
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #ffffffff;
+  }
 `;
 
 export const PaginationWrapper = styled.div`
