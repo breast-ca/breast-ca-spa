@@ -8,5 +8,5 @@ export const parientsQuery = createQuery<
   PatientsListResponseDto
 >({
   handler: (params): Promise<PatientsListResponseDto> =>
-    axios.get("/patient/my", { params }),
+    axios.get("/patient", { params }),
 });

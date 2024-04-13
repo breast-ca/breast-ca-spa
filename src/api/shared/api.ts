@@ -822,18 +822,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Patients
      * @name PatientControllerGetPatientByOrganization
-     * @request GET:/api/patient/my
+     * @request GET:/api/patient
      * @secure
      */
     patientControllerGetPatientByOrganization: (
       query: {
         pageSize: number;
         pageNumber: number;
+        firstName: string;
+        lastName: string;
+        middleName: string;
       },
       params: RequestParams = {},
     ) =>
       this.request<PatientsListResponseDto, any>({
-        path: `/api/patient/my`,
+        path: `/api/patient`,
         method: "GET",
         query: query,
         secure: true,

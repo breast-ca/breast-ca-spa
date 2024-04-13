@@ -18,6 +18,7 @@ import { TableProps } from "./Table.types";
 import { Empty, Pagination } from "antd";
 import _ from "lodash";
 import { OrderByRule } from "@/types";
+import { WithLoader } from "../WithLoader";
 
 export function Table<T>({
   columns,
@@ -29,6 +30,7 @@ export function Table<T>({
   link,
   floating = false,
   extraHeader,
+  isLoading,
 }: PropsWithChildren<TableProps<T>>) {
   const pageSize = pagination?.pageSize || Infinity;
 
@@ -119,9 +121,11 @@ export function Table<T>({
           {extraHeader}
         </HeaderWrapper>
         <div>
-          {sortedRows
-            .slice(start, end)
-            .map((elem, rowIndex) => renderRow(elem, rowIndex))}
+          <WithLoader isLoading={Boolean(isLoading)}>
+            {sortedRows
+              .slice(start, end)
+              .map((elem, rowIndex) => renderRow(elem, rowIndex))}
+          </WithLoader>
         </div>
         {!elements.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
       </Wrapper>

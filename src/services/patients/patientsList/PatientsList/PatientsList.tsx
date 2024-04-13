@@ -39,6 +39,7 @@ export const PatientsList: FC<Props> = ({
         <SearchForm />
         {Boolean(patients.length) && (
           <Table
+            isLoading={isLoading}
             link={(elem) => `/patients/${elem.id}/common`}
             columns={[
               {

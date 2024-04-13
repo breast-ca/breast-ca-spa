@@ -1,12 +1,16 @@
-import { combine, sample } from "effector";
+import { Store, combine, sample } from "effector";
 import { createGate } from "effector-react";
 import { parientsQuery } from "./patientsListService.api";
 import { createStoreUnit } from "@/lib/effector";
 import { checkIsPositive } from "@/lib/effector/utils";
+import {
+  PatientsListQuery,
+  PatientsListSearchForm,
+} from "./patientsListService.types";
 
 const PatientsGate = createGate();
 
-const [$pageNumber, setPageNumber] = createStoreUnit(1, {
+const [$pageNumber, setPageNumber, resetPageNumber] = createStoreUnit(1, {
   setState: (prev, page) => {
     if (!checkIsPositive(page)) return prev;
 
@@ -15,12 +19,25 @@ const [$pageNumber, setPageNumber] = createStoreUnit(1, {
 });
 const [$pageSize, setPageSize] = createStoreUnit(3);
 
-const $queryParams = combine(
+const [$searchForm, setSearchForm] = createStoreUnit<PatientsListSearchForm>({
+  firstName: "",
+  lastName: "",
+  middleName: "",
+});
+
+sample({
+  clock: setSearchForm,
+  target: resetPageNumber,
+});
+
+const $queryParams: Store<PatientsListQuery> = combine(
   $pageNumber,
   $pageSize,
-  (pageNumber, pageSize) => ({
+  $searchForm,
+  (pageNumber, pageSize, serachForm) => ({
     pageNumber,
     pageSize,
+    ...serachForm,
   })
 );
 
@@ -39,10 +56,12 @@ export const patientsListService = {
   inputs: {
     setPageNumber,
     setPageSize,
+    setSearchForm,
   },
   outputs: {
     $pageNumber,
     $pageSize,
+    $searchForm,
   },
   gates: { PatientsGate },
 };
