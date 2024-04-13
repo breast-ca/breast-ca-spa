@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Select } from "antd";
 import { useUnit } from "effector-react";
 import { Modal } from "@/components/Modal";
 import { FormItem } from "@/components/FormItem";
 import { AnalysisType } from "@/api/shared";
 import { createAnalisisService } from ".";
+import { CreateAnalisisContainerProps } from "./createAnalisisService.types";
 
 const { inputs, outputs } = createAnalisisService;
 
-export const CreateAnalisisContainer = () => {
+export const CreateAnalisisContainer: FC<CreateAnalisisContainerProps> = ({
+  analisisTranslates,
+}) => {
   const [type, setType] = useState<AnalysisType | null>(null);
 
   const { isOpen, closeModal } = useUnit({
@@ -35,8 +38,12 @@ export const CreateAnalisisContainer = () => {
           onChange={(value) => setType(value)}
         >
           {Object.values(AnalysisType).map((type) => (
-            <Select.Option key={type} value={type}>
-              {type}
+            <Select.Option
+              key={type}
+              value={type}
+              disabled={type !== AnalysisType.Ultrasound}
+            >
+              {analisisTranslates.analisis[type]}
             </Select.Option>
           ))}
         </Select>

@@ -317,6 +317,10 @@ export interface EditDiseaseDto {
   colour2?: string;
 }
 
+export interface AnalisisTranslatesDto {
+  analisis: Record<string, string>;
+}
+
 export enum AnalysisType {
   Ultrasound = "Ultrasound",
   Biopsy = "Biopsy",
@@ -1007,6 +1011,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     fileStorageControllerGetFile: (path: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/file-storage/file/${path}`,
+        method: "GET",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags analysis
+     * @name AnalysisControllerGetTranslates
+     * @request GET:/api/analysis/translates
+     * @secure
+     */
+    analysisControllerGetTranslates: (params: RequestParams = {}) =>
+      this.request<any, AnalisisTranslatesDto>({
+        path: `/api/analysis/translates`,
         method: "GET",
         secure: true,
         ...params,

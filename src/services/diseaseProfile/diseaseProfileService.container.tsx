@@ -11,31 +11,46 @@ import {
 import {
   CreateAnalisisContainer,
   createAnalisisService,
-} from "./createAnalisis";
+} from "../analisis/createAnalisis";
+import { analisisService } from "../analisis";
 
 const {
   gates: { DiseaseGate },
 } = diseaseProfileService;
 
+const {
+  gates: { AnalisisTranslatesGate },
+} = analisisService;
+
 export const DiseaseProfileContainer = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { disease, isLoading, diseaseEnums, handleEdit, handleCreateAnalisis } =
-    useUnit({
-      disease: diseaseQuery.$data,
-      isLoading: diseaseQuery.$pending,
-      diseaseEnums: diseaseEnumsTranslationsQuery.$data,
-      handleEdit: editDiseaseModalService.inputs.handleEdit,
-      handleCreateAnalisis: createAnalisisService.inputs.openModal,
-    });
+  const {
+    disease,
+    isLoading,
+    diseaseEnums,
+    handleEdit,
+    handleCreateAnalisis,
+    analisisTranslates,
+  } = useUnit({
+    disease: diseaseQuery.$data,
+    isLoading: diseaseQuery.$pending,
+    diseaseEnums: diseaseEnumsTranslationsQuery.$data,
+    handleEdit: editDiseaseModalService.inputs.handleEdit,
+    handleCreateAnalisis: createAnalisisService.inputs.openModal,
+    analisisTranslates: analisisService.outputs.$translates,
+  });
 
-  if (!diseaseEnums) return;
+  if (!diseaseEnums) return null;
 
   return (
     <>
       {id && <DiseaseGate id={Number(id)} />}
       <EditDiseaseModalContainer />
-      <CreateAnalisisContainer />
+      {analisisTranslates && (
+        <CreateAnalisisContainer analisisTranslates={analisisTranslates} />
+      )}
+      <AnalisisTranslatesGate />
       <DiseaseProfilePage
         disease={disease}
         isLoading={isLoading}
