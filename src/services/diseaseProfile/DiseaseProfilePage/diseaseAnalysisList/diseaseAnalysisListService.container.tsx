@@ -17,8 +17,6 @@ export const DiseaseAnalysisListContainer: FC<DiseaseAnalysisListProps> = ({
     isLoading: diseaseAnalysisQuery.$pending,
   });
 
-  console.log(analysisList);
-
   return (
     <>
       <DiseaseAnalysisGate diseaseId={diseaseId} />

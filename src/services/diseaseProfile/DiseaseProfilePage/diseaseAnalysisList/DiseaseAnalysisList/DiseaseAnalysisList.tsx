@@ -4,7 +4,6 @@ import { Props } from "./DiseaseAnalysisList.types";
 import { WithLoader } from "@/components/WithLoader";
 
 export const DiseaseAnalysisList: FC<Props> = ({ analysisList, isLoading }) => {
-  console.log(analysisList);
   return (
     <Wrapper>
       <WithLoader isLoading={isLoading}>
