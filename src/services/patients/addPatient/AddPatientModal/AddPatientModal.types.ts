@@ -1,7 +1,7 @@
 import {
   CreatePatientDto,
   EditPatientDto,
-  PatientResponseDto,
+  PatientFullResponseDto,
 } from "@/api/shared";
 
 export type Props = {
@@ -9,7 +9,7 @@ export type Props = {
   handleClose: () => void;
   edit?: boolean;
   handleCreatePatinet: (payload: CreatePatientDto) => void;
-  payload: PatientResponseDto | null;
+  payload: PatientFullResponseDto | null;
   editPatient: (
     payload: EditPatientDto & {
       id: number;

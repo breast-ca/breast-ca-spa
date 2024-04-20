@@ -6,5 +6,5 @@ export const diseaseAnalysisQuery = createQuery<
   [number],
   AnalysisResponseDto[]
 >({
-  handler: (diseaseId) => axios.get(`/analysis/${diseaseId}`),
+  handler: (diseaseId) => axios.get(`/analysis/byDisease/${diseaseId}`),
 });

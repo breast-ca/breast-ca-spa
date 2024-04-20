@@ -1,9 +1,9 @@
-import { PatientResponseDto } from "@/api/shared";
+import { PatientFullResponseDto } from "@/api/shared";
 import { useUnit } from "effector-react";
 import { mainLayoutService } from ".";
 import { useEffect } from "react";
 
-export function usePatientInfoPanel(patient?: PatientResponseDto | null) {
+export function usePatientInfoPanel(patient?: PatientFullResponseDto | null) {
   const { set, reset } = useUnit({
     set: mainLayoutService.inputs.setPatientInfo,
     reset: mainLayoutService.inputs.resetPatientInfo,

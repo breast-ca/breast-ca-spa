@@ -4,17 +4,18 @@ import { createEffect } from "effector";
 import {
   CreatePatientDto,
   EditPatientDto,
-  PatientResponseDto,
+  PatientFullResponseDto,
 } from "@/api/shared";
 
 export const createPatientMutation = createMutation({
-  handler: createEffect<CreatePatientDto, PatientResponseDto>((payload) =>
+  handler: createEffect<CreatePatientDto, PatientFullResponseDto>((payload) =>
     axios.post("/patient", payload)
   ),
 });
 
 export const editPatientMutation = createMutation({
-  handler: createEffect<EditPatientDto & { id: number }, PatientResponseDto>(
-    ({ id, ...payload }) => axios.patch(`/patient/${id}`, payload)
-  ),
+  handler: createEffect<
+    EditPatientDto & { id: number },
+    PatientFullResponseDto
+  >(({ id, ...payload }) => axios.patch(`/patient/${id}`, payload)),
 });

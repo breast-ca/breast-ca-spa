@@ -146,7 +146,7 @@ export enum Status {
   Dead = "Dead",
 }
 
-export interface PatientResponseDto {
+export interface PatientFullResponseDto {
   id: number;
   name: string;
   surname: string;
@@ -156,15 +156,15 @@ export interface PatientResponseDto {
   passport: string;
   insuranceOrganization: string;
   birthDate: string;
-  factAddress: AddressResponseDto;
-  jureAddress: AddressResponseDto;
   phoneNumber: string;
   status: Status;
   organizationId: number;
+  factAddress: AddressResponseDto;
+  jureAddress: AddressResponseDto;
 }
 
 export interface PatientsListResponseDto {
-  items: PatientResponseDto[];
+  items: PatientFullResponseDto[];
   total: number;
 }
 
@@ -301,7 +301,7 @@ export interface DiseaseFullResponseDto {
   relapsePlace?: RelapsePlace;
   colour1: string;
   colour2: string;
-  patient: PatientResponseDto;
+  patient: PatientFullResponseDto;
 }
 
 export interface EditDiseaseDto {
@@ -344,6 +344,30 @@ export enum AnalysisStatus {
   Ready = "Ready",
 }
 
+export interface PatientLightResponseDto {
+  id: number;
+  name: string;
+  surname: string;
+  middleName: string;
+}
+
+export interface AnalysisListResponseDto {
+  id: number;
+  analysisType: AnalysisType;
+  description: string;
+  diseaseId: number;
+  /** @format date-time */
+  creationTime: string;
+  /** @format date-time */
+  completedTime: string;
+  analysisStatus: AnalysisStatus;
+  patient: PatientLightResponseDto;
+}
+
+export interface CreateAnalysisDto {
+  analysisType: AnalysisType;
+}
+
 export interface AnalysisResponseDto {
   id: number;
   analysisType: AnalysisType;
@@ -354,10 +378,6 @@ export interface AnalysisResponseDto {
   /** @format date-time */
   completedTime: string;
   analysisStatus: AnalysisStatus;
-}
-
-export interface CreateAnalysisDto {
-  analysisType: AnalysisType;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -877,7 +897,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     patientControllerGetPatientById: (id: string, params: RequestParams = {}) =>
-      this.request<PatientResponseDto, any>({
+      this.request<PatientFullResponseDto, any>({
         path: `/api/patient/${id}`,
         method: "GET",
         secure: true,
@@ -914,7 +934,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     diseaseControllerDiseaseCreate: (patientId: string, data: CreateDiseaseDto, params: RequestParams = {}) =>
-      this.request<PatientResponseDto, any>({
+      this.request<PatientFullResponseDto, any>({
         path: `/api/disease/${patientId}`,
         method: "POST",
         body: data,
@@ -1059,7 +1079,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     analysisControllerGetAllAnalysis: (params: RequestParams = {}) =>
-      this.request<AnalysisResponseDto[], any>({
+      this.request<AnalysisListResponseDto[], any>({
         path: `/api/analysis`,
         method: "GET",
         secure: true,
@@ -1091,12 +1111,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags analysis
      * @name AnalysisControllerGetAnalysisByDisease
-     * @request GET:/api/analysis/{diseaseId}
+     * @request GET:/api/analysis/byDisease/{diseaseId}
      * @secure
      */
     analysisControllerGetAnalysisByDisease: (diseaseId: string, params: RequestParams = {}) =>
       this.request<AnalysisResponseDto[], any>({
-        path: `/api/analysis/${diseaseId}`,
+        path: `/api/analysis/byDisease/${diseaseId}`,
         method: "GET",
         secure: true,
         format: "json",

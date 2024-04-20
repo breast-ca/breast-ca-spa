@@ -4,12 +4,12 @@ import {
   editPatientMutation,
 } from "./addPatientService.api";
 import { message } from "antd";
-import { PatientResponseDto } from "@/api/shared";
+import { PatientFullResponseDto } from "@/api/shared";
 
-const handleOpenModal = createEvent<PatientResponseDto | void>();
+const handleOpenModal = createEvent<PatientFullResponseDto | void>();
 const handleCloseModal = createEvent();
 
-const $payload = createStore<PatientResponseDto | null>(null)
+const $payload = createStore<PatientFullResponseDto | null>(null)
   .on(handleOpenModal, (prev, payload) => payload || prev)
   .reset(handleCloseModal);
 

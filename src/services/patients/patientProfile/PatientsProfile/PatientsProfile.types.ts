@@ -1,11 +1,11 @@
-import { PatientResponseDto } from "@/api/shared";
+import { PatientFullResponseDto } from "@/api/shared";
 
-export type PatientSegment = "common" | "disease"
+export type PatientSegment = "common" | "disease";
 
 export type Props = {
-  patient: PatientResponseDto | null;
+  patient: PatientFullResponseDto | null;
   isLoading: boolean;
-  handleEdit: (payload: void | PatientResponseDto) => void;
+  handleEdit: (payload: void | PatientFullResponseDto) => void;
   segment?: PatientSegment;
   handleChangeSegment: (segment: PatientSegment) => void;
 };

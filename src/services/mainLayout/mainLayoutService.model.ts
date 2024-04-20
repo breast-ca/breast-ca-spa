@@ -1,10 +1,10 @@
-import { PatientResponseDto } from "@/api/shared";
+import { PatientFullResponseDto } from "@/api/shared";
 import { createEvent, createStore } from "effector";
 
-const setPatientInfo = createEvent<PatientResponseDto>();
+const setPatientInfo = createEvent<PatientFullResponseDto>();
 const resetPatientInfo = createEvent();
 
-const $patientInfo = createStore<PatientResponseDto | null>(null)
+const $patientInfo = createStore<PatientFullResponseDto | null>(null)
   .on(setPatientInfo, (_, data) => data)
   .reset(resetPatientInfo);
 
