@@ -35,7 +35,7 @@ export const Header = styled.div<{
   grid-gap: 16px;
   grid-template-columns: ${({ temp }) => temp};
   font-weight: 400;
-  font-size: 12px;
+  font-size: 14px;
   align-items: center;
 
   background: #ffeeee;
@@ -52,7 +52,7 @@ const RowStyle = css<{ temp: string; css?: string }>`
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
   color: #272f5a;
 `;
 

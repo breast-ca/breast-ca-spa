@@ -1,9 +1,36 @@
+import { useUnit } from "effector-react";
 import { AnalysisListPage } from "./AnalysisListPage";
+import { analysisListService } from "./analysisListService.model";
+import { analysisListQuery } from "./analysisListService.api";
+import { AnalysisTranslatesQuery } from "../analysisService.api";
+import { AnalysisService } from "../analysisService.model";
+
+const {
+  gates: { AnalysisListGate },
+} = analysisListService;
+
+const {
+  gates: { AnalysisTranslatesGate },
+} = AnalysisService;
 
 export const AnalysisListContainer = () => {
+  const { analysisList, isLoading, analysisTranslates } = useUnit({
+    analysisList: analysisListQuery.$data,
+    isLoading: analysisListQuery.$pending,
+    analysisTranslates: AnalysisTranslatesQuery.$data,
+  });
+
   return (
     <>
-      <AnalysisListPage />
+      <AnalysisListGate />
+      <AnalysisTranslatesGate />
+      {analysisTranslates && (
+        <AnalysisListPage
+          analysisList={analysisList || []}
+          isLoading={isLoading}
+          analysisTranslates={analysisTranslates}
+        />
+      )}
     </>
   );
 };

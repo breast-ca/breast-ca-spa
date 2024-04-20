@@ -12,7 +12,7 @@ export const AnalysisStatusTranslatesLookup: {
 export const AnalysisStatusColorsLookup: {
   [key in keyof typeof AnalysisStatus]: string;
 } = {
-  [AnalysisStatus.Awaiting]: "#ffc400",
+  [AnalysisStatus.Awaiting]: "#e1ff00",
   [AnalysisStatus.Ready]: "#00963c",
   [AnalysisStatus.Consilium]: "#5500ff",
   [AnalysisStatus.Done]: "#494949",

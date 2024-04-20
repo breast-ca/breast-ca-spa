@@ -7,5 +7,6 @@ export const Wrapper = styled.div<{ type: AnalysisStatus }>`
   padding: 2px 16px;
   border-radius: 24px;
   font-weight: 600;
-  color: white;
+  color: ${({ type }) =>
+    type === AnalysisStatus.Awaiting ? "#303030ff" : "white"};
 `;
