@@ -11,6 +11,7 @@ export const Button: FC<ButtonProps> = (props) => {
     disabled = false,
     floating,
     onClick,
+    rounded,
   } = props;
 
   return (
@@ -21,6 +22,7 @@ export const Button: FC<ButtonProps> = (props) => {
       floating={floating}
       disabled={disabled || isLoading}
       onClick={onClick}
+      rounded={rounded}
     >
       {!isLoading && icon}
       {!isLoading && props.children}

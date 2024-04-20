@@ -336,6 +336,13 @@ export enum AnalysisType {
   Markers = "Markers",
 }
 
+export enum AnalysisStatus {
+  Awaiting = "Awaiting",
+  Done = "Done",
+  Consilium = "Consilium",
+  Ready = "Ready",
+}
+
 export interface AnalysisResponseDto {
   id: number;
   analysisType: AnalysisType;
@@ -345,7 +352,7 @@ export interface AnalysisResponseDto {
   creationTime: string;
   /** @format date-time */
   completedTime: string;
-  userId: number;
+  analysisStatus: AnalysisStatus;
 }
 
 export interface CreateAnalysisDto {

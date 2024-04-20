@@ -4,6 +4,7 @@ import { diseaseAnalysisListService } from "./diseaseAnalysisListService.model";
 import { useUnit } from "effector-react";
 import { diseaseAnalysisQuery } from "./diseaseAnalysisListService.api";
 import { DiseaseAnalysisList } from "./DiseaseAnalysisList";
+import { AnalysisTranslatesQuery } from "@/services/analysis/analysisService.api";
 
 const {
   gates: { DiseaseAnalysisGate },
@@ -12,10 +13,13 @@ const {
 export const DiseaseAnalysisListContainer: FC<DiseaseAnalysisListProps> = ({
   diseaseId,
 }) => {
-  const { analysisList, isLoading } = useUnit({
+  const { analysisList, isLoading, analysisTranslates } = useUnit({
     analysisList: diseaseAnalysisQuery.$data,
     isLoading: diseaseAnalysisQuery.$pending,
+    analysisTranslates: AnalysisTranslatesQuery.$data,
   });
+
+  if (!analysisTranslates) return null;
 
   return (
     <>
@@ -23,6 +27,7 @@ export const DiseaseAnalysisListContainer: FC<DiseaseAnalysisListProps> = ({
       <DiseaseAnalysisList
         analysisList={analysisList || []}
         isLoading={isLoading}
+        analysisTranslates={analysisTranslates}
       />
     </>
   );

@@ -101,7 +101,12 @@ export const DiseaseProfilePage: FC<Props> = ({
                   },
                 ]}
               />
-              <Button icon={<PlusCircleFill />} onClick={handleCreateAnalysis}>
+              <Button
+                floating
+                icon={<PlusCircleFill />}
+                rounded
+                onClick={handleCreateAnalysis}
+              >
                 Новый анализ
               </Button>
             </SegmentedWrapper>

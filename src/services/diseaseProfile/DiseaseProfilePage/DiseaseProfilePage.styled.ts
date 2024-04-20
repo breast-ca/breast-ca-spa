@@ -42,7 +42,8 @@ export const InfosItemWrapper = styled.div`
 export const SegmentedWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 16px;
+  max-width: 800px;
 `;
 
 export const DiseaseCode = styled.span<{ colour1: string; colour2: string }>`

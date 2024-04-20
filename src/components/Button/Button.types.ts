@@ -9,6 +9,7 @@ export type ButtonProps = {
   isLoading?: boolean;
   children?: ReactNode;
   onClick?: () => void;
+  rounded?: boolean;
 };
 
 export type ButtonSizeType = "middle" | "small";

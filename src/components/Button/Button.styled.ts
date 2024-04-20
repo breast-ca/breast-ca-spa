@@ -60,6 +60,7 @@ interface Button {
   type: ButtonStyleType;
   floating?: boolean;
   disabled?: boolean;
+  rounded?: boolean;
 }
 
 const disabledStyles = css`
@@ -98,6 +99,8 @@ export const ButtonSC = styled.div<Button>`
   }
 
   ${({ disabled }) => disabled && disabledStyles}
+
+  ${({ rounded }) => rounded && `border-radius: 12px !important;`}
 `;
 
 const spinKeyframes = keyframes`
