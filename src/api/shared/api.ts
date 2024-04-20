@@ -50,7 +50,7 @@ export interface CreateUserDto {
   password: string;
   firstName: string;
   lastName: string;
-  middleName: string;
+  middleName?: string;
   login: string;
   organization: CreateOrganizationWithAddressDto;
   roles: RoleType[];
@@ -60,7 +60,7 @@ export interface AddUserDto {
   password: string;
   firstName: string;
   lastName: string;
-  middleName: string;
+  middleName?: string;
   login: string;
   roles: RoleType[];
 }
@@ -338,8 +338,6 @@ export enum AnalysisType {
 
 export interface CreateAnalysisDto {
   analysisType: AnalysisType;
-  /** @format date-time */
-  creationTime: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -1036,6 +1034,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags analysis
+     * @name AnalysisControllerGetAllAnalysis
+     * @request GET:/api/analysis
+     * @secure
+     */
+    analysisControllerGetAllAnalysis: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/analysis`,
+        method: "GET",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags analysis
      * @name AnalysisControllerCreateAnalysis
      * @request POST:/api/analysis/{diseaseId}
      * @secure
@@ -1048,6 +1062,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         secure: true,
         type: ContentType.Json,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags analysis
+     * @name AnalysisControllerGetAnalysisByDisease
+     * @request GET:/api/analysis/{diseaseId}
+     * @secure
+     */
+    analysisControllerGetAnalysisByDisease: (diseaseId: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/analysis/${diseaseId}`,
+        method: "GET",
+        secure: true,
         ...params,
       }),
   };

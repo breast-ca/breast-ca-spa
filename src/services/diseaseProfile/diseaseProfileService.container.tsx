@@ -48,7 +48,10 @@ export const DiseaseProfileContainer = () => {
       {id && <DiseaseGate id={Number(id)} />}
       <EditDiseaseModalContainer />
       {AnalysisTranslates && (
-        <CreateAnalysisContainer AnalysisTranslates={AnalysisTranslates} />
+        <CreateAnalysisContainer
+          diseaseId={Number(id)}
+          AnalysisTranslates={AnalysisTranslates}
+        />
       )}
       <AnalysisTranslatesGate />
       <DiseaseProfilePage
