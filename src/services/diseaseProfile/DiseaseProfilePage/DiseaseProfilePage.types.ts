@@ -8,4 +8,4 @@ export type Props = {
   handleCreateAnalysis: () => void;
 };
 
-export type DiseaseProfileSegment = "common" | "therapy" | "Analysis" | "consilium";
+export type DiseaseProfileSegment = "common" | "therapy" | "analysis" | "consilium";

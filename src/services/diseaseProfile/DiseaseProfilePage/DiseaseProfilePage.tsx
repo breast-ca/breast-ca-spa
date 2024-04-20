@@ -20,6 +20,7 @@ import { Button } from "@/components/Button";
 import { Pen, PlusCircleFill } from "react-bootstrap-icons";
 import { useNavigate, useParams } from "react-router-dom";
 import { DiseaseCommonInfo } from "./DiseaseCommonInfo";
+import { DiseaseAnalysisListContainer } from "./diseaseAnalysisList";
 
 export const DiseaseProfilePage: FC<Props> = ({
   isLoading,
@@ -92,7 +93,7 @@ export const DiseaseProfilePage: FC<Props> = ({
                   },
                   {
                     label: "Анализы",
-                    value: "Analysis",
+                    value: "analysis",
                   },
                   {
                     label: "Консилиумы",
@@ -109,6 +110,9 @@ export const DiseaseProfilePage: FC<Props> = ({
                 disease={disease}
                 diseaseEnums={diseaseEnums}
               />
+            )}
+            {segment === "analysis" && (
+              <DiseaseAnalysisListContainer diseaseId={disease.id} />
             )}
           </>
         )}

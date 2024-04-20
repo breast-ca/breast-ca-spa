@@ -336,6 +336,18 @@ export enum AnalysisType {
   Markers = "Markers",
 }
 
+export interface AnalysisResponseDto {
+  id: number;
+  analysisType: AnalysisType;
+  description: string;
+  diseaseId: number;
+  /** @format date-time */
+  creationTime: string;
+  /** @format date-time */
+  completedTime: string;
+  userId: number;
+}
+
 export interface CreateAnalysisDto {
   analysisType: AnalysisType;
 }
@@ -1039,10 +1051,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     analysisControllerGetAllAnalysis: (params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<AnalysisResponseDto[], any>({
         path: `/api/analysis`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -1074,10 +1087,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     analysisControllerGetAnalysisByDisease: (diseaseId: string, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<AnalysisResponseDto[], any>({
         path: `/api/analysis/${diseaseId}`,
         method: "GET",
         secure: true,
+        format: "json",
         ...params,
       }),
   };
