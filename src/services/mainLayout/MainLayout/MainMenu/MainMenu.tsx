@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { Props } from "./MainMenu.types";
-import { ChatDots, Grid, People, Search } from "react-bootstrap-icons";
+import { ChatDots, ClipboardData, Grid, People } from "react-bootstrap-icons";
 import {
   GridWrapper,
   LogoWrapper,
@@ -10,24 +10,32 @@ import {
 import { Tooltip } from "antd";
 import logo from "./assets/logo.svg";
 
-export const MainMenu: FC<Props> = ({ handleOpenDrawer }) => {
-  const menuItems = [
-    {
-      icon: <People size={24} />,
-      text: "Пациенты",
-      path: "/patients",
-    },
-    {
+export const MainMenu: FC<Props> = ({ handleOpenDrawer, user }) => {
+  const menuItems = useMemo(() => {
+    const items = [
+      {
+        icon: <People size={24} />,
+        text: "Пациенты",
+        path: "/patients",
+      },
+    ];
+
+    if (user?.isAnalysist) {
+      items.push({
+        icon: <ClipboardData size={24} />,
+        text: "Анализы",
+        path: "/analysis",
+      });
+    }
+
+    items.push({
       icon: <ChatDots size={24} />,
-      text: "Консилиум",
+      text: "Консилиумы",
       path: "/messages",
-    },
-    {
-      icon: <Search size={24} />,
-      text: "Поиск",
-      path: "/search",
-    },
-  ];
+    });
+
+    return items;
+  }, [user?.isAnalysist]);
 
   return (
     <MenuPanel>

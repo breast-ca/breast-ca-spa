@@ -25,7 +25,7 @@ export const MainLayout: FC<Props> = ({ handleSignOut, user, patientInfo }) => {
   return (
     <Wrapper>
       {patientInfo && <AddPatientContainer edit />}
-      <MainMenu handleOpenDrawer={() => setIsDrawerOpen(true)} />
+      <MainMenu handleOpenDrawer={() => setIsDrawerOpen(true)} user={user} />
       <ContentWrapper isPatientData={Boolean(patientInfo)}>
         <Content>
           <Outlet />

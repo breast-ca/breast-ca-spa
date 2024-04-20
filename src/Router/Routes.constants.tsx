@@ -10,6 +10,7 @@ import { UserProfileContainer } from "@/services/settings/userProfile/userProfil
 import { OrganizationProfileContainer } from "@/services/settings/organizationProfile";
 import { DiseaseProfileContainer } from "@/services/diseaseProfile";
 import { AboutPage } from "@/services/settings/AboutPage";
+import { AnalysisListContainer } from "@/services/analysis/analysisList";
 
 export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
   const authRoutes = [
@@ -60,8 +61,8 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
           element: <PageHeader title="Консилиум" />,
         },
         {
-          path: "/search",
-          element: <PageHeader title="Поиск" />,
+          path: "/analysis",
+          element: <AnalysisListContainer />,
         },
       ],
     },

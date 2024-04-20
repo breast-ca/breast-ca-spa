@@ -30,6 +30,7 @@ export interface UserResponseDto {
   login: string;
   roles: RoleType[];
   organizationId: number;
+  isAnalysist: boolean;
 }
 
 export interface CreateAddressDto {
