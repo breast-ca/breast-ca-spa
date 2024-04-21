@@ -3,7 +3,7 @@ import { AnalysisListPage } from "./AnalysisListPage";
 import { analysisListService } from "./analysisListService.model";
 import { analysisListQuery } from "./analysisListService.api";
 import { AnalysisTranslatesQuery } from "../analysisService.api";
-import { AnalysisService } from "../analysisService.model";
+import { analysisService } from "../analysisService.model";
 
 const {
   gates: { AnalysisListGate },
@@ -11,7 +11,7 @@ const {
 
 const {
   gates: { AnalysisTranslatesGate },
-} = AnalysisService;
+} = analysisService;
 
 export const AnalysisListContainer = () => {
   const { analysisList, isLoading, analysisTranslates } = useUnit({

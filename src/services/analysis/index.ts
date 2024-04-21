@@ -1,1 +1,1 @@
-export { AnalysisService } from "./analysisService.model";
+export { analysisService as AnalysisService } from "./analysisService.model";

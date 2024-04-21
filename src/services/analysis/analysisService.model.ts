@@ -11,7 +11,7 @@ sample({
   target: AnalysisTranslatesQuery.start,
 });
 
-export const AnalysisService = {
+export const analysisService = {
   inputs: {},
   outputs: {
     $translates: AnalysisTranslatesQuery.$data,

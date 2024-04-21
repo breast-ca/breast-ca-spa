@@ -11,6 +11,7 @@ import { OrganizationProfileContainer } from "@/services/settings/organizationPr
 import { DiseaseProfileContainer } from "@/services/diseaseProfile";
 import { AboutPage } from "@/services/settings/AboutPage";
 import { AnalysisListContainer } from "@/services/analysis/analysisList";
+import { AnalysisFillProfileContainer } from "@/services/analysis/analysisFillProfile";
 
 export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
   const authRoutes = [
@@ -59,6 +60,10 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
         {
           path: "/messages",
           element: <PageHeader title="Консилиум" />,
+        },
+        {
+          path: "/analysis/fill/:id",
+          element: <AnalysisFillProfileContainer />,
         },
         {
           path: "/analysis",

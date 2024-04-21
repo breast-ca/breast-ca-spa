@@ -17,7 +17,7 @@ export const AnalysisListPage: FC<Props> = ({
       <PageHeader title="Анализы" />
       <WithLoader isLoading={isLoading}>
         <Table
-          link={(item) => `/analysis/${item.id}`}
+          link={(item) => `/analysis/fill/${item.id}`}
           columns={[
             {
               label: "Название",

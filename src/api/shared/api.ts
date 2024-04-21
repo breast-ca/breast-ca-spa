@@ -380,6 +380,19 @@ export interface AnalysisResponseDto {
   analysisStatus: AnalysisStatus;
 }
 
+export interface AnalysisFullResponseDto {
+  id: number;
+  analysisType: AnalysisType;
+  description: string;
+  diseaseId: number;
+  /** @format date-time */
+  creationTime: string;
+  /** @format date-time */
+  completedTime: string;
+  analysisStatus: AnalysisStatus;
+  disease: DiseaseFullResponseDto;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -1117,6 +1130,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     analysisControllerGetAnalysisByDisease: (diseaseId: string, params: RequestParams = {}) =>
       this.request<AnalysisResponseDto[], any>({
         path: `/api/analysis/byDisease/${diseaseId}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags analysis
+     * @name AnalysisControllerGetAnalysisById
+     * @request GET:/api/analysis/{analysisId}
+     * @secure
+     */
+    analysisControllerGetAnalysisById: (analysisId: string, params: RequestParams = {}) =>
+      this.request<AnalysisFullResponseDto, any>({
+        path: `/api/analysis/${analysisId}`,
         method: "GET",
         secure: true,
         format: "json",
