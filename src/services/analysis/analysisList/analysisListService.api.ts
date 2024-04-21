@@ -1,7 +1,7 @@
 import { createQuery } from "@farfetched/core";
 import { axios } from "@/api";
-import { AnalysisResponseDto } from "@/api/shared";
+import { AnalysisListResponseDto } from "@/api/shared";
 
-export const analysisListQuery = createQuery<[], AnalysisResponseDto[]>({
+export const analysisListQuery = createQuery<[], AnalysisListResponseDto[]>({
   handler: () => axios.get("/analysis"),
 });

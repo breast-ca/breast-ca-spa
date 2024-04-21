@@ -17,6 +17,7 @@ export const AnalysisListPage: FC<Props> = ({
       <PageHeader title="Анализы" />
       <WithLoader isLoading={isLoading}>
         <Table
+          link={(item) => `/analysis/${item.id}`}
           columns={[
             {
               label: "Название",
@@ -28,15 +29,21 @@ export const AnalysisListPage: FC<Props> = ({
               ),
             },
             {
+              label: "ФИО пациента",
+              size: "1.5fr",
+              render: ({ patient: { name, surname, middleName } }): string =>
+                `${name} ${surname} ${middleName || ""}`,
+            },
+            {
               label: "Статус",
-              size: "1fr",
+              size: "0.6fr",
               render: (analysis) => (
                 <AnalysisStatus type={analysis.analysisStatus} />
               ),
             },
             {
               label: "Дата создания",
-              size: "1fr",
+              size: "0.6fr",
               render: (analysis) =>
                 dayjs(analysis.creationTime).format("DD.MM.YYYY (HH:hh)"),
             },
