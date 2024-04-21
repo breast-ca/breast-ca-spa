@@ -355,7 +355,7 @@ export interface AnalysisListResponseDto {
   creationTime: string;
   /** @format date-time */
   completedTime: string;
-  analysisStatus: AnalysisStatus;
+  status: AnalysisStatus;
   patient: PatientLightResponseDto;
 }
 
@@ -377,7 +377,7 @@ export interface AnalysisResponseDto {
   creationTime: string;
   /** @format date-time */
   completedTime: string;
-  analysisStatus: AnalysisStatus;
+  status: AnalysisStatus;
 }
 
 export interface AnalysisFullResponseDto {
@@ -389,8 +389,27 @@ export interface AnalysisFullResponseDto {
   creationTime: string;
   /** @format date-time */
   completedTime: string;
-  analysisStatus: AnalysisStatus;
+  status: AnalysisStatus;
   disease: DiseaseFullResponseDto;
+}
+
+export enum UltrasoundDescription {
+  BreastCancer = "BreastCancer",
+  PossibleBreastCancer = "PossibleBreastCancer",
+}
+
+export interface CreateUltrasoundDto {
+  tumorSize: number;
+  metastasisNumber: number;
+  birNumber: number;
+  relapseTypes: RelapseType[];
+  side: Side;
+  description: UltrasoundDescription;
+}
+
+export interface FillUltrasoundAnalysisDto {
+  description?: string;
+  ultrasoundPayload: CreateUltrasoundDto;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -1143,6 +1162,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/analysis/${analysisId}`,
         method: "GET",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags analysis
+     * @name AnalysisControllerFillUltrasoundAnalysis
+     * @request POST:/api/analysis/ultrasoundFill/{analysisId}
+     * @secure
+     */
+    analysisControllerFillUltrasoundAnalysis: (
+      analysisId: string,
+      data: FillUltrasoundAnalysisDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<CreateAnalysisDto, any>({
+        path: `/api/analysis/ultrasoundFill/${analysisId}`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
