@@ -8,6 +8,7 @@ import {
 } from "@/services/diseaseProfile/DiseaseProfilePage/DiseaseProfilePage";
 import { Segmented } from "@/components/Segmented";
 import { DiseaseCommonInfo } from "@/services/diseaseProfile/DiseaseProfilePage/DiseaseCommonInfo";
+import { AnalysisStatus } from "@/components/shared/AnalysisStatus";
 
 export const AnalysisFillProfile: FC<Props> = ({
   analysis,
@@ -22,18 +23,12 @@ export const AnalysisFillProfile: FC<Props> = ({
         title={
           <Title>
             {analysisTranslates.analysis[analysis.analysisType]}
-            <DiseaseTitle
-              diseaseEnums={diseaseTranslates}
-              disease={analysis.disease}
-            />
+            <AnalysisStatus type={analysis.analysisStatus} />
           </Title>
         }
         goBack
       />
-      <DiseaseInfos
-        diseaseEnums={diseaseTranslates}
-        disease={analysis.disease}
-      />
+
       <Segmented
         value={segment}
         onChange={(value) => setSegment(value as AnalysisProfileSegment)}
@@ -49,10 +44,20 @@ export const AnalysisFillProfile: FC<Props> = ({
         ]}
       />
       {segment === "passport" && (
-        <DiseaseCommonInfo
-          disease={analysis.disease}
-          diseaseEnums={diseaseTranslates}
-        />
+        <>
+          <DiseaseTitle
+            diseaseEnums={diseaseTranslates}
+            disease={analysis.disease}
+          />
+          <DiseaseInfos
+            diseaseEnums={diseaseTranslates}
+            disease={analysis.disease}
+          />
+          <DiseaseCommonInfo
+            disease={analysis.disease}
+            diseaseEnums={diseaseTranslates}
+          />
+        </>
       )}
     </Wrapper>
   );
