@@ -12,8 +12,8 @@ export const AnalysisStatusTranslatesLookup: {
 export const AnalysisStatusColorsLookup: {
   [key in keyof typeof AnalysisStatus]: string;
 } = {
-  [AnalysisStatus.Awaiting]: "#ffee00",
-  [AnalysisStatus.Ready]: "#00963c",
-  [AnalysisStatus.Consilium]: "#5500ff",
-  [AnalysisStatus.Done]: "#494949",
+  [AnalysisStatus.Awaiting]: "#ff7300",
+  [AnalysisStatus.Ready]: "#0aa94a",
+  [AnalysisStatus.Consilium]: "#7c47e6",
+  [AnalysisStatus.Done]: "#ff6b6b",
 };

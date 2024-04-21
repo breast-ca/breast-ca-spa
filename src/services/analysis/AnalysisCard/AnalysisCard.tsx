@@ -8,7 +8,7 @@ import {
   Wrapper,
 } from "./AnalysisCard.styled";
 import { Props } from "./AnalysisCard.types";
-import { AnalysisStatus } from "@/components/shared/AnalysisStatus";
+import { AnalysisStatusBadge } from "@/components/shared/AnalysisStatus";
 import dayjs from "dayjs";
 
 export const AnalysisCard: FC<Props> = ({ analysis, analysisTranslates }) => {
@@ -17,7 +17,7 @@ export const AnalysisCard: FC<Props> = ({ analysis, analysisTranslates }) => {
       <Header>
         <TitleContent>
           <Title>{analysisTranslates.analysis[analysis.analysisType]}</Title>
-          <AnalysisStatus type={analysis.analysisStatus} />
+          <AnalysisStatusBadge status={analysis.analysisStatus} />
         </TitleContent>
         <TitleContent>
           <CreatedDate>

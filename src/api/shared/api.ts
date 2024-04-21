@@ -334,9 +334,9 @@ export enum AnalysisType {
 
 export enum AnalysisStatus {
   Awaiting = "Awaiting",
-  Done = "Done",
-  Consilium = "Consilium",
   Ready = "Ready",
+  Consilium = "Consilium",
+  Done = "Done",
 }
 
 export interface PatientLightResponseDto {
@@ -865,8 +865,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     patientControllerGetPatientByOrganization: (
       query?: {
-        pageSize?: number;
-        pageNumber?: number;
+        pageSize?: string;
+        pageNumber?: string;
         firstName?: string;
         lastName?: string;
         middleName?: string;
@@ -1076,12 +1076,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     analysisControllerGetAllAnalysis: (
       query?: {
-        pageSize?: number;
-        pageNumber?: number;
+        pageSize?: string;
+        pageNumber?: string;
         firstName?: string;
         lastName?: string;
         middleName?: string;
-        status?: "Awaiting" | "Done" | "Consilium" | "Ready";
+        status?: "Awaiting" | "Ready" | "Consilium" | "Done";
       },
       params: RequestParams = {},
     ) =>

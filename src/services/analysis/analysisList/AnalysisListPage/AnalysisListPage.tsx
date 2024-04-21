@@ -5,7 +5,8 @@ import { PageHeader } from "@/components/PageHeader";
 import { WithLoader } from "@/components/WithLoader";
 import { Table } from "@/components/Table";
 import dayjs from "dayjs";
-import { AnalysisStatus } from "@/components/shared/AnalysisStatus";
+import { AnalysisStatusBadge } from "@/components/shared/AnalysisStatus";
+import { AnalysisSearchForm } from "./AnalysisSearchForm";
 
 export const AnalysisListPage: FC<Props> = ({
   analysisPagedList,
@@ -17,6 +18,7 @@ export const AnalysisListPage: FC<Props> = ({
   return (
     <Wrapper>
       <PageHeader title="Анализы" />
+      <AnalysisSearchForm />
       <WithLoader isLoading={isLoading}>
         <Table
           link={(item) => `/analysis/fill/${item.id}`}
@@ -40,7 +42,7 @@ export const AnalysisListPage: FC<Props> = ({
               label: "Статус",
               size: "0.6fr",
               render: (analysis) => (
-                <AnalysisStatus type={analysis.analysisStatus} />
+                <AnalysisStatusBadge status={analysis.analysisStatus} />
               ),
             },
             {

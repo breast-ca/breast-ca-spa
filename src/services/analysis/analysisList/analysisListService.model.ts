@@ -69,10 +69,12 @@ export const analysisListService = {
   inputs: {
     setPageNumber,
     setPageSize,
+    setSearchForm,
   },
   outputs: {
     $pageNumber,
     $pageSize,
+    $searchForm,
   },
   gates: { AnalysisListGate },
 };

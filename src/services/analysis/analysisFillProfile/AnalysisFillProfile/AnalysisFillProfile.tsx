@@ -8,7 +8,7 @@ import {
 } from "@/services/diseaseProfile/DiseaseProfilePage/DiseaseProfilePage";
 import { Segmented } from "@/components/Segmented";
 import { DiseaseCommonInfo } from "@/services/diseaseProfile/DiseaseProfilePage/DiseaseCommonInfo";
-import { AnalysisStatus } from "@/components/shared/AnalysisStatus";
+import { AnalysisStatusBadge } from "@/components/shared/AnalysisStatus";
 
 export const AnalysisFillProfile: FC<Props> = ({
   analysis,
@@ -23,7 +23,7 @@ export const AnalysisFillProfile: FC<Props> = ({
         title={
           <Title>
             {analysisTranslates.analysis[analysis.analysisType]}
-            <AnalysisStatus type={analysis.analysisStatus} />
+            <AnalysisStatusBadge status={analysis.analysisStatus} />
           </Title>
         }
         goBack

@@ -1,1 +1,1 @@
-export { AnalysisStatus } from './AnalysisStatus';
+export { AnalysisStatusBadge } from "./AnalysisStatus";
