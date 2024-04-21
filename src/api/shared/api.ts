@@ -1171,7 +1171,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags analysis
      * @name AnalysisControllerFillUltrasoundAnalysis
-     * @request POST:/api/analysis/ultrasoundFill/{analysisId}
+     * @request POST:/api/analysis/ultrasound/fill/{analysisId}
      * @secure
      */
     analysisControllerFillUltrasoundAnalysis: (
@@ -1180,7 +1180,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<CreateAnalysisDto, any>({
-        path: `/api/analysis/ultrasoundFill/${analysisId}`,
+        path: `/api/analysis/ultrasound/fill/${analysisId}`,
         method: "POST",
         body: data,
         secure: true,

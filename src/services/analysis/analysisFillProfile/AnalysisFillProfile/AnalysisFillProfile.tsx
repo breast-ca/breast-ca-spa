@@ -9,6 +9,7 @@ import {
 import { Segmented } from "@/components/Segmented";
 import { DiseaseCommonInfo } from "@/services/diseaseProfile/DiseaseProfilePage/DiseaseCommonInfo";
 import { AnalysisStatusBadge } from "@/components/shared/AnalysisStatus";
+import { AnalysisFillForm } from "./AnalysisFillForm";
 
 export const AnalysisFillProfile: FC<Props> = ({
   analysis,
@@ -43,6 +44,12 @@ export const AnalysisFillProfile: FC<Props> = ({
           },
         ]}
       />
+      {segment === "analysis" && (
+        <AnalysisFillForm
+          analysis={analysis}
+          analysisTranslates={analysisTranslates}
+        />
+      )}
       {segment === "passport" && (
         <>
           <DiseaseTitle
