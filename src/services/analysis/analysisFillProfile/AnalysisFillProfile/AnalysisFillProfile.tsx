@@ -23,7 +23,7 @@ export const AnalysisFillProfile: FC<Props> = ({
         title={
           <Title>
             {analysisTranslates.analysis[analysis.analysisType]}
-            <AnalysisStatusBadge status={analysis.analysisStatus} />
+            <AnalysisStatusBadge status={analysis.status} />
           </Title>
         }
         goBack

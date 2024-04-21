@@ -42,7 +42,7 @@ export const AnalysisListPage: FC<Props> = ({
               label: "Статус",
               size: "0.6fr",
               render: (analysis) => (
-                <AnalysisStatusBadge status={analysis.analysisStatus} />
+                <AnalysisStatusBadge status={analysis.status} />
               ),
             },
             {

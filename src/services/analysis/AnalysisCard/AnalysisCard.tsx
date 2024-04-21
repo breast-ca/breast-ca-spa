@@ -17,7 +17,7 @@ export const AnalysisCard: FC<Props> = ({ analysis, analysisTranslates }) => {
       <Header>
         <TitleContent>
           <Title>{analysisTranslates.analysis[analysis.analysisType]}</Title>
-          <AnalysisStatusBadge status={analysis.analysisStatus} />
+          <AnalysisStatusBadge status={analysis.status} />
         </TitleContent>
         <TitleContent>
           <CreatedDate>
