@@ -7,11 +7,15 @@ import { Table } from "@/components/Table";
 import dayjs from "dayjs";
 import { AnalysisStatusBadge } from "@/components/shared/AnalysisStatus";
 import { AnalysisSearchForm } from "./AnalysisSearchForm";
+import { Pagination } from "antd";
 
 export const AnalysisListPage: FC<Props> = ({
   analysisPagedList,
   isLoading,
   analysisTranslates,
+  pageNumber,
+  pageSize,
+  setPageNumber,
 }) => {
   const analysisList = analysisPagedList?.items || [];
 
@@ -54,6 +58,15 @@ export const AnalysisListPage: FC<Props> = ({
           ]}
           elements={analysisList}
         />
+        {Boolean(analysisList.length) && (
+          <Pagination
+            disabled={isLoading}
+            total={analysisPagedList?.total}
+            pageSize={pageSize}
+            current={pageNumber}
+            onChange={(page) => setPageNumber(page)}
+          />
+        )}
       </WithLoader>
     </Wrapper>
   );

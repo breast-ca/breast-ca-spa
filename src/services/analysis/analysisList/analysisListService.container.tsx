@@ -6,6 +6,8 @@ import { AnalysisTranslatesQuery } from "../analysisService.api";
 import { analysisService } from "../analysisService.model";
 
 const {
+  outputs,
+  inputs,
   gates: { AnalysisListGate },
 } = analysisListService;
 
@@ -14,10 +16,20 @@ const {
 } = analysisService;
 
 export const AnalysisListContainer = () => {
-  const { analysisPagedList, isLoading, analysisTranslates } = useUnit({
+  const {
+    analysisPagedList,
+    isLoading,
+    analysisTranslates,
+    pageSize,
+    pageNumber,
+    setPageNumber,
+  } = useUnit({
     analysisPagedList: analysisListQuery.$data,
     isLoading: analysisListQuery.$pending,
     analysisTranslates: AnalysisTranslatesQuery.$data,
+    pageNumber: outputs.$pageNumber,
+    pageSize: outputs.$pageSize,
+    setPageNumber: inputs.setPageNumber,
   });
 
   return (
@@ -29,6 +41,9 @@ export const AnalysisListContainer = () => {
           analysisPagedList={analysisPagedList}
           isLoading={isLoading}
           analysisTranslates={analysisTranslates}
+          pageSize={pageSize}
+          pageNumber={pageNumber}
+          setPageNumber={setPageNumber}
         />
       )}
     </>
