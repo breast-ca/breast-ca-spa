@@ -89,11 +89,6 @@ export interface LoginResponseDto {
   refreshToken: string;
 }
 
-export interface CreateOrganizationDto {
-  name: string;
-  address: number;
-}
-
 export interface AddressResponseDto {
   id: number;
   city: string;
@@ -362,6 +357,11 @@ export interface AnalysisListResponseDto {
   completedTime: string;
   analysisStatus: AnalysisStatus;
   patient: PatientLightResponseDto;
+}
+
+export interface AnalysisPagedListResponseDto {
+  items: AnalysisListResponseDto[];
+  total: number;
 }
 
 export interface CreateAnalysisDto {
@@ -783,23 +783,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Organizations
-     * @name OrganizationControllerOrganizationCreate
-     * @request POST:/api/organization
-     */
-    organizationControllerOrganizationCreate: (data: CreateOrganizationDto, params: RequestParams = {}) =>
-      this.request<CreateOrganizationDto, any>({
-        path: `/api/organization`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Organizations
      * @name OrganizationControllerGetMyOrganization
      * @request GET:/api/organization/my
      * @secure
@@ -1091,10 +1074,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/analysis
      * @secure
      */
-    analysisControllerGetAllAnalysis: (params: RequestParams = {}) =>
-      this.request<AnalysisListResponseDto[], any>({
+    analysisControllerGetAllAnalysis: (
+      query?: {
+        pageSize?: number;
+        pageNumber?: number;
+        firstName?: string;
+        lastName?: string;
+        middleName?: string;
+        status?: "Awaiting" | "Done" | "Consilium" | "Ready";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<AnalysisPagedListResponseDto[], any>({
         path: `/api/analysis`,
         method: "GET",
+        query: query,
         secure: true,
         format: "json",
         ...params,

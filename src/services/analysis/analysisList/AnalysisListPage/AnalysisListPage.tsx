@@ -8,10 +8,12 @@ import dayjs from "dayjs";
 import { AnalysisStatus } from "@/components/shared/AnalysisStatus";
 
 export const AnalysisListPage: FC<Props> = ({
-  analysisList,
+  analysisPagedList,
   isLoading,
   analysisTranslates,
 }) => {
+  const analysisList = analysisPagedList?.items || [];
+
   return (
     <Wrapper>
       <PageHeader title="Анализы" />

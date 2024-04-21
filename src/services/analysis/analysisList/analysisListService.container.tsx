@@ -14,8 +14,8 @@ const {
 } = analysisService;
 
 export const AnalysisListContainer = () => {
-  const { analysisList, isLoading, analysisTranslates } = useUnit({
-    analysisList: analysisListQuery.$data,
+  const { analysisPagedList, isLoading, analysisTranslates } = useUnit({
+    analysisPagedList: analysisListQuery.$data,
     isLoading: analysisListQuery.$pending,
     analysisTranslates: AnalysisTranslatesQuery.$data,
   });
@@ -26,7 +26,7 @@ export const AnalysisListContainer = () => {
       <AnalysisTranslatesGate />
       {analysisTranslates && (
         <AnalysisListPage
-          analysisList={analysisList || []}
+          analysisPagedList={analysisPagedList}
           isLoading={isLoading}
           analysisTranslates={analysisTranslates}
         />

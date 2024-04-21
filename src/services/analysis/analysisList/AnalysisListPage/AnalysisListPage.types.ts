@@ -1,7 +1,10 @@
-import { AnalysisListResponseDto, AnalysisTranslatesDto } from "@/api/shared";
+import {
+  AnalysisPagedListResponseDto,
+  AnalysisTranslatesDto,
+} from "@/api/shared";
 
 export type Props = {
   isLoading: boolean;
-  analysisList: AnalysisListResponseDto[];
+  analysisPagedList: AnalysisPagedListResponseDto | null;
   analysisTranslates: AnalysisTranslatesDto;
 };
