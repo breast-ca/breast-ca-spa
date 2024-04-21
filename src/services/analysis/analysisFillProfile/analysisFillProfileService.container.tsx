@@ -8,6 +8,7 @@ import { Empty } from "antd";
 import { usePatientInfoPanel } from "@/services/mainLayout/mainLayoutService.hooks";
 import { AnalysisTranslatesQuery } from "../analysisService.api";
 import { analysisService } from "../analysisService.model";
+import { diseaseEnumsTranslationsQuery } from "@/services/patients/patientProfile/PatientsProfile/diseasesList/diseasesListService.api";
 
 const {
   gates: { AnalysisProfileGate },
@@ -20,11 +21,13 @@ const {
 export const AnalysisFillProfileContainer = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { analysis, isLoading, analysisTranslates } = useUnit({
-    analysis: analysisProfileQuery.$data,
-    isLoading: analysisProfileQuery.$pending,
-    analysisTranslates: AnalysisTranslatesQuery.$data,
-  });
+  const { analysis, isLoading, analysisTranslates, diseaseTranslates } =
+    useUnit({
+      analysis: analysisProfileQuery.$data,
+      isLoading: analysisProfileQuery.$pending,
+      analysisTranslates: AnalysisTranslatesQuery.$data,
+      diseaseTranslates: diseaseEnumsTranslationsQuery.$data,
+    });
 
   usePatientInfoPanel(analysis?.disease.patient);
 
@@ -34,10 +37,11 @@ export const AnalysisFillProfileContainer = () => {
       <AnalysisTranslatesGate />
       <WithLoader isLoading={isLoading}>
         {!analysis && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
-        {analysis && analysisTranslates && (
+        {analysis && analysisTranslates && diseaseTranslates && (
           <AnalysisFillProfile
             analysis={analysis}
             analysisTranslates={analysisTranslates}
+            diseaseTranslates={diseaseTranslates}
           />
         )}
       </WithLoader>

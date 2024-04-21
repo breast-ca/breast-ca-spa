@@ -51,6 +51,7 @@ export const DiseaseCode = styled.span<{ colour1: string; colour2: string }>`
   font-size: 16px;
   border-radius: 20px;
   color: white;
+  font-weight: 700;
 
   background: ${(props) =>
     `linear-gradient(45deg, ${props.colour1}, ${props.colour2})`};

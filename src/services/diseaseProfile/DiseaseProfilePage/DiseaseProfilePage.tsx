@@ -21,6 +21,7 @@ import { Pen, PlusCircleFill } from "react-bootstrap-icons";
 import { useNavigate, useParams } from "react-router-dom";
 import { DiseaseCommonInfo } from "./DiseaseCommonInfo";
 import { DiseaseAnalysisListContainer } from "./diseaseAnalysisList";
+import { DiseaseFullResponseDto, DiseaseTranslateDto } from "@/api/shared";
 
 export const DiseaseProfilePage: FC<Props> = ({
   isLoading,
@@ -31,27 +32,7 @@ export const DiseaseProfilePage: FC<Props> = ({
 }) => {
   const { segment } = useParams<{ segment?: DiseaseProfileSegment }>();
 
-  const diseaseTitle = useMemo(() => {
-    if (!disease) return null;
-
-    return (
-      <TitleWrapper>
-        <DiseaseCode colour1={disease.colour1} colour2={disease.colour2}>
-          {diseaseEnums.ICDCodes[disease.ICD]}
-        </DiseaseCode>{" "}
-        <Tooltip color="white" placement="bottom" title={disease.description}>
-          <DiseaseDescription>{disease.description}</DiseaseDescription>
-        </Tooltip>
-      </TitleWrapper>
-    );
-  }, [disease, diseaseEnums.ICDCodes]);
-
   usePatientInfoPanel(disease?.patient);
-
-  const infos = useMemo(
-    () => disease && getDisesasInfos(disease, diseaseEnums),
-    [disease, diseaseEnums]
-  );
 
   const navigate = useNavigate();
 
@@ -60,7 +41,12 @@ export const DiseaseProfilePage: FC<Props> = ({
       <WithLoader isLoading={isLoading}>
         {disease && (
           <>
-            <PageHeader goBack title={diseaseTitle}>
+            <PageHeader
+              goBack
+              title={
+                <DiseaseTitle disease={disease} diseaseEnums={diseaseEnums} />
+              }
+            >
               <ContextMenuButton
                 menuButtons={[
                   {
@@ -71,11 +57,7 @@ export const DiseaseProfilePage: FC<Props> = ({
                 ]}
               />
             </PageHeader>
-            <InfosWrapper>
-              {infos?.map((info) => (
-                <InfosItemWrapper key={info}>{info}</InfosItemWrapper>
-              ))}
-            </InfosWrapper>
+            <DiseaseInfos disease={disease} diseaseEnums={diseaseEnums} />
             <SegmentedWrapper>
               <Segmented
                 value={segment}
@@ -124,5 +106,41 @@ export const DiseaseProfilePage: FC<Props> = ({
         {!disease && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
       </WithLoader>
     </Wrapper>
+  );
+};
+
+export const DiseaseTitle: FC<{
+  disease: DiseaseFullResponseDto;
+  diseaseEnums: DiseaseTranslateDto;
+}> = ({ disease, diseaseEnums }) => {
+  if (!disease) return null;
+
+  return (
+    <TitleWrapper>
+      <DiseaseCode colour1={disease.colour1} colour2={disease.colour2}>
+        {diseaseEnums.ICDCodes[disease.ICD]}
+      </DiseaseCode>{" "}
+      <Tooltip color="white" placement="bottom" title={disease.description}>
+        <DiseaseDescription>{disease.description}</DiseaseDescription>
+      </Tooltip>
+    </TitleWrapper>
+  );
+};
+
+export const DiseaseInfos: FC<{
+  disease: DiseaseFullResponseDto;
+  diseaseEnums: DiseaseTranslateDto;
+}> = ({ disease, diseaseEnums }) => {
+  const infos = useMemo(
+    () => disease && getDisesasInfos(disease, diseaseEnums),
+    [disease, diseaseEnums]
+  );
+
+  return (
+    <InfosWrapper>
+      {infos?.map((info) => (
+        <InfosItemWrapper key={info}>{info}</InfosItemWrapper>
+      ))}
+    </InfosWrapper>
   );
 };
