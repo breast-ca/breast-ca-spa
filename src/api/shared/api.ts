@@ -315,6 +315,7 @@ export interface EditDiseaseDto {
 
 export interface AnalysisTranslatesDto {
   analysis: Record<string, string>;
+  ultrasoundDescription: Record<string, string>;
 }
 
 export enum AnalysisType {
@@ -1171,7 +1172,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags analysis
      * @name AnalysisControllerFillUltrasoundAnalysis
-     * @request POST:/api/analysis/ultrasound/fill/{analysisId}
+     * @request PATCH:/api/analysis/fill/{analysisId}/ultrasound
      * @secure
      */
     analysisControllerFillUltrasoundAnalysis: (
@@ -1180,8 +1181,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       params: RequestParams = {},
     ) =>
       this.request<CreateAnalysisDto, any>({
-        path: `/api/analysis/ultrasound/fill/${analysisId}`,
-        method: "POST",
+        path: `/api/analysis/fill/${analysisId}/ultrasound`,
+        method: "PATCH",
         body: data,
         secure: true,
         type: ContentType.Json,
