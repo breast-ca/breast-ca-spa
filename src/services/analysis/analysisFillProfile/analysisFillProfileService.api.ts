@@ -20,5 +20,8 @@ export const fillUltrasoundAnalysisMutation = createMutation({
     WithAnalysisId<FillUltrasoundAnalysisDto>,
     void,
     EffectorAxiosError
-  >(() => axios.patch(`/api/analysis/fill/{analysisId}/ultrasound`)),
+  >(
+    ({ analysisId, ...payload }): Promise<void> =>
+      axios.patch(`/analysis/fill/${analysisId}/ultrasound`, payload)
+  ),
 });

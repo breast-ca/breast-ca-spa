@@ -9,7 +9,7 @@ export interface AnalysisFillPayload {
   analysisType: AnalysisType;
   analysisId: number;
   analysisEditPayload: EditAnalysisDto;
-  ultrasound?: CreateUltrasoundDto;
+  ultrasound?: CreateUltrasoundDto | null;
 }
 
 export type AnalysisFillCommonFormData = FillUltrasoundAnalysisDto;
@@ -21,3 +21,8 @@ export type WithAnalysisId<T extends object> = {
 export type PrepareAnalysisFillFunction<T extends object> = (
   payload: AnalysisFillPayload
 ) => WithAnalysisId<T> | null;
+
+export type AnalysisFillSavePayload = Omit<
+  AnalysisFillPayload,
+  "analysisType" | "analysisId"
+>;

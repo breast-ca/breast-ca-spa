@@ -15,6 +15,7 @@ export const AnalysisFillProfile: FC<Props> = ({
   analysis,
   analysisTranslates,
   diseaseTranslates,
+  handleSaveAnalysisFill,
 }) => {
   const [segment, setSegment] = useState<AnalysisProfileSegment>("analysis");
 
@@ -48,6 +49,7 @@ export const AnalysisFillProfile: FC<Props> = ({
         <AnalysisFillForm
           analysis={analysis}
           analysisTranslates={analysisTranslates}
+          handleSaveAnalysisFill={handleSaveAnalysisFill}
         />
       )}
       {segment === "passport" && (

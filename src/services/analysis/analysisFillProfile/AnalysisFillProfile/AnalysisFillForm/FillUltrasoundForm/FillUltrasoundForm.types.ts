@@ -1,7 +1,7 @@
 import { AnalysisTranslatesDto } from "@/api/shared";
-import { AnalysisFillPayload } from "../../../analysisFillProfileService.types";
+import { FillAnalysisOmit } from "../AnalysisFillForm.types";
 
 export type FillProps = {
   analysisTranslates: AnalysisTranslatesDto;
-  pushFillAnalysisPayload: (payload: AnalysisFillPayload) => void;
+  pushFillAnalysisPayload: (payload: FillAnalysisOmit) => void;
 };

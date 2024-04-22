@@ -6,6 +6,7 @@ import {
 } from "./analysisFillProfileService.api";
 import {
   AnalysisFillPayload,
+  AnalysisFillSavePayload,
   WithAnalysisId,
 } from "./analysisFillProfileService.types";
 import {
@@ -19,8 +20,7 @@ import { message } from "antd";
 const AnalysisProfileGate = createGate<{ id: number }>();
 
 const handleSaveAnalysisButtonClicked = createEvent();
-const handleSaveAnalysisFill =
-  createEvent<Omit<AnalysisFillPayload, "analysisType" | "analysisId">>();
+const handleSaveAnalysisFill = createEvent<AnalysisFillSavePayload>();
 
 const pushFillAnalysisPayload = createEvent<AnalysisFillPayload>();
 
@@ -89,9 +89,7 @@ const handleFillAnalysisSuccess = merge([
   fillUltrasoundAnalysisMutation.finished.success,
 ]);
 
-handleFillAnalysisSuccess.watch(() =>
-  message.success("Анализ сохранен!")
-);
+handleFillAnalysisSuccess.watch(() => message.success("Анализ сохранен!"));
 
 // loading for analysis profile
 sample({

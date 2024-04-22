@@ -21,13 +21,20 @@ const {
 export const AnalysisFillProfileContainer = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { analysis, isLoading, analysisTranslates, diseaseTranslates } =
-    useUnit({
-      analysis: analysisProfileQuery.$data,
-      isLoading: analysisProfileQuery.$pending,
-      analysisTranslates: AnalysisTranslatesQuery.$data,
-      diseaseTranslates: diseaseEnumsTranslationsQuery.$data,
-    });
+  const {
+    analysis,
+    isLoading,
+    analysisTranslates,
+    diseaseTranslates,
+    handleSaveAnalysisFill,
+  } = useUnit({
+    analysis: analysisProfileQuery.$data,
+    isLoading: analysisProfileQuery.$pending,
+    analysisTranslates: AnalysisTranslatesQuery.$data,
+    diseaseTranslates: diseaseEnumsTranslationsQuery.$data,
+    handleSaveAnalysisFill:
+      analysisFillProfileService.inputs.handleSaveAnalysisFill,
+  });
 
   usePatientInfoPanel(analysis?.disease.patient);
 
@@ -42,6 +49,7 @@ export const AnalysisFillProfileContainer = () => {
             analysis={analysis}
             analysisTranslates={analysisTranslates}
             diseaseTranslates={diseaseTranslates}
+            handleSaveAnalysisFill={handleSaveAnalysisFill}
           />
         )}
       </WithLoader>
