@@ -10,6 +10,8 @@ import { Segmented } from "@/components/Segmented";
 import { DiseaseCommonInfo } from "@/services/diseaseProfile/DiseaseProfilePage/DiseaseCommonInfo";
 import { AnalysisStatusBadge } from "@/components/shared/AnalysisStatus";
 import { AnalysisFillForm } from "./AnalysisFillForm";
+import { AnalysisStatus } from "@/api/shared";
+import { AnalysisCard } from "../../AnalysisCard";
 
 export const AnalysisFillProfile: FC<Props> = ({
   analysis,
@@ -18,6 +20,8 @@ export const AnalysisFillProfile: FC<Props> = ({
   handleSaveAnalysisFill,
 }) => {
   const [segment, setSegment] = useState<AnalysisProfileSegment>("analysis");
+
+  const isReady = analysis.status !== AnalysisStatus.Awaiting;
 
   return (
     <Wrapper>
@@ -46,11 +50,21 @@ export const AnalysisFillProfile: FC<Props> = ({
         ]}
       />
       {segment === "analysis" && (
-        <AnalysisFillForm
-          analysis={analysis}
-          analysisTranslates={analysisTranslates}
-          handleSaveAnalysisFill={handleSaveAnalysisFill}
-        />
+        <>
+          {!isReady && (
+            <AnalysisFillForm
+              analysis={analysis}
+              analysisTranslates={analysisTranslates}
+              handleSaveAnalysisFill={handleSaveAnalysisFill}
+            />
+          )}
+          {isReady && (
+            <AnalysisCard
+              analysis={analysis}
+              analysisTranslates={analysisTranslates}
+            />
+          )}
+        </>
       )}
       {segment === "passport" && (
         <>

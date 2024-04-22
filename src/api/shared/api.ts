@@ -340,6 +340,14 @@ export enum AnalysisStatus {
   Done = "Done",
 }
 
+export interface UserLightResponseDto {
+  id: number;
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  roles: RoleType[];
+}
+
 export interface PatientLightResponseDto {
   id: number;
   name: string;
@@ -357,6 +365,7 @@ export interface AnalysisListResponseDto {
   /** @format date-time */
   completedTime: string;
   status: AnalysisStatus;
+  creator?: UserLightResponseDto;
   patient: PatientLightResponseDto;
 }
 
@@ -369,7 +378,22 @@ export interface CreateAnalysisDto {
   analysisType: AnalysisType;
 }
 
-export interface AnalysisResponseDto {
+export enum UltrasoundDescription {
+  BreastCancer = "BreastCancer",
+  PossibleBreastCancer = "PossibleBreastCancer",
+}
+
+export interface UltrasoundResponseDto {
+  id: number;
+  tumorSize: number;
+  metastasisNumber: number;
+  birNumber: number;
+  relapseTypes: RelapseType[];
+  side: Side;
+  description: UltrasoundDescription;
+}
+
+export interface AnalysisPayloadResponseDto {
   id: number;
   analysisType: AnalysisType;
   description: string;
@@ -379,6 +403,8 @@ export interface AnalysisResponseDto {
   /** @format date-time */
   completedTime: string;
   status: AnalysisStatus;
+  creator?: UserLightResponseDto;
+  Ultrasound?: UltrasoundResponseDto;
 }
 
 export interface AnalysisFullResponseDto {
@@ -391,16 +417,13 @@ export interface AnalysisFullResponseDto {
   /** @format date-time */
   completedTime: string;
   status: AnalysisStatus;
+  creator?: UserLightResponseDto;
+  Ultrasound?: UltrasoundResponseDto;
   disease: DiseaseFullResponseDto;
 }
 
 export interface EditAnalysisDto {
   description?: string;
-}
-
-export enum UltrasoundDescription {
-  BreastCancer = "BreastCancer",
-  PossibleBreastCancer = "PossibleBreastCancer",
 }
 
 export interface CreateUltrasoundDto {
@@ -1146,7 +1169,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     analysisControllerGetAnalysisByDisease: (diseaseId: string, params: RequestParams = {}) =>
-      this.request<AnalysisResponseDto[], any>({
+      this.request<AnalysisPayloadResponseDto[], any>({
         path: `/api/analysis/byDisease/${diseaseId}`,
         method: "GET",
         secure: true,

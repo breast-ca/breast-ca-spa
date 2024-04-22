@@ -37,10 +37,20 @@ export const AnalysisListPage: FC<Props> = ({
               ),
             },
             {
+              label: "Диагност",
+              size: "1.2fr",
+              render: ({ creator }) =>
+                creator
+                  ? `${creator.firstName} ${creator.lastName} ${
+                      creator.middleName || ""
+                    }`
+                  : null,
+            },
+            {
               label: "ФИО пациента",
-              size: "1.5fr",
+              size: "1.2fr",
               render: ({ patient: { name, surname, middleName } }): string =>
-                `${name} ${surname} ${middleName || ""}`,
+                `${surname} ${name}  ${middleName || ""}`,
             },
             {
               label: "Статус",

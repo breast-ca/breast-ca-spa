@@ -1,0 +1,1 @@
+export { UltrasoundView } from './UltrasoundView';

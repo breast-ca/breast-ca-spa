@@ -10,6 +10,7 @@ import {
 import { Props } from "./AnalysisCard.types";
 import { AnalysisStatusBadge } from "@/components/shared/AnalysisStatus";
 import dayjs from "dayjs";
+import { AnalysisPayload } from "./AnalysisPayload";
 
 export const AnalysisCard: FC<Props> = ({ analysis, analysisTranslates }) => {
   return (
@@ -21,11 +22,16 @@ export const AnalysisCard: FC<Props> = ({ analysis, analysisTranslates }) => {
         </TitleContent>
         <TitleContent>
           <CreatedDate>
-            <CreatedDateTitle>создано:</CreatedDateTitle>
-            {dayjs(analysis.creationTime).format("HH:mm DD.MM.YYYY")}
+            <CreatedDateTitle>
+              {analysis.completedTime ? "анализ получен" : "создано"}:
+            </CreatedDateTitle>
+            {dayjs(analysis.completedTime || analysis.creationTime).format(
+              "HH:mm DD.MM.YYYY"
+            )}
           </CreatedDate>
         </TitleContent>
       </Header>
+      <AnalysisPayload analysis={analysis} />
     </Wrapper>
   );
 };

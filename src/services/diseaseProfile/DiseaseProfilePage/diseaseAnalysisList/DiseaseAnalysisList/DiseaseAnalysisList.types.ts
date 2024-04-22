@@ -1,7 +1,10 @@
-import { AnalysisResponseDto, AnalysisTranslatesDto } from "@/api/shared";
+import {
+  AnalysisPayloadResponseDto,
+  AnalysisTranslatesDto,
+} from "@/api/shared";
 
 export type Props = {
-  analysisList: AnalysisResponseDto[];
+  analysisList: AnalysisPayloadResponseDto[];
   isLoading: boolean;
   analysisTranslates: AnalysisTranslatesDto;
 };
