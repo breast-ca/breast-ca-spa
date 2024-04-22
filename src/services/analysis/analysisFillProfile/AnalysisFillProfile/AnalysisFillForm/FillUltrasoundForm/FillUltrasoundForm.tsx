@@ -36,6 +36,7 @@ export const FillUltrasoundForm: FC<FillProps> = ({
         side: null as Side | null,
         description: null as UltrasoundDescription | null,
       },
+      validateOnChange: false,
       onSubmit: (values) => {
         pushFillAnalysisPayload({
           ultrasound: values as CreateUltrasoundDto,
@@ -52,20 +53,7 @@ export const FillUltrasoundForm: FC<FillProps> = ({
   );
 
   return (
-    <Wrapper>
-      <FormItem label="Размер опухоли">
-        <Input
-          name="tumorSize"
-          value={values.tumorSize ?? ""}
-          type="number"
-          onChange={handleChange}
-          suffix="мм"
-          size="large"
-          placeholder="Введите размер опухоли"
-          status={errors.tumorSize ? "error" : void 0}
-        />
-        {errors.tumorSize && <ErrorMessage>{errors.tumorSize}</ErrorMessage>}
-      </FormItem>
+    <>
       <FormItem label="Описание">
         <Select
           value={values.description}
@@ -84,36 +72,71 @@ export const FillUltrasoundForm: FC<FillProps> = ({
           <ErrorMessage>{errors.description}</ErrorMessage>
         )}
       </FormItem>
-      <FormItem label="Сторона поражение">
-        <Select
-          value={values.side}
-          onChange={(value) => setFieldValue("side", value)}
-          size="large"
-          placeholder="Выберите сторону"
-          status={errors.side ? "error" : void 0}
-        >
-          {Object.values(Side).map((side) => (
-            <Select.Option key={side}>
-              {diseaseTranslates?.sideTranslates[side]}
-            </Select.Option>
-          ))}
-        </Select>
-        {errors.side && <ErrorMessage>{errors.side}</ErrorMessage>}
-      </FormItem>
-      <FormItem label="Количество мтс">
-        <Input
-          value={values.metastasisNumber ?? ""}
-          name="metastasisNumber"
-          onChange={handleChange}
-          size="large"
-          type="number"
-          placeholder="Выберите количество мтс"
-          status={errors.metastasisNumber ? "error" : void 0}
-        />
-        {errors.metastasisNumber && (
-          <ErrorMessage>{errors.metastasisNumber}</ErrorMessage>
-        )}
-      </FormItem>
+      <Wrapper>
+        <FormItem label="Размер опухоли">
+          <Input
+            name="tumorSize"
+            value={values.tumorSize ?? ""}
+            type="number"
+            onChange={handleChange}
+            suffix="мм"
+            size="large"
+            placeholder="Введите размер опухоли"
+            status={errors.tumorSize ? "error" : void 0}
+          />
+          {errors.tumorSize && <ErrorMessage>{errors.tumorSize}</ErrorMessage>}
+        </FormItem>
+        <FormItem label="Сторона поражение">
+          <Select
+            value={values.side}
+            onChange={(value) => setFieldValue("side", value)}
+            size="large"
+            placeholder="Выберите сторону"
+            status={errors.side ? "error" : void 0}
+          >
+            {Object.values(Side).map((side) => (
+              <Select.Option key={side}>
+                {diseaseTranslates?.sideTranslates[side]}
+              </Select.Option>
+            ))}
+          </Select>
+          {errors.side && <ErrorMessage>{errors.side}</ErrorMessage>}
+        </FormItem>
+        <FormItem label="Количество мтс">
+          <Input
+            value={values.metastasisNumber ?? ""}
+            name="metastasisNumber"
+            onChange={handleChange}
+            size="large"
+            type="number"
+            placeholder="Выберите количество мтс"
+            status={errors.metastasisNumber ? "error" : void 0}
+          />
+          {errors.metastasisNumber && (
+            <ErrorMessage>{errors.metastasisNumber}</ErrorMessage>
+          )}
+        </FormItem>
+
+        <FormItem label="Число BIR">
+          <Select
+            size="large"
+            placeholder="Выберите число BIR"
+            value={values.birNumber}
+            onChange={(value) => setFieldValue("birNumber", value)}
+            status={errors.birNumber ? "error" : void 0}
+          >
+            {new Array(6)
+              .fill(null)
+              .map((_, index) => index)
+              .map((value) => (
+                <Select.Option key={value} value={value}>
+                  {value}
+                </Select.Option>
+              ))}
+          </Select>
+          {errors.birNumber && <ErrorMessage>{errors.birNumber}</ErrorMessage>}
+        </FormItem>
+      </Wrapper>
       <FormItem label="Область мтс">
         <Select
           size="large"
@@ -133,25 +156,6 @@ export const FillUltrasoundForm: FC<FillProps> = ({
           <ErrorMessage>{errors.relapseTypes}</ErrorMessage>
         )}
       </FormItem>
-      <FormItem label="Число BIR">
-        <Select
-          size="large"
-          placeholder="Выберите число BIR"
-          value={values.birNumber}
-          onChange={(value) => setFieldValue("birNumber", value)}
-          status={errors.birNumber ? "error" : void 0}
-        >
-          {new Array(6)
-            .fill(null)
-            .map((_, index) => index)
-            .map((value) => (
-              <Select.Option key={value} value={value}>
-                {value}
-              </Select.Option>
-            ))}
-        </Select>
-        {errors.birNumber && <ErrorMessage>{errors.birNumber}</ErrorMessage>}
-      </FormItem>
-    </Wrapper>
+    </>
   );
 };

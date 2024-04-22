@@ -394,6 +394,10 @@ export interface AnalysisFullResponseDto {
   disease: DiseaseFullResponseDto;
 }
 
+export interface EditAnalysisDto {
+  description?: string;
+}
+
 export enum UltrasoundDescription {
   BreastCancer = "BreastCancer",
   PossibleBreastCancer = "PossibleBreastCancer",
@@ -409,7 +413,7 @@ export interface CreateUltrasoundDto {
 }
 
 export interface FillUltrasoundAnalysisDto {
-  description?: string;
+  analysisPayload: EditAnalysisDto;
   ultrasoundPayload: CreateUltrasoundDto;
 }
 
