@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import { AnalysisStatusBadge } from "@/components/shared/AnalysisStatus";
 import { AnalysisSearchForm } from "./AnalysisSearchForm";
 import { Pagination } from "antd";
+import { AuthorBadge } from "@/components/shared/AuthorBadge";
 
 export const AnalysisListPage: FC<Props> = ({
   analysisPagedList,
@@ -40,11 +41,7 @@ export const AnalysisListPage: FC<Props> = ({
               label: "Диагност",
               size: "1.2fr",
               render: ({ creator }) =>
-                creator
-                  ? `${creator.firstName} ${creator.lastName} ${
-                      creator.middleName || ""
-                    }`
-                  : null,
+                creator ? <AuthorBadge user={creator} /> : null,
             },
             {
               label: "ФИО пациента",

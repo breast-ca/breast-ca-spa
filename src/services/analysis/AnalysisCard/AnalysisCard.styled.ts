@@ -5,6 +5,7 @@ export const Wrapper = styled(Card)`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  max-width: 800px;
 `;
 
 export const TitleContent = styled.div`

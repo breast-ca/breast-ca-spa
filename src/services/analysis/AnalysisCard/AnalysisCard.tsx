@@ -11,6 +11,7 @@ import { Props } from "./AnalysisCard.types";
 import { AnalysisStatusBadge } from "@/components/shared/AnalysisStatus";
 import dayjs from "dayjs";
 import { AnalysisPayload } from "./AnalysisPayload";
+import { AuthorBadge } from "@/components/shared/AuthorBadge";
 
 export const AnalysisCard: FC<Props> = ({ analysis, analysisTranslates }) => {
   return (
@@ -19,6 +20,7 @@ export const AnalysisCard: FC<Props> = ({ analysis, analysisTranslates }) => {
         <TitleContent>
           <Title>{analysisTranslates.analysis[analysis.analysisType]}</Title>
           <AnalysisStatusBadge status={analysis.status} />
+          {analysis.creator && <AuthorBadge user={analysis.creator} />}
         </TitleContent>
         <TitleContent>
           <CreatedDate>
