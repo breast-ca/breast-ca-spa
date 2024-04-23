@@ -4,14 +4,20 @@ import { Props } from "./AnalysisPayload.types";
 import { AnalysisType } from "@/api/shared";
 import { UltrasoundView } from "./UltrasoundView";
 
-export const AnalysisPayload: FC<Props> = ({ analysis }) => {
+export const AnalysisPayload: FC<Props> = ({
+  analysis,
+  analysisTranslates,
+}) => {
   const payloadView = useMemo(() => {
     const forms: {
       [key in keyof typeof AnalysisType]: ReactNode | null;
     } = {
-      [AnalysisType.Ultrasound]: (
-        <UltrasoundView ultrasound={analysis.Ultrasound} />
-      ),
+      [AnalysisType.Ultrasound]: analysis.Ultrasound ? (
+        <UltrasoundView
+          ultrasound={analysis.Ultrasound}
+          analysisTranslates={analysisTranslates}
+        />
+      ) : null,
       [AnalysisType.Biopsy]: null,
       [AnalysisType.BloodBiochemistry]: null,
       [AnalysisType.BoneScan]: null,
@@ -26,7 +32,7 @@ export const AnalysisPayload: FC<Props> = ({ analysis }) => {
     };
 
     return forms[analysis.analysisType];
-  }, [analysis]);
+  }, [analysis.Ultrasound, analysis.analysisType, analysisTranslates]);
 
   return <Wrapper>{payloadView}</Wrapper>;
 };

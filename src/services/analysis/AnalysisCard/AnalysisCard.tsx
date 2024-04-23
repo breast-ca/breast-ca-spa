@@ -13,13 +13,23 @@ import dayjs from "dayjs";
 import { AnalysisPayload } from "./AnalysisPayload";
 import { AuthorBadge } from "@/components/shared/AuthorBadge";
 
-export const AnalysisCard: FC<Props> = ({ analysis, analysisTranslates }) => {
+export const AnalysisCard: FC<Props> = ({
+  analysis,
+  analysisTranslates,
+  showTitle = true,
+}) => {
   return (
     <Wrapper>
       <Header>
         <TitleContent>
-          <Title>{analysisTranslates.analysis[analysis.analysisType]}</Title>
-          <AnalysisStatusBadge status={analysis.status} />
+          {showTitle && (
+            <>
+              <Title>
+                {analysisTranslates.analysis[analysis.analysisType]}
+              </Title>
+              <AnalysisStatusBadge status={analysis.status} />
+            </>
+          )}
           {analysis.creator && <AuthorBadge user={analysis.creator} />}
         </TitleContent>
         <TitleContent>
@@ -33,7 +43,12 @@ export const AnalysisCard: FC<Props> = ({ analysis, analysisTranslates }) => {
           </CreatedDate>
         </TitleContent>
       </Header>
-      <AnalysisPayload analysis={analysis} />
+      {analysis.completedTime && (
+        <AnalysisPayload
+          analysis={analysis}
+          analysisTranslates={analysisTranslates}
+        />
+      )}
     </Wrapper>
   );
 };

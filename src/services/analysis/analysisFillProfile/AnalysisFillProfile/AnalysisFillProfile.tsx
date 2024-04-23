@@ -60,6 +60,7 @@ export const AnalysisFillProfile: FC<Props> = ({
           )}
           {isReady && (
             <AnalysisCard
+              showTitle={false}
               analysis={analysis}
               analysisTranslates={analysisTranslates}
             />

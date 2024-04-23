@@ -1,5 +1,6 @@
-import { UltrasoundResponseDto } from "@/api/shared";
+import { AnalysisTranslatesDto, UltrasoundResponseDto } from "@/api/shared";
 
 export type Props = {
-  ultrasound?: UltrasoundResponseDto;
+  ultrasound: UltrasoundResponseDto;
+  analysisTranslates: AnalysisTranslatesDto;
 };
