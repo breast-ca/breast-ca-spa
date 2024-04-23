@@ -1,8 +1,9 @@
 import { FC, ReactNode, useMemo } from "react";
-import { Wrapper } from "./AnalysisPayload.styled";
+import { Description, Wrapper } from "./AnalysisPayload.styled";
 import { Props } from "./AnalysisPayload.types";
 import { AnalysisType } from "@/api/shared";
 import { UltrasoundView } from "./UltrasoundView";
+import { Divider } from "antd";
 
 export const AnalysisPayload: FC<Props> = ({
   analysis,
@@ -34,5 +35,19 @@ export const AnalysisPayload: FC<Props> = ({
     return forms[analysis.analysisType];
   }, [analysis.Ultrasound, analysis.analysisType, analysisTranslates]);
 
-  return <Wrapper>{payloadView}</Wrapper>;
+  return (
+    <Wrapper>
+      {payloadView}
+      <Divider
+        style={{
+          marginBottom: 12,
+          width: "calc(100% + 32px)",
+          transform: "translateX(-16px)",
+        }}
+      >
+        Заключение
+      </Divider>
+      <Description>{analysis.description}</Description>
+    </Wrapper>
+  );
 };

@@ -41,3 +41,17 @@ export const CreatedDateTitle = styled.div`
   line-height: 0;
   padding-bottom: 18px;
 `;
+
+export const OpenChevron = styled.div<{ isOpen: boolean }>`
+  width: 32px;
+  height: 32px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #00000007;
+  color: #292929;
+  transition: 0.2s;
+  cursor: pointer;
+  ${({ isOpen }) => isOpen && `transform: rotate(180deg);`}
+`;

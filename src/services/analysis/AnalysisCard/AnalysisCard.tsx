@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
   CreatedDate,
   CreatedDateTitle,
   Header,
+  OpenChevron,
   Title,
   TitleContent,
   Wrapper,
@@ -12,12 +13,16 @@ import { AnalysisStatusBadge } from "@/components/shared/AnalysisStatus";
 import dayjs from "dayjs";
 import { AnalysisPayload } from "./AnalysisPayload";
 import { AuthorBadge } from "@/components/shared/AuthorBadge";
+import { ChevronDown } from "react-bootstrap-icons";
 
 export const AnalysisCard: FC<Props> = ({
   analysis,
   analysisTranslates,
   showTitle = true,
 }) => {
+  const isPayloadExist = Boolean(analysis.completedTime);
+  const [showPayload, setShowPayload] = useState(false);
+
   return (
     <Wrapper>
       <Header>
@@ -41,9 +46,14 @@ export const AnalysisCard: FC<Props> = ({
               "HH:mm DD.MM.YYYY"
             )}
           </CreatedDate>
+          {isPayloadExist && (
+            <OpenChevron isOpen={showPayload} onClick={() => setShowPayload((show) => !show)}>
+              <ChevronDown />
+            </OpenChevron>
+          )}
         </TitleContent>
       </Header>
-      {analysis.completedTime && (
+      {isPayloadExist && showPayload && (
         <AnalysisPayload
           analysis={analysis}
           analysisTranslates={analysisTranslates}
