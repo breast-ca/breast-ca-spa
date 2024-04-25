@@ -1,0 +1,1 @@
+export { UpdateTNMModal } from './UpdateTNMModal';

@@ -21,7 +21,7 @@ export const AnalysisCard: FC<Props> = ({
   showTitle = true,
 }) => {
   const isPayloadExist = Boolean(analysis.completedTime);
-  const [showPayload, setShowPayload] = useState(false);
+  const [showPayload, setShowPayload] = useState(!showTitle || false);
 
   return (
     <Wrapper>
@@ -46,8 +46,11 @@ export const AnalysisCard: FC<Props> = ({
               "HH:mm DD.MM.YYYY"
             )}
           </CreatedDate>
-          {isPayloadExist && (
-            <OpenChevron isOpen={showPayload} onClick={() => setShowPayload((show) => !show)}>
+          {isPayloadExist && showTitle && (
+            <OpenChevron
+              isOpen={showPayload}
+              onClick={() => setShowPayload((show) => !show)}
+            >
               <ChevronDown />
             </OpenChevron>
           )}

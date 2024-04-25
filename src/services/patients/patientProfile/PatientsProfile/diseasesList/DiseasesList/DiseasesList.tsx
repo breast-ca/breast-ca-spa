@@ -12,7 +12,7 @@ import {
 } from "./DiseasesList.styled";
 import { Props } from "./DiseasesList.types";
 import { ClipboardPlus } from "react-bootstrap-icons";
-import { getDisesasInfos } from "./DiseasesList.utils";
+import { getDiseasInfos } from "./DiseasesList.utils";
 import { useNavigate } from "react-router-dom";
 
 export const DiseasesList: FC<Props> = ({
@@ -33,7 +33,7 @@ export const DiseasesList: FC<Props> = ({
       )}
       {!isLoading &&
         diseasesList.map((disease) => {
-          const infos = getDisesasInfos(disease, diseaseEnums);
+          const infos = getDiseasInfos(disease, diseaseEnums);
 
           return (
             <DiseaseItem

@@ -13,11 +13,11 @@ import { WithLoader } from "@/components/WithLoader";
 import { PageHeader } from "@/components/PageHeader";
 import { ContextMenuButton } from "@/components/ContextMenuButton";
 import { usePatientInfoPanel } from "@/services/mainLayout/mainLayoutService.hooks";
-import { getDisesasInfos } from "@/services/patients/patientProfile/PatientsProfile/diseasesList/DiseasesList/DiseasesList.utils";
+import { getDiseasInfos } from "@/services/patients/patientProfile/PatientsProfile/diseasesList/DiseasesList/DiseasesList.utils";
 import { Empty, Tooltip } from "antd";
 import { Segmented } from "@/components/Segmented";
 import { Button } from "@/components/Button";
-import { Pen, PlusCircleFill } from "react-bootstrap-icons";
+import { PlusCircleFill } from "react-bootstrap-icons";
 import { useNavigate, useParams } from "react-router-dom";
 import { DiseaseCommonInfo } from "./DiseaseCommonInfo";
 import { DiseaseAnalysisListContainer } from "./diseaseAnalysisList";
@@ -29,6 +29,7 @@ export const DiseaseProfilePage: FC<Props> = ({
   diseaseEnums,
   handleEdit,
   handleCreateAnalysis,
+  handleUpdateTNM,
 }) => {
   const { segment } = useParams<{ segment?: DiseaseProfileSegment }>();
 
@@ -36,76 +37,89 @@ export const DiseaseProfilePage: FC<Props> = ({
 
   const navigate = useNavigate();
 
+  const segments = (
+    <SegmentedWrapper>
+      <Segmented
+        value={segment}
+        onChange={(value) =>
+          navigate(`/disease/${disease?.id}/${value}`, {
+            replace: true,
+          })
+        }
+        options={[
+          {
+            label: "Паспорт",
+            value: "common",
+          },
+          {
+            label: "Маршрутная карта",
+            value: "therapy",
+          },
+          {
+            label: "Анализы",
+            value: "analysis",
+          },
+          {
+            label: "Консилиумы",
+            value: "consilium",
+          },
+        ]}
+      />
+      {segment === "analysis" && (
+        <Button
+          floating
+          icon={<PlusCircleFill />}
+          rounded
+          onClick={handleCreateAnalysis}
+        >
+          Новый анализ
+        </Button>
+      )}
+    </SegmentedWrapper>
+  );
+
   return (
-    <Wrapper>
-      <WithLoader isLoading={isLoading}>
-        {disease && (
-          <>
-            <PageHeader
-              goBack
-              title={
-                <DiseaseTitle disease={disease} diseaseEnums={diseaseEnums} />
-              }
-            >
-              <ContextMenuButton
-                menuButtons={[
-                  {
-                    title: "Редактировать",
-                    icon: <Pen />,
-                    onClick: handleEdit,
-                  },
-                ]}
-              />
-            </PageHeader>
-            <DiseaseInfos disease={disease} diseaseEnums={diseaseEnums} />
-            <SegmentedWrapper>
-              <Segmented
-                value={segment}
-                onChange={(value) =>
-                  navigate(`/disease/${disease.id}/${value}`, { replace: true })
+    <>
+      <Wrapper>
+        <WithLoader isLoading={isLoading}>
+          {disease && (
+            <>
+              <PageHeader
+                goBack
+                title={
+                  <DiseaseTitle disease={disease} diseaseEnums={diseaseEnums} />
                 }
-                options={[
-                  {
-                    label: "Паспорт",
-                    value: "common",
-                  },
-                  {
-                    label: "Маршрутная карта",
-                    value: "therapy",
-                  },
-                  {
-                    label: "Анализы",
-                    value: "analysis",
-                  },
-                  {
-                    label: "Консилиумы",
-                    value: "consilium",
-                  },
-                ]}
-              />
-              <Button
-                floating
-                icon={<PlusCircleFill />}
-                rounded
-                onClick={handleCreateAnalysis}
               >
-                Новый анализ
-              </Button>
-            </SegmentedWrapper>
-            {segment === "common" && (
-              <DiseaseCommonInfo
-                disease={disease}
-                diseaseEnums={diseaseEnums}
-              />
-            )}
-            {segment === "analysis" && (
-              <DiseaseAnalysisListContainer diseaseId={disease.id} />
-            )}
-          </>
-        )}
-        {!disease && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
-      </WithLoader>
-    </Wrapper>
+                <ContextMenuButton
+                  menuButtons={[
+                    {
+                      title: "Редактировать",
+                      onClick: handleEdit,
+                    },
+                    {
+                      title: disease.tnm ? "Изменить TNM" : "Добавить TNM",
+                      onClick: handleUpdateTNM,
+                    },
+                  ]}
+                />
+              </PageHeader>
+              <DiseaseInfos disease={disease} diseaseEnums={diseaseEnums} />
+              {segments}
+              {segment === "common" && (
+                <DiseaseCommonInfo
+                  disease={disease}
+                  diseaseEnums={diseaseEnums}
+                />
+              )}
+              {segment === "analysis" && (
+                <DiseaseAnalysisListContainer diseaseId={disease.id} />
+              )}
+            </>
+          )}
+          {!disease && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+        </WithLoader>
+      </Wrapper>
+    </>
   );
 };
 
@@ -132,7 +146,7 @@ export const DiseaseInfos: FC<{
   diseaseEnums: DiseaseTranslateDto;
 }> = ({ disease, diseaseEnums }) => {
   const infos = useMemo(
-    () => disease && getDisesasInfos(disease, diseaseEnums),
+    () => disease && getDiseasInfos(disease, diseaseEnums),
     [disease, diseaseEnums]
   );
 

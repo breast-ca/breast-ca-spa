@@ -283,6 +283,13 @@ export interface DiseaseResponseDto {
   colour2: string;
 }
 
+export interface TNMResponseDTO {
+  type?: string;
+  T?: string;
+  N?: string;
+  M?: string;
+}
+
 export interface DiseaseFullResponseDto {
   id: number;
   ICD: ICD;
@@ -297,6 +304,14 @@ export interface DiseaseFullResponseDto {
   colour1: string;
   colour2: string;
   patient: PatientFullResponseDto;
+  tnm?: TNMResponseDTO;
+}
+
+export interface UpdateTNMDTO {
+  type: string;
+  T?: string;
+  N?: string;
+  M?: string;
 }
 
 export interface EditDiseaseDto {
@@ -1049,6 +1064,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     diseaseControllerDiseaseEdit: (id: string, data: EditDiseaseDto, params: RequestParams = {}) =>
       this.request<EditDiseaseDto, any>({
         path: `/api/disease/${id}`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Diseases
+     * @name DiseaseControllerDiseaseTnmEdit
+     * @request PATCH:/api/disease/{id}/tnm
+     * @secure
+     */
+    diseaseControllerDiseaseTnmEdit: (id: string, data: UpdateTNMDTO, params: RequestParams = {}) =>
+      this.request<EditDiseaseDto, any>({
+        path: `/api/disease/${id}/tnm`,
         method: "PATCH",
         body: data,
         secure: true,

@@ -18,6 +18,7 @@ export const StyledMenuButton = styled(Button)`
 export const MenuItem = styled(Menu.Item)<{ color?: string }>`
   color: ${({ color = ContextMenuButtonColorsLookup.primary }) =>
     color} !important;
+  min-width: 200px;
 
   .ant-dropdown-menu-title-content {
     gap: 8px;

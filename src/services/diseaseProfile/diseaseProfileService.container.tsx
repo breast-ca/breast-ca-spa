@@ -13,6 +13,10 @@ import {
   createAnalysisService,
 } from "../analysis/createAnalysis";
 import { AnalysisService } from "../analysis";
+import {
+  UpdateTNMContainer,
+  updateTNMService,
+} from "./DiseaseProfilePage/updateTNM";
 
 const {
   gates: { DiseaseGate },
@@ -32,6 +36,7 @@ export const DiseaseProfileContainer = () => {
     handleEdit,
     handleCreateAnalysis,
     AnalysisTranslates,
+    handleUpdateTNM,
   } = useUnit({
     disease: diseaseQuery.$data,
     isLoading: diseaseQuery.$pending,
@@ -39,6 +44,7 @@ export const DiseaseProfileContainer = () => {
     handleEdit: editDiseaseModalService.inputs.handleEdit,
     handleCreateAnalysis: createAnalysisService.inputs.openModal,
     AnalysisTranslates: AnalysisService.outputs.$translates,
+    handleUpdateTNM: updateTNMService.inputs.openModal,
   });
 
   if (!diseaseEnums) return null;
@@ -47,6 +53,7 @@ export const DiseaseProfileContainer = () => {
     <>
       {id && <DiseaseGate id={Number(id)} />}
       <EditDiseaseModalContainer />
+      <UpdateTNMContainer tnm={disease?.tnm} diseaseId={Number(id)} />
       {AnalysisTranslates && (
         <CreateAnalysisContainer
           diseaseId={Number(id)}
@@ -60,6 +67,7 @@ export const DiseaseProfileContainer = () => {
         diseaseEnums={diseaseEnums}
         handleEdit={() => disease && handleEdit(disease)}
         handleCreateAnalysis={handleCreateAnalysis}
+        handleUpdateTNM={handleUpdateTNM}
       />
     </>
   );
