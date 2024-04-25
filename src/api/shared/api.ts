@@ -308,7 +308,7 @@ export interface DiseaseFullResponseDto {
 }
 
 export interface UpdateTNMDTO {
-  type: string;
+  type?: string;
   T?: string;
   N?: string;
   M?: string;
@@ -326,6 +326,11 @@ export interface EditDiseaseDto {
   relapsePlace?: RelapsePlace;
   colour1?: string;
   colour2?: string;
+}
+
+export interface UploadFileResponseDto {
+  originalname: string;
+  filename: string;
 }
 
 export interface AnalysisTranslatesDto {
@@ -381,6 +386,7 @@ export interface AnalysisListResponseDto {
   completedTime: string;
   status: AnalysisStatus;
   creator?: UserLightResponseDto;
+  attachedImages: string[];
   patient: PatientLightResponseDto;
 }
 
@@ -419,6 +425,7 @@ export interface AnalysisPayloadResponseDto {
   completedTime: string;
   status: AnalysisStatus;
   creator?: UserLightResponseDto;
+  attachedImages: string[];
   Ultrasound?: UltrasoundResponseDto;
 }
 
@@ -433,12 +440,14 @@ export interface AnalysisFullResponseDto {
   completedTime: string;
   status: AnalysisStatus;
   creator?: UserLightResponseDto;
+  attachedImages: string[];
   Ultrasound?: UltrasoundResponseDto;
   disease: DiseaseFullResponseDto;
 }
 
 export interface EditAnalysisDto {
   description?: string;
+  attachedImages?: string[];
 }
 
 export interface CreateUltrasoundDto {
@@ -1106,12 +1115,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<void, any>({
+      this.request<UploadFileResponseDto, any>({
         path: `/api/file-storage/upload`,
         method: "POST",
         body: data,
         secure: true,
         type: ContentType.FormData,
+        format: "json",
         ...params,
       }),
 
@@ -1121,13 +1131,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags file-storage
      * @name FileStorageControllerGetFile
      * @request GET:/api/file-storage/file/{path}
-     * @secure
      */
     fileStorageControllerGetFile: (path: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/file-storage/file/${path}`,
         method: "GET",
-        secure: true,
         ...params,
       }),
 

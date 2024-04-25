@@ -55,3 +55,8 @@ export const OpenChevron = styled.div<{ isOpen: boolean }>`
   cursor: pointer;
   ${({ isOpen }) => isOpen && `transform: rotate(180deg);`}
 `;
+
+export const ImagesWrapper = styled.div`
+  display: flex;
+  gap: 16px;
+`;

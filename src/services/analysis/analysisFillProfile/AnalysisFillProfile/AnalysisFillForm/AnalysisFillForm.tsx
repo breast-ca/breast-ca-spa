@@ -8,6 +8,7 @@ import {
   AnalysisType,
   CreateUltrasoundDto,
   EditAnalysisDto,
+  UploadFileResponseDto,
 } from "@/api/shared";
 import { FillUltrasoundForm } from "./FillUltrasoundForm";
 import { FillProps } from "./FillUltrasoundForm/FillUltrasoundForm.types";
@@ -18,6 +19,7 @@ import { AnalysisFillSavePayload } from "../../analysisFillProfileService.types"
 import { createEvent } from "effector";
 import { validationSchema } from "./AnalysisFillForm.constants";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { UploadFileContainer } from "@/services/uploadFile";
 
 const { inputs } = analysisFillProfileService;
 
@@ -37,19 +39,23 @@ export const AnalysisFillForm: FC<Props> = ({
     useFormik({
       initialValues: {
         description: "",
+        attachedImages: [] as UploadFileResponseDto[],
         ultrasoundPayload: null as CreateUltrasoundDto | null,
       },
       onSubmit: (values) => {
         const { ultrasoundPayload, ...analysisPayloadRest } = values;
 
-        const analysisPayload: EditAnalysisDto = analysisPayloadRest;
+        const analysisPayload: EditAnalysisDto = {
+          ...analysisPayloadRest,
+          attachedImages: values.attachedImages.map((item) => item.filename),
+        };
 
         const fillSavePayload: AnalysisFillSavePayload = {
           analysisEditPayload: analysisPayload,
           ultrasound: ultrasoundPayload,
         };
 
-        handleSaveAnalysisFill(fillSavePayload);
+        return void handleSaveAnalysisFill(fillSavePayload);
       },
       validationSchema,
       validateOnChange: false,
@@ -106,6 +112,9 @@ export const AnalysisFillForm: FC<Props> = ({
           <ErrorMessage>{errors.description}</ErrorMessage>
         )}
       </FormItem>
+      <UploadFileContainer
+        onChange={(images) => setFieldValue("attachedImages", images)}
+      />
       <Footer>
         <Button onClick={hadleSave}>Сохранить анализ</Button>
       </Footer>

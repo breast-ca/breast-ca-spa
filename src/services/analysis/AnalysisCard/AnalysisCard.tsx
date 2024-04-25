@@ -3,6 +3,7 @@ import {
   CreatedDate,
   CreatedDateTitle,
   Header,
+  ImagesWrapper,
   OpenChevron,
   Title,
   TitleContent,
@@ -14,6 +15,8 @@ import dayjs from "dayjs";
 import { AnalysisPayload } from "./AnalysisPayload";
 import { AuthorBadge } from "@/components/shared/AuthorBadge";
 import { ChevronDown } from "react-bootstrap-icons";
+import { Image } from "antd";
+import { API_HOST } from "@/constants";
 
 export const AnalysisCard: FC<Props> = ({
   analysis,
@@ -57,10 +60,28 @@ export const AnalysisCard: FC<Props> = ({
         </TitleContent>
       </Header>
       {isPayloadExist && showPayload && (
-        <AnalysisPayload
-          analysis={analysis}
-          analysisTranslates={analysisTranslates}
-        />
+        <>
+          <AnalysisPayload
+            analysis={analysis}
+            analysisTranslates={analysisTranslates}
+          />
+          <ImagesWrapper>
+            <Image.PreviewGroup>
+              {analysis.attachedImages.map((url) => (
+                <Image
+                  width={180}
+                  height={180}
+                  style={{
+                    borderRadius: 8,
+                    objectFit: "cover",
+                    objectPosition: "50% 50%",
+                  }}
+                  src={`${API_HOST}/file-storage/file/${url}`}
+                />
+              ))}
+            </Image.PreviewGroup>
+          </ImagesWrapper>
+        </>
       )}
     </Wrapper>
   );
