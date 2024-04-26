@@ -1,6 +1,9 @@
 import { createEvent, sample } from "effector";
 import { createGate } from "effector-react";
-import { diseaseAnalysisQuery } from "./diseaseAnalysisListService.api";
+import {
+  diseaseAnalysisQuery,
+  startAnalysisConsillium,
+} from "./diseaseAnalysisListService.api";
 import { createAnalysisMutation } from "@/services/analysis/createAnalysis/createAnalysisService.api";
 
 const DiseaseAnalysisGate = createGate<{ diseaseId: number }>();
@@ -14,7 +17,10 @@ sample({
 });
 
 sample({
-  clock: createAnalysisMutation.finished.success,
+  clock: [
+    createAnalysisMutation.finished.success,
+    startAnalysisConsillium.finished.success,
+  ],
   source: DiseaseAnalysisGate.status,
   target: refresh,
 });

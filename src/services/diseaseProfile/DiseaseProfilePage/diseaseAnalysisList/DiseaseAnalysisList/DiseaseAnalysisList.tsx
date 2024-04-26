@@ -9,6 +9,7 @@ export const DiseaseAnalysisList: FC<Props> = ({
   analysisList,
   isLoading,
   analysisTranslates,
+  startConsillium,
 }) => {
   return (
     <Wrapper>
@@ -19,6 +20,7 @@ export const DiseaseAnalysisList: FC<Props> = ({
             key={analysis.id}
             analysis={analysis}
             analysisTranslates={analysisTranslates}
+            handleCreateConsillium={() => startConsillium(analysis.id)}
           />
         ))}
       </WithLoader>

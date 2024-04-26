@@ -7,4 +7,5 @@ export type Props = {
   analysis: AnalysisPayloadResponseDto;
   analysisTranslates: AnalysisTranslatesDto;
   showTitle?: boolean;
+  handleCreateConsillium?: () => void;
 };

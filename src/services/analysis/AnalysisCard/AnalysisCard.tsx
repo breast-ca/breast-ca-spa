@@ -4,6 +4,7 @@ import {
   CreatedDateTitle,
   Header,
   ImagesWrapper,
+  ManagementButtonsWrapper,
   OpenChevron,
   Title,
   TitleContent,
@@ -18,11 +19,14 @@ import { ChevronDown } from "react-bootstrap-icons";
 import { Divider, Image } from "antd";
 import { API_HOST } from "@/constants";
 import { FilesList } from "@/components/FilesList";
+import { Button } from "@/components/Button";
+import { AnalysisStatus } from "@/api/shared";
 
 export const AnalysisCard: FC<Props> = ({
   analysis,
   analysisTranslates,
   showTitle = true,
+  handleCreateConsillium,
 }) => {
   const isPayloadExist = Boolean(analysis.completedTime);
   const [showPayload, setShowPayload] = useState(!showTitle || false);
@@ -98,6 +102,24 @@ export const AnalysisCard: FC<Props> = ({
               {analysis.attachedDocuments && (
                 <FilesList files={analysis.attachedDocuments} />
               )}
+              {handleCreateConsillium &&
+                analysis.status === AnalysisStatus.Ready && (
+                  <>
+                    <Divider
+                      style={{
+                        margin: 0,
+                        padding: 0,
+                        width: "calc(100% + 32px)",
+                        transform: "translateX(-16px)",
+                      }}
+                    />
+                    <ManagementButtonsWrapper>
+                      <Button onClick={handleCreateConsillium}>
+                        Начать консиллиум
+                      </Button>
+                    </ManagementButtonsWrapper>
+                  </>
+                )}
             </>
           )}
         </>

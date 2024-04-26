@@ -60,3 +60,9 @@ export const ImagesWrapper = styled.div`
   display: flex;
   gap: 16px;
 `;
+
+export const ManagementButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+`;

@@ -8,3 +8,7 @@ export const diseaseAnalysisQuery = createQuery<
 >({
   handler: (diseaseId) => axios.get(`/analysis/byDisease/${diseaseId}`),
 });
+
+export const startAnalysisConsillium = createQuery<[number], void>({
+  handler: (analysisId) => axios.post(`consillium/${analysisId}`),
+});

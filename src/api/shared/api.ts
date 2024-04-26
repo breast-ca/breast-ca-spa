@@ -468,6 +468,29 @@ export interface FillUltrasoundAnalysisDto {
   ultrasoundPayload: CreateUltrasoundDto;
 }
 
+export enum ConsilliumStatus {
+  AwaitingDistribution = "AwaitingDistribution",
+  Working = "Working",
+  Done = "Done",
+}
+
+export interface AnalysisConsilliumResponseDto {
+  id: number;
+  disease: DiseaseResponseDto;
+}
+
+export interface ConsilliumMemberDto {
+  user: UserLightResponseDto;
+  isLead: boolean;
+}
+
+export interface ConsilliumResponseDto {
+  status: ConsilliumStatus;
+  analysis: AnalysisConsilliumResponseDto;
+  creator: UserLightResponseDto;
+  usersOnConsillium: ConsilliumMemberDto;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -1259,6 +1282,37 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name ConsilliumControllerCreateConsillium
+     * @request POST:/api/consillium/{analysisId}
+     * @secure
+     */
+    consilliumControllerCreateConsillium: (analysisId: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/consillium/${analysisId}`,
+        method: "POST",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name ConsilliumControllerGetConsilliumById
+     * @request GET:/api/consillium/{consilliumId}
+     * @secure
+     */
+    consilliumControllerGetConsilliumById: (consilliumId: string, params: RequestParams = {}) =>
+      this.request<ConsilliumResponseDto, any>({
+        path: `/api/consillium/${consilliumId}`,
+        method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),

@@ -7,4 +7,5 @@ export type Props = {
   analysisList: AnalysisPayloadResponseDto[];
   isLoading: boolean;
   analysisTranslates: AnalysisTranslatesDto;
+  startConsillium: (id: number) => void;
 };
