@@ -477,6 +477,10 @@ export enum ConsilliumStatus {
 export interface AnalysisConsilliumResponseDto {
   id: number;
   disease: DiseaseResponseDto;
+  creator: UserLightResponseDto;
+  analysisType: AnalysisType;
+  /** @format date-time */
+  completedTime: string;
 }
 
 export interface ConsilliumMemberDto {
@@ -485,10 +489,11 @@ export interface ConsilliumMemberDto {
 }
 
 export interface ConsilliumResponseDto {
+  id: number;
   status: ConsilliumStatus;
   analysis: AnalysisConsilliumResponseDto;
   creator: UserLightResponseDto;
-  usersOnConsillium: ConsilliumMemberDto;
+  usersOnConsillium: ConsilliumMemberDto[];
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -1289,6 +1294,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags consillium
      * @name ConsilliumControllerCreateConsillium
      * @request POST:/api/consillium/{analysisId}
      * @secure
@@ -1304,6 +1310,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags consillium
+     * @name ConsilliumControllerGetConsilliumsByDisease
+     * @request GET:/api/consillium/disease/{diseaseId}
+     * @secure
+     */
+    consilliumControllerGetConsilliumsByDisease: (diseaseId: string, params: RequestParams = {}) =>
+      this.request<ConsilliumResponseDto[], any>({
+        path: `/api/consillium/disease/${diseaseId}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags consillium
      * @name ConsilliumControllerGetConsilliumById
      * @request GET:/api/consillium/{consilliumId}
      * @secure

@@ -22,6 +22,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { DiseaseCommonInfo } from "./DiseaseCommonInfo";
 import { DiseaseAnalysisListContainer } from "./diseaseAnalysisList";
 import { DiseaseFullResponseDto, DiseaseTranslateDto } from "@/api/shared";
+import { DiseaseConsilliumsListContainer } from "@/services/consilliums/diseaseConsilliumsList";
 
 export const DiseaseProfilePage: FC<Props> = ({
   isLoading,
@@ -61,7 +62,7 @@ export const DiseaseProfilePage: FC<Props> = ({
           },
           {
             label: "Консилиумы",
-            value: "consilium",
+            value: "consiliums",
           },
         ]}
       />
@@ -113,6 +114,9 @@ export const DiseaseProfilePage: FC<Props> = ({
               )}
               {segment === "analysis" && (
                 <DiseaseAnalysisListContainer diseaseId={disease.id} />
+              )}
+              {segment === "consiliums" && (
+                <DiseaseConsilliumsListContainer diseaseId={disease.id} />
               )}
             </>
           )}

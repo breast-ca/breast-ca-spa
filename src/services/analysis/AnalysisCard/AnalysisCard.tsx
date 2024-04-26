@@ -20,7 +20,11 @@ import { Divider, Image } from "antd";
 import { API_HOST } from "@/constants";
 import { FilesList } from "@/components/FilesList";
 import { Button } from "@/components/Button";
-import { AnalysisStatus } from "@/api/shared";
+import {
+  AnalysisConsilliumResponseDto,
+  AnalysisStatus,
+  AnalysisTranslatesDto,
+} from "@/api/shared";
 
 export const AnalysisCard: FC<Props> = ({
   analysis,
@@ -30,6 +34,8 @@ export const AnalysisCard: FC<Props> = ({
 }) => {
   const isPayloadExist = Boolean(analysis.completedTime);
   const [showPayload, setShowPayload] = useState(!showTitle || false);
+
+  console.log(analysis, handleCreateConsillium);
 
   return (
     <Wrapper>
@@ -102,28 +108,50 @@ export const AnalysisCard: FC<Props> = ({
               {analysis.attachedDocuments && (
                 <FilesList files={analysis.attachedDocuments} />
               )}
-              {handleCreateConsillium &&
-                analysis.status === AnalysisStatus.Ready && (
-                  <>
-                    <Divider
-                      style={{
-                        margin: 0,
-                        padding: 0,
-                        width: "calc(100% + 32px)",
-                        transform: "translateX(-16px)",
-                      }}
-                    />
-                    <ManagementButtonsWrapper>
-                      <Button onClick={handleCreateConsillium}>
-                        Начать консиллиум
-                      </Button>
-                    </ManagementButtonsWrapper>
-                  </>
-                )}
             </>
           )}
+          {handleCreateConsillium &&
+            analysis.status === AnalysisStatus.Ready && (
+              <>
+                <Divider
+                  style={{
+                    margin: 0,
+                    padding: 0,
+                    width: "calc(100% + 32px)",
+                    transform: "translateX(-16px)",
+                  }}
+                />
+                <ManagementButtonsWrapper>
+                  <Button onClick={handleCreateConsillium}>
+                    Начать консиллиум
+                  </Button>
+                </ManagementButtonsWrapper>
+              </>
+            )}
         </>
       )}
     </Wrapper>
+  );
+};
+
+export const AnalysisInfo: FC<{
+  analysis: AnalysisConsilliumResponseDto;
+  analysisTranslates: AnalysisTranslatesDto;
+}> = ({ analysis, analysisTranslates }) => {
+  return (
+    <Header>
+      <TitleContent>
+        <Title>{analysisTranslates.analysis[analysis.analysisType]}</Title>
+        {analysis.creator && <AuthorBadge user={analysis.creator} />}
+      </TitleContent>
+      <TitleContent>
+        <CreatedDate>
+          <CreatedDateTitle>
+            {analysis.completedTime ? "анализ получен" : "создано"}:
+          </CreatedDateTitle>
+          {dayjs(analysis.completedTime).format("HH:mm DD.MM.YYYY")}
+        </CreatedDate>
+      </TitleContent>
+    </Header>
   );
 };

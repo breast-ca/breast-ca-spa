@@ -54,7 +54,7 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
           element: <PatientProfileContainer />,
         },
         {
-          path: "/disease/:id/:segment",
+          path: "/disease/:id/:segment/:consilliumId?",
           element: <DiseaseProfileContainer />,
         },
         {

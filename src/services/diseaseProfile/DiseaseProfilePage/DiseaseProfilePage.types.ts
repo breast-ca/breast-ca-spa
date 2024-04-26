@@ -13,4 +13,4 @@ export type DiseaseProfileSegment =
   | "common"
   | "therapy"
   | "analysis"
-  | "consilium";
+  | "consiliums";

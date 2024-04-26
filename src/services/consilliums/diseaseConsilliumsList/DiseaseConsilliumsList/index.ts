@@ -1,0 +1,1 @@
+export { DiseaseConsilliumsList } from './DiseaseConsilliumsList';
