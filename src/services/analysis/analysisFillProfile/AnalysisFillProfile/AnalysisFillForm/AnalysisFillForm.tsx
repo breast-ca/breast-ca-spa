@@ -40,6 +40,7 @@ export const AnalysisFillForm: FC<Props> = ({
       initialValues: {
         description: "",
         attachedImages: [] as UploadFileResponseDto[],
+        attachedDocuments: [] as UploadFileResponseDto[],
         ultrasoundPayload: null as CreateUltrasoundDto | null,
       },
       onSubmit: (values) => {
@@ -48,6 +49,9 @@ export const AnalysisFillForm: FC<Props> = ({
         const analysisPayload: EditAnalysisDto = {
           ...analysisPayloadRest,
           attachedImages: values.attachedImages.map((item) => item.filename),
+          attachedDocuments: values.attachedDocuments.map(
+            (item) => item.filename
+          ),
         };
 
         const fillSavePayload: AnalysisFillSavePayload = {
@@ -113,7 +117,12 @@ export const AnalysisFillForm: FC<Props> = ({
         )}
       </FormItem>
       <UploadFileContainer
+        type="picture-card"
         onChange={(images) => setFieldValue("attachedImages", images)}
+      />
+      <UploadFileContainer
+        type="text"
+        onChange={(files) => setFieldValue("attachedDocuments", files)}
       />
       <Footer>
         <Button onClick={hadleSave}>Сохранить анализ</Button>

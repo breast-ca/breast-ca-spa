@@ -15,8 +15,9 @@ import dayjs from "dayjs";
 import { AnalysisPayload } from "./AnalysisPayload";
 import { AuthorBadge } from "@/components/shared/AuthorBadge";
 import { ChevronDown } from "react-bootstrap-icons";
-import { Image } from "antd";
+import { Divider, Image } from "antd";
 import { API_HOST } from "@/constants";
+import { FilesList } from "@/components/FilesList";
 
 export const AnalysisCard: FC<Props> = ({
   analysis,
@@ -65,22 +66,40 @@ export const AnalysisCard: FC<Props> = ({
             analysis={analysis}
             analysisTranslates={analysisTranslates}
           />
-          <ImagesWrapper>
-            <Image.PreviewGroup>
-              {analysis.attachedImages.map((url) => (
-                <Image
-                  width={180}
-                  height={180}
-                  style={{
-                    borderRadius: 8,
-                    objectFit: "cover",
-                    objectPosition: "50% 50%",
-                  }}
-                  src={`${API_HOST}/file-storage/file/${url}`}
-                />
-              ))}
-            </Image.PreviewGroup>
-          </ImagesWrapper>
+          {(Boolean(analysis.attachedImages.length) ||
+            Boolean(analysis.attachedDocuments.length)) && (
+            <>
+              <Divider
+                style={{
+                  margin: 0,
+                  padding: 0,
+                  width: "calc(100% + 32px)",
+                  transform: "translateX(-16px)",
+                }}
+              >
+                Документы
+              </Divider>
+              <ImagesWrapper>
+                <Image.PreviewGroup>
+                  {analysis.attachedImages.map((url) => (
+                    <Image
+                      width={180}
+                      height={180}
+                      style={{
+                        borderRadius: 8,
+                        objectFit: "cover",
+                        objectPosition: "50% 50%",
+                      }}
+                      src={`${API_HOST}/file-storage/file/${url}`}
+                    />
+                  ))}
+                </Image.PreviewGroup>
+              </ImagesWrapper>
+              {analysis.attachedDocuments && (
+                <FilesList files={analysis.attachedDocuments} />
+              )}
+            </>
+          )}
         </>
       )}
     </Wrapper>

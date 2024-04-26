@@ -387,6 +387,7 @@ export interface AnalysisListResponseDto {
   status: AnalysisStatus;
   creator?: UserLightResponseDto;
   attachedImages: string[];
+  attachedDocuments: string[];
   patient: PatientLightResponseDto;
 }
 
@@ -426,6 +427,7 @@ export interface AnalysisPayloadResponseDto {
   status: AnalysisStatus;
   creator?: UserLightResponseDto;
   attachedImages: string[];
+  attachedDocuments: string[];
   Ultrasound?: UltrasoundResponseDto;
 }
 
@@ -441,6 +443,7 @@ export interface AnalysisFullResponseDto {
   status: AnalysisStatus;
   creator?: UserLightResponseDto;
   attachedImages: string[];
+  attachedDocuments: string[];
   Ultrasound?: UltrasoundResponseDto;
   disease: DiseaseFullResponseDto;
 }
@@ -448,6 +451,7 @@ export interface AnalysisFullResponseDto {
 export interface EditAnalysisDto {
   description?: string;
   attachedImages?: string[];
+  attachedDocuments?: string[];
 }
 
 export interface CreateUltrasoundDto {

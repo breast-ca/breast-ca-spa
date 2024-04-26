@@ -5,8 +5,9 @@ import { authService } from "../auth/authService.model";
 import { UploadFileResponseDto } from "@/api/shared";
 import { Props } from "./uploadFileService.types";
 import { FC } from "react";
+import { Button } from "@/components/Button";
 
-export const UploadFileContainer: FC<Props> = ({ onChange }) => {
+export const UploadFileContainer: FC<Props> = ({ onChange, type }) => {
   return (
     <>
       <Upload
@@ -14,21 +15,27 @@ export const UploadFileContainer: FC<Props> = ({ onChange }) => {
         headers={{
           Authorization: `Bearer ${authService.outputs.$accessToken.getState()}`,
         }}
-        listType="picture-card"
+        listType={type}
         onChange={(file) =>
           onChange(
             file.fileList.map((file) => file.response as UploadFileResponseDto)
           )
         }
-        
       >
-        <button
-          style={{ border: 0, background: "none", cursor: "pointer" }}
-          type="button"
-        >
-          <PlusCircle />
-          <div style={{ marginTop: 8 }}>Загрузить</div>
-        </button>
+        {type !== "text" && (
+          <button
+            style={{ border: 0, background: "none", cursor: "pointer" }}
+            type="button"
+          >
+            <PlusCircle />
+            <div style={{ marginTop: 8, fontSize: 12 }}>Изображение</div>
+          </button>
+        )}
+        {type === "text" && (
+          <Button type="ghost" size="small">
+            Загрузить документ
+          </Button>
+        )}
       </Upload>
     </>
   );
