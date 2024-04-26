@@ -7,6 +7,7 @@ import { ConsilliumListItem } from "./ConsilliumListItem";
 import { useUnit } from "effector-react";
 import { AnalysisTranslatesQuery } from "@/services/analysis/analysisService.api";
 import { useNavigate, useParams } from "react-router-dom";
+import { DiseaseConsilliumContainer } from "../../diseaseConsillium/diseaseConsilliumService.container";
 
 export const DiseaseConsilliumsList: FC<Props> = ({
   isLoading,
@@ -27,7 +28,8 @@ export const DiseaseConsilliumsList: FC<Props> = ({
     [navigate]
   );
 
-  if (consilliumId) return <div>id {consilliumId}</div>;
+  if (consilliumId)
+    return <DiseaseConsilliumContainer id={Number(consilliumId)} />;
 
   return (
     <Wrapper>

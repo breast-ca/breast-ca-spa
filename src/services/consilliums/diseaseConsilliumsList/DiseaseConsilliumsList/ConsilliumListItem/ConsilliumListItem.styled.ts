@@ -11,6 +11,13 @@ export const Wrapper = styled(Card)`
   cursor: pointer;
 
   &:hover {
-    border-color: var(--primary);
+    ${({ onClick }) =>
+      onClick && `border-color: var(--primary); cursor: pointer;`}
   }
+`;
+
+export const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
