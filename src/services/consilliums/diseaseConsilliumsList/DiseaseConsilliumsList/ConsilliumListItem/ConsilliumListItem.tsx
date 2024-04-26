@@ -8,9 +8,10 @@ import { Divider } from "antd";
 export const ConsilliumListItem: FC<Props> = ({
   consillium,
   analysisTranslates,
+  handleClick,
 }) => {
   return (
-    <Wrapper>
+    <Wrapper onClick={() => handleClick(consillium.id)}>
       <ConsilliumStatus status={consillium.status} />
       <Divider
         style={{

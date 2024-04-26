@@ -5,4 +5,12 @@ export const Wrapper = styled(Card)`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  transition: 0.2s;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--primary);
+  }
 `;
