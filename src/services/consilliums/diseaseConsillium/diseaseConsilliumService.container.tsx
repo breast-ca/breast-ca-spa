@@ -10,6 +10,7 @@ import {
   DistributeConsilliumContainer,
   distributeConsilliumService,
 } from "./distributeConsillium";
+import { ConsilluimChatContainer } from "./consilluimChat";
 
 const {
   gates: { ConsilliumGate },
@@ -35,10 +36,15 @@ export const DiseaseConsilliumContainer: FC<{ id: number }> = ({ id }) => {
       </>
     );
 
+  const isConsilliumChat =
+    consillium?.status === ConsilliumStatus.Working ||
+    consillium?.status === ConsilliumStatus.Done;
+
   return (
     <>
       <ConsilliumGate id={id} />
       {distribution}
+      {isConsilliumChat && <ConsilluimChatContainer consillium={consillium} />}
       {!consillium ||
         (!analysisTranslates && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />)}
     </>

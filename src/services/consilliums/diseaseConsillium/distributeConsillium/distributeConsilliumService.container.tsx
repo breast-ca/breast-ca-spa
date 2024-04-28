@@ -33,7 +33,7 @@ export const DistributeConsilliumContainer: FC<{ id: number }> = ({ id }) => {
       onSubmit: (values) => {
         const payload: ConsilliumFillDto = {
           userOnConsillium: values.userOnConsillium,
-          leadId: values.leadId!,
+          leadId: Number(values.leadId),
         };
 
         fillConsillium({
