@@ -1,10 +1,11 @@
 import { FC } from "react";
-import { Header, Wrapper } from "./ConsilliumListItem.styled";
+import { ConsilliumInfo, Header, Wrapper } from "./ConsilliumListItem.styled";
 import { Props } from "./ConsilliumListItem.types";
 import { ConsilliumStatus } from "@/components/shared/ConsilliumStatus";
 import { AnalysisInfo } from "@/services/analysis/AnalysisCard/AnalysisCard";
 import { Divider } from "antd";
 import { Button } from "@/components/Button";
+import { UsersOnConsillium } from "@/services/consilliums/diseaseConsillium/consilluimChat/ConsilliumChat/ConsilliumChat";
 
 export const ConsilliumListItem: FC<Props> = ({
   consillium,
@@ -17,7 +18,10 @@ export const ConsilliumListItem: FC<Props> = ({
       onClick={handleDistribute ? void 0 : () => handleClick?.(consillium.id)}
     >
       <Header>
-        <ConsilliumStatus status={consillium.status} />
+        <ConsilliumInfo>
+          <ConsilliumStatus status={consillium.status} />
+          <UsersOnConsillium usersOnConsillium={consillium.usersOnConsillium} />
+        </ConsilliumInfo>
         {handleDistribute && (
           <Button onClick={handleDistribute}>Назначить участников</Button>
         )}

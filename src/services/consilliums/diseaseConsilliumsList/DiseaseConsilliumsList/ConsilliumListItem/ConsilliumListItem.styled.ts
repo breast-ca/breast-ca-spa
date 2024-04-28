@@ -21,3 +21,9 @@ export const Header = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
+
+export const ConsilliumInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;

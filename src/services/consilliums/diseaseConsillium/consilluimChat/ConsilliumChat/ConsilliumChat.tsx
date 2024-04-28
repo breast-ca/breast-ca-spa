@@ -13,6 +13,7 @@ import { Button } from "@/components/Button";
 import { Empty, Input } from "antd";
 import { Send } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
+import { ConsilliumMemberDto } from "@/api/shared";
 
 export const ConsilliumChat: FC<Props> = ({ consillium, isLead }) => {
   const navigate = useNavigate();
@@ -20,17 +21,7 @@ export const ConsilliumChat: FC<Props> = ({ consillium, isLead }) => {
   return (
     <Wrapper>
       <Header>
-        <AvatarsWrapper>
-          {consillium.usersOnConsillium.map(({ user, isLead }) => (
-            <HeaderAvatarSC
-              colorHash={user.firstName}
-              key={user.id}
-              isLead={isLead}
-            >
-              {user.firstName[0].toUpperCase()}
-            </HeaderAvatarSC>
-          ))}
-        </AvatarsWrapper>
+        <UsersOnConsillium usersOnConsillium={consillium.usersOnConsillium} />
         <ManagementButton>
           {consillium.analysis && (
             <Button
@@ -54,5 +45,23 @@ export const ConsilliumChat: FC<Props> = ({ consillium, isLead }) => {
         <Button icon={<Send />}>Отправить</Button>
       </SendMessageWrapper>
     </Wrapper>
+  );
+};
+
+export const UsersOnConsillium: FC<{
+  usersOnConsillium: ConsilliumMemberDto[];
+}> = ({ usersOnConsillium }) => {
+  return (
+    <AvatarsWrapper>
+      {usersOnConsillium.map(({ user, isLead }) => (
+        <HeaderAvatarSC
+          colorHash={user.firstName}
+          key={user.id}
+          isLead={isLead}
+        >
+          {user.firstName[0].toUpperCase()}
+        </HeaderAvatarSC>
+      ))}
+    </AvatarsWrapper>
   );
 };
