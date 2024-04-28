@@ -1,9 +1,7 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
-  AvatarsWrapper,
   ChatWrapper,
   Header,
-  HeaderAvatarSC,
   ManagementButton,
   SendMessageWrapper,
   Wrapper,
@@ -13,9 +11,15 @@ import { Button } from "@/components/Button";
 import { Empty, Input } from "antd";
 import { Send } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
-import { ConsilliumMemberDto } from "@/api/shared";
+import { UsersOnConsillium } from "./UsersOnConsillium";
 
-export const ConsilliumChat: FC<Props> = ({ consillium, isLead }) => {
+export const ConsilliumChat: FC<Props> = ({
+  consillium,
+  isLead,
+  handleSendMessage,
+}) => {
+  const [message, setMessage] = useState("");
+
   const navigate = useNavigate();
 
   return (
@@ -41,27 +45,23 @@ export const ConsilliumChat: FC<Props> = ({ consillium, isLead }) => {
         <Empty description="Пока сообщений нет" />
       </ChatWrapper>
       <SendMessageWrapper>
-        <Input size="large" placeholder="Введите сообщение..." />
-        <Button icon={<Send />}>Отправить</Button>
+        <Input
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          size="large"
+          placeholder="Введите сообщение..."
+        />
+        <Button
+          icon={<Send />}
+          disabled={!message}
+          onClick={() => {
+            handleSendMessage({ text: message });
+            setMessage("");
+          }}
+        >
+          Отправить
+        </Button>
       </SendMessageWrapper>
     </Wrapper>
-  );
-};
-
-export const UsersOnConsillium: FC<{
-  usersOnConsillium: ConsilliumMemberDto[];
-}> = ({ usersOnConsillium }) => {
-  return (
-    <AvatarsWrapper>
-      {usersOnConsillium.map(({ user, isLead }) => (
-        <HeaderAvatarSC
-          colorHash={user.firstName}
-          key={user.id}
-          isLead={isLead}
-        >
-          {user.firstName[0].toUpperCase()}
-        </HeaderAvatarSC>
-      ))}
-    </AvatarsWrapper>
   );
 };

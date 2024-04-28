@@ -3,12 +3,18 @@ import { FC } from "react";
 import { ConsilliumChat } from "./ConsilliumChat";
 import { useUnit } from "effector-react";
 import { userQuery } from "@/services/user/userService.api";
+import { consilluimChatService } from "./consilluimChatService.model";
+
+const {
+  gates: { ConsilliumGate },
+} = consilluimChatService;
 
 export const ConsilluimChatContainer: FC<{
   consillium: ConsilliumResponseDto;
 }> = ({ consillium }) => {
-  const { user } = useUnit({
+  const { user, handleSendMessage } = useUnit({
     user: userQuery.$data,
+    handleSendMessage: consilluimChatService.inputs.handleSendMessage,
   });
 
   const isLead = consillium.usersOnConsillium.some(
@@ -17,7 +23,12 @@ export const ConsilluimChatContainer: FC<{
 
   return (
     <>
-      <ConsilliumChat consillium={consillium} isLead={isLead} />
+      <ConsilliumGate id={consillium.id} />
+      <ConsilliumChat
+        consillium={consillium}
+        isLead={isLead}
+        handleSendMessage={handleSendMessage}
+      />
     </>
   );
 };

@@ -26,6 +26,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.2",
     "sass": "^1.64.2",
+    "socket.io-client": "^4.7.5",
     "string-to-color": "^2.2.2",
     "styled-components": "^6.0.7",
     "yup": "^1.4.0"

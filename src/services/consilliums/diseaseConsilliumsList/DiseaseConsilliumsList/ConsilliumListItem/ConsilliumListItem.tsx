@@ -5,7 +5,7 @@ import { ConsilliumStatus } from "@/components/shared/ConsilliumStatus";
 import { AnalysisInfo } from "@/services/analysis/AnalysisCard/AnalysisCard";
 import { Divider } from "antd";
 import { Button } from "@/components/Button";
-import { UsersOnConsillium } from "@/services/consilliums/diseaseConsillium/consilluimChat/ConsilliumChat/ConsilliumChat";
+import { UsersOnConsillium } from "@/services/consilliums/diseaseConsillium/consilluimChat/ConsilliumChat/UsersOnConsillium";
 
 export const ConsilliumListItem: FC<Props> = ({
   consillium,
