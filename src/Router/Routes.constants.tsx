@@ -1,7 +1,6 @@
 import { Navigate, RouteObject } from "react-router-dom";
 import { GetRoutesProps } from "./Router.types";
 import { PatientsListContainer } from "@/services/patients/patientsList";
-import { PageHeader } from "@/components/PageHeader";
 import { MainLayoutContainer } from "@/services/mainLayout/mainLayoutService.container";
 import { LoginContainer } from "@/services/login/loginService.container";
 import { PatientProfileContainer } from "@/services/patients/patientProfile/patientProfileService.container";
@@ -12,6 +11,7 @@ import { DiseaseProfileContainer } from "@/services/diseaseProfile";
 import { AboutPage } from "@/services/settings/AboutPage";
 import { AnalysisListContainer } from "@/services/analysis/analysisList";
 import { AnalysisFillProfileContainer } from "@/services/analysis/analysisFillProfile";
+import { ConsilliumsListContainer } from "@/services/consilliums/consilliumsList";
 
 export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
   const authRoutes = [
@@ -59,7 +59,7 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
         },
         {
           path: "/messages",
-          element: <PageHeader title="Консилиум" />,
+          element: <ConsilliumsListContainer />,
         },
         {
           path: "/analysis/fill/:id",

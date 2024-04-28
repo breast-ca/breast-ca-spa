@@ -12,8 +12,11 @@ import { Props } from "./ConsilliumChat.types";
 import { Button } from "@/components/Button";
 import { Empty, Input } from "antd";
 import { Send } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
 
 export const ConsilliumChat: FC<Props> = ({ consillium }) => {
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <Header>
@@ -29,9 +32,17 @@ export const ConsilliumChat: FC<Props> = ({ consillium }) => {
           ))}
         </AvatarsWrapper>
         <ManagementButton>
-          <Button type="ghost" size="small">
-            данные по анализу
-          </Button>
+          {consillium.analysis && (
+            <Button
+              type="ghost"
+              size="small"
+              onClick={() =>
+                navigate(`/analysis/fill/${consillium.analysis.id}`)
+              }
+            >
+              данные по анализу
+            </Button>
+          )}
           <Button size="small">Завершить консилиум</Button>
         </ManagementButton>
       </Header>
