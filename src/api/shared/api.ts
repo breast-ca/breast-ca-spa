@@ -496,6 +496,11 @@ export interface ConsilliumResponseDto {
   usersOnConsillium: ConsilliumMemberDto[];
 }
 
+export interface ConsilliumFillDto {
+  userOnConsillium: number[];
+  leadId: number;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -1337,6 +1342,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/consillium/${consilliumId}`,
         method: "GET",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags consillium
+     * @name ConsilliumControllerFillConsilliumMembers
+     * @request PATCH:/api/consillium/{consilliumId}
+     * @secure
+     */
+    consilliumControllerFillConsilliumMembers: (
+      consilliumId: string,
+      data: ConsilliumFillDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<ConsilliumFillDto, any>({
+        path: `/api/consillium/${consilliumId}`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
