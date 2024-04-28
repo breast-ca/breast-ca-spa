@@ -14,7 +14,7 @@ import { Empty, Input } from "antd";
 import { Send } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 
-export const ConsilliumChat: FC<Props> = ({ consillium }) => {
+export const ConsilliumChat: FC<Props> = ({ consillium, isLead }) => {
   const navigate = useNavigate();
 
   return (
@@ -43,7 +43,7 @@ export const ConsilliumChat: FC<Props> = ({ consillium }) => {
               данные по анализу
             </Button>
           )}
-          <Button size="small">Завершить консилиум</Button>
+          {isLead && <Button size="small">Завершить консилиум</Button>}
         </ManagementButton>
       </Header>
       <ChatWrapper isEmpty>
