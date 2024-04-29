@@ -17,7 +17,7 @@ const [$pageNumber, setPageNumber, resetPageNumber] = createStoreUnit(1, {
     return page;
   },
 });
-const [$pageSize, setPageSize] = createStoreUnit(3);
+const [$pageSize, setPageSize] = createStoreUnit(10);
 
 const [$searchForm, setSearchForm] = createStoreUnit<AnalysisListSearchForm>({
   firstName: "",

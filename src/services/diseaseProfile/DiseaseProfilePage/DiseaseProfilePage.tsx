@@ -53,7 +53,7 @@ export const DiseaseProfilePage: FC<Props> = ({
             value: "common",
           },
           {
-            label: "Маршрутная карта",
+            label: "Лечения",
             value: "therapy",
           },
           {

@@ -25,7 +25,9 @@ export const Message = styled.div<{ isMy: boolean }>`
   ${({ isMy }) => isMy && myMessageStyle}
 `;
 
-export const CreatorInfo = styled.div`
+export const CreatorInfo = styled.div<{ isMy: boolean }>`
   font-size: 12px;
   color: gray;
+
+  text-align: ${({ isMy }) => (isMy ? "right" : "left")};
 `;

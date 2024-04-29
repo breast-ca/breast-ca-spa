@@ -14,13 +14,15 @@ export const MessageItem: FC<Props> = ({ message, user }) => {
       {!isMy && <UserAvatar user={message.creator} isLead={false} />}{" "}
       <Message isMy={isMy}>
         {message.text}
-        {!isMy && (
-          <CreatorInfo>
-            {creator.lastName} {creator.firstName[0]}.{" "}
-            {creator.middleName?.[0] ? `${creator.middleName?.[0]}.` : ""}{" "}
-            {dayjs(message.sendingTime).format("HH:mm")}
-          </CreatorInfo>
-        )}
+        <CreatorInfo isMy={isMy}>
+          {!isMy && (
+            <>
+              {creator.lastName} {creator.firstName[0]}.{" "}
+              {creator.middleName?.[0] ? `${creator.middleName?.[0]}.` : ""}{" "}
+            </>
+          )}
+          {dayjs(message.sendingTime).format("HH:mm")}
+        </CreatorInfo>
       </Message>
     </Wrapper>
   );
