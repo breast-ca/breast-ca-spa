@@ -1,4 +1,8 @@
-import { ConsilliumResponseDto, MessageResponseDto } from "@/api/shared";
+import {
+  ConsilliumResponseDto,
+  MessageResponseDto,
+  UserResponseDto,
+} from "@/api/shared";
 import { SendMessageDto } from "../consilluimChatService.types";
 
 export type Props = {
@@ -6,4 +10,5 @@ export type Props = {
   isLead: boolean;
   handleSendMessage: (payload: Omit<SendMessageDto, "consilliumId">) => void;
   messagesList: MessageResponseDto[];
+  user: UserResponseDto | null;
 };

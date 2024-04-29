@@ -32,6 +32,7 @@ export const ConsilluimChatContainer: FC<{
         isLead={isLead}
         handleSendMessage={handleSendMessage}
         messagesList={messagesList}
+        user={user}
       />
     </>
   );

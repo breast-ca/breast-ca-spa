@@ -89,8 +89,6 @@ const $messages = createStore<MessageResponseDto[]>([])
   .on(handleNewMessage, (prev, newMessage) => [...prev, newMessage])
   .reset(ConsilliumGate.close);
 
-$messages.watch(console.log);
-
 sample({
   clock: ConsilliumGate.open,
   filter: ({ id }) => Boolean(id),

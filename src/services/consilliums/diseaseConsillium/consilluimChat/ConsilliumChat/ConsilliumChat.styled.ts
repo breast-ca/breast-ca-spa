@@ -49,6 +49,9 @@ const emptyChatCSS = css`
 
 export const ChatWrapper = styled.div<{ isEmpty: boolean }>`
   height: calc(100vh - 380px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 
   ${({ isEmpty }) => isEmpty && emptyChatCSS}
 `;

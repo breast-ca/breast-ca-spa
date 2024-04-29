@@ -19,6 +19,7 @@ export const ConsilliumChat: FC<Props> = ({
   isLead,
   handleSendMessage,
   messagesList,
+  user,
 }) => {
   const [message, setMessage] = useState("");
 
@@ -46,7 +47,7 @@ export const ConsilliumChat: FC<Props> = ({
       <ChatWrapper isEmpty={!messagesList.length}>
         {!messagesList.length && <Empty description="Пока сообщений нет" />}
         {messagesList.map((message) => (
-          <MessageItem key={message.id} message={message} />
+          <MessageItem user={user} key={message.id} message={message} />
         ))}
       </ChatWrapper>
       <SendMessageWrapper>
