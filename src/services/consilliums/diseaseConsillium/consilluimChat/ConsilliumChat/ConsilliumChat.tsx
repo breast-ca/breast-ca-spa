@@ -1,6 +1,7 @@
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import {
   ChatWrapper,
+  ConsilliumContentWrapper,
   Header,
   ManagementButton,
   SendMessageWrapper,
@@ -13,6 +14,10 @@ import { Send } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 import { UsersOnConsillium } from "./UsersOnConsillium";
 import { MessageItem } from "./MessageItem";
+import { ConsilliumStatus } from "@/api/shared";
+import { ConsilliumStatus as ConsilliumStatusBadge } from "@/components/shared/ConsilliumStatus";
+import { GoBack } from "@/components/BackButton";
+import { ConsilliumResult } from "./ConsilliumResult";
 
 export const ConsilliumChat: FC<Props> = ({
   consillium,
@@ -40,10 +45,25 @@ export const ConsilliumChat: FC<Props> = ({
     setMessage("");
   }, [handleSendMessage, message]);
 
+  const isDone = consillium.status === ConsilliumStatus.Done;
+
+  const messagesContent = (
+    <ChatWrapper isEmpty={!messagesList.length} ref={chatRef}>
+      {!messagesList.length && <Empty description="Пока сообщений нет" />}
+      {messagesList.map((message) => (
+        <MessageItem user={user} key={message.id} message={message} />
+      ))}
+    </ChatWrapper>
+  );
+
   return (
     <Wrapper>
       <Header>
-        <UsersOnConsillium usersOnConsillium={consillium.usersOnConsillium} />
+        <ManagementButton>
+          <GoBack />
+          <ConsilliumStatusBadge status={consillium.status} />
+          <UsersOnConsillium usersOnConsillium={consillium.usersOnConsillium} />
+        </ManagementButton>
         <ManagementButton>
           {consillium.analysis && (
             <Button
@@ -56,33 +76,36 @@ export const ConsilliumChat: FC<Props> = ({
               данные по анализу
             </Button>
           )}
-          {isLead && (
+          {isLead && consillium.status === ConsilliumStatus.Working && (
             <Button size="small" onClick={handleEnd}>
               Завершить консилиум
             </Button>
           )}
         </ManagementButton>
       </Header>
-      <ChatWrapper isEmpty={!messagesList.length} ref={chatRef}>
-        {!messagesList.length && <Empty description="Пока сообщений нет" />}
-        {messagesList.map((message) => (
-          <MessageItem user={user} key={message.id} message={message} />
-        ))}
-      </ChatWrapper>
-      <SendMessageWrapper>
-        <Input
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          size="large"
-          placeholder="Введите сообщение..."
-          onKeyDown={(e) => {
-            if (e.key === "Enter") onSend();
-          }}
-        />
-        <Button icon={<Send />} disabled={!message} onClick={onSend}>
-          Отправить
-        </Button>
-      </SendMessageWrapper>
+      {!isDone && messagesContent}
+      {isDone && (
+        <ConsilliumContentWrapper>
+          <ConsilliumResult />
+          {messagesContent}
+        </ConsilliumContentWrapper>
+      )}
+      {!isDone && (
+        <SendMessageWrapper>
+          <Input
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            size="large"
+            placeholder="Введите сообщение..."
+            onKeyDown={(e) => {
+              if (e.key === "Enter") onSend();
+            }}
+          />
+          <Button icon={<Send />} disabled={!message} onClick={onSend}>
+            Отправить
+          </Button>
+        </SendMessageWrapper>
+      )}
     </Wrapper>
   );
 };

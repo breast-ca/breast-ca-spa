@@ -1,0 +1,1 @@
+export { ConsilliumResult } from './ConsilliumResult';

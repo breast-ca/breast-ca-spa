@@ -33,9 +33,7 @@ export const HeaderAvatarSC = styled(Avatar)<{
   colorHash: string;
   index?: number;
 }>`
-  transform: translateX(
-    ${({ index }) => (index ? "-" + index * 12 + "px" : "-12px")}
-  );
+  margin-left: ${({ index }) => (index ? `-${12}px` : 0)};
   border: 2px solid ${({ isLead }) => (isLead ? "var(--primary)" : "white")};
   background-color: ${({ colorHash }) => getColorByString(colorHash)};
 
@@ -63,5 +61,11 @@ export const ChatWrapper = styled.div<{ isEmpty: boolean }>`
 export const SendMessageWrapper = styled.div`
   display: flex;
   align-items: center;
+  gap: 16px;
+`;
+
+export const ConsilliumContentWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
 `;
