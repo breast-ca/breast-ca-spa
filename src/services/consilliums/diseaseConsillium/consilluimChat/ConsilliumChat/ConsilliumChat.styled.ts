@@ -31,8 +31,11 @@ export const AvatarsWrapper = styled.div`
 export const HeaderAvatarSC = styled(Avatar)<{
   isLead: boolean;
   colorHash: string;
+  index?: number;
 }>`
-  transform: translateX(-12px);
+  transform: translateX(
+    ${({ index }) => (index ? "-" + index * 12 + "px" : "-12px")}
+  );
   border: 2px solid ${({ isLead }) => (isLead ? "var(--primary)" : "white")};
   background-color: ${({ colorHash }) => getColorByString(colorHash)};
 

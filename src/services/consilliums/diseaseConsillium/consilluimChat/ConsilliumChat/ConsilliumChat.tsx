@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import {
   ChatWrapper,
   Header,
@@ -33,6 +33,12 @@ export const ConsilliumChat: FC<Props> = ({
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
   }, [chatRef, messagesList]);
 
+  const onSend = useCallback(() => {
+    if (!message) return;
+    handleSendMessage({ text: message });
+    setMessage("");
+  }, [handleSendMessage, message]);
+
   return (
     <Wrapper>
       <Header>
@@ -64,15 +70,11 @@ export const ConsilliumChat: FC<Props> = ({
           onChange={(e) => setMessage(e.target.value)}
           size="large"
           placeholder="Введите сообщение..."
-        />
-        <Button
-          icon={<Send />}
-          disabled={!message}
-          onClick={() => {
-            handleSendMessage({ text: message });
-            setMessage("");
+          onKeyDown={(e) => {
+            if (e.key === "Enter") onSend();
           }}
-        >
+        />
+        <Button icon={<Send />} disabled={!message} onClick={onSend}>
           Отправить
         </Button>
       </SendMessageWrapper>

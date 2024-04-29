@@ -5,9 +5,15 @@ import { ConsilliumMemberDto, UserLightResponseDto } from "@/api/shared";
 export const UserAvatar: FC<{
   user: UserLightResponseDto;
   isLead: boolean;
-}> = ({ user, isLead }) => {
+  index?: number;
+}> = ({ user, isLead, index }) => {
   return (
-    <HeaderAvatarSC colorHash={user.firstName} key={user.id} isLead={isLead}>
+    <HeaderAvatarSC
+      index={index}
+      colorHash={user.firstName}
+      key={user.id}
+      isLead={isLead}
+    >
       {user.firstName[0].toUpperCase()}
     </HeaderAvatarSC>
   );
@@ -18,8 +24,8 @@ export const UsersOnConsillium: FC<{
 }> = ({ usersOnConsillium }) => {
   return (
     <AvatarsWrapper>
-      {usersOnConsillium.map(({ user, isLead }) => (
-        <UserAvatar user={user} isLead={isLead} />
+      {usersOnConsillium.map(({ user, isLead }, index) => (
+        <UserAvatar user={user} isLead={isLead} index={index} />
       ))}
     </AvatarsWrapper>
   );
