@@ -10,18 +10,22 @@ import { createGate } from "effector-react";
 import { Socket } from "socket.io-client";
 import {
   connectToConsillium,
+  lastMessagesQuery,
   sendMessageToConsilluim,
 } from "./consilluimChatService.api";
 import {
   ConsilliumSocketPayload,
   SendMessageDto,
 } from "./consilluimChatService.types";
+import { MessageResponseDto } from "@/api/shared";
 
 const ConsilliumGate = createGate<{ id: number }>();
 
 const connectionFx = createEffect(connectToConsillium);
 
 const handleSendMessage = createEvent<Omit<SendMessageDto, "consilliumId">>();
+
+const handleNewMessage = createEvent<MessageResponseDto>();
 
 const sendMessageFx = createEffect(sendMessageToConsilluim);
 
@@ -63,7 +67,7 @@ sample({
   source: $io,
   filter: Boolean,
   fn: (socket) => {
-    socket.on("newMessage", (...args) => console.log(args, "newMessage"));
+    socket.on("newMessage", (message) => handleNewMessage(message));
   },
 });
 
@@ -80,8 +84,22 @@ sample({
   target: sendMessageFx,
 });
 
+const $messages = createStore<MessageResponseDto[]>([])
+  .on(lastMessagesQuery.finished.success, (_, { result }) => result)
+  .on(handleNewMessage, (prev, newMessage) => [...prev, newMessage])
+  .reset(ConsilliumGate.close);
+
+$messages.watch(console.log);
+
+sample({
+  clock: ConsilliumGate.open,
+  filter: ({ id }) => Boolean(id),
+  fn: ({ id }) => id,
+  target: lastMessagesQuery.start,
+});
+
 export const consilluimChatService = {
   inputs: { handleSendMessage },
-  outputs: { $io },
+  outputs: { $io, $messages },
   gates: { ConsilliumGate },
 };

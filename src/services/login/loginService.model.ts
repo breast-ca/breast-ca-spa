@@ -9,9 +9,7 @@ sample({
   target: authService.inputs.tokenReceived,
 });
 
-loginQuery.finished.failure.watch((payload) => {
-  console.log(payload);
-
+loginQuery.finished.failure.watch(() => {
   message.error("Неверный логин или пароль");
 });
 

@@ -13,6 +13,11 @@ sample({
   target: consilliumQuery.start,
 });
 
+sample({
+  clock: ConsilliumGate.close,
+  target: consilliumQuery.reset,
+});
+
 export const diseaseConsilliumService = {
   inputs: {},
   outputs: {},

@@ -6,15 +6,18 @@ import { userQuery } from "@/services/user/userService.api";
 import { consilluimChatService } from "./consilluimChatService.model";
 
 const {
+  inputs,
+  outputs,
   gates: { ConsilliumGate },
 } = consilluimChatService;
 
 export const ConsilluimChatContainer: FC<{
   consillium: ConsilliumResponseDto;
 }> = ({ consillium }) => {
-  const { user, handleSendMessage } = useUnit({
+  const { user, handleSendMessage, messagesList } = useUnit({
     user: userQuery.$data,
-    handleSendMessage: consilluimChatService.inputs.handleSendMessage,
+    handleSendMessage: inputs.handleSendMessage,
+    messagesList: outputs.$messages,
   });
 
   const isLead = consillium.usersOnConsillium.some(
@@ -28,6 +31,7 @@ export const ConsilluimChatContainer: FC<{
         consillium={consillium}
         isLead={isLead}
         handleSendMessage={handleSendMessage}
+        messagesList={messagesList}
       />
     </>
   );

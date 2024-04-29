@@ -35,8 +35,6 @@ export const AnalysisCard: FC<Props> = ({
   const isPayloadExist = Boolean(analysis.completedTime);
   const [showPayload, setShowPayload] = useState(!showTitle || false);
 
-  console.log(analysis, handleCreateConsillium);
-
   return (
     <Wrapper>
       <Header>

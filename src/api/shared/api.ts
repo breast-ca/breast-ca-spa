@@ -501,6 +501,14 @@ export interface ConsilliumFillDto {
   leadId: number;
 }
 
+export interface MessageResponseDto {
+  id: number;
+  text: string;
+  creator: UserLightResponseDto;
+  /** @format date-time */
+  sendingTime: string;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -1333,6 +1341,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags consillium
+     * @name ConsilliumControllerFillConsilliumMembers
+     * @request PATCH:/api/consillium/{consilliumId}
+     * @secure
+     */
+    consilliumControllerFillConsilliumMembers: (
+      consilliumId: string,
+      data: ConsilliumFillDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<ConsilliumFillDto, any>({
+        path: `/api/consillium/${consilliumId}`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags consillium
      * @name ConsilliumControllerGetConsilliumById
      * @request GET:/api/consillium/{consilliumId}
      * @secure
@@ -1350,22 +1381,47 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags consillium
-     * @name ConsilliumControllerFillConsilliumMembers
-     * @request PATCH:/api/consillium/{consilliumId}
+     * @name ConsilliumControllerGetConsilliumListForHead
+     * @request GET:/api/consillium/distribution
      * @secure
      */
-    consilliumControllerFillConsilliumMembers: (
-      consilliumId: string,
-      data: ConsilliumFillDto,
-      params: RequestParams = {},
-    ) =>
-      this.request<ConsilliumFillDto, any>({
-        path: `/api/consillium/${consilliumId}`,
-        method: "PATCH",
-        body: data,
+    consilliumControllerGetConsilliumListForHead: (params: RequestParams = {}) =>
+      this.request<ConsilliumResponseDto[], any>({
+        path: `/api/consillium/distribution`,
+        method: "GET",
         secure: true,
-        type: ContentType.Json,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags consillium
+     * @name ConsilliumControllerGetConsilliumListForMember
+     * @request GET:/api/consillium/member
+     * @secure
+     */
+    consilliumControllerGetConsilliumListForMember: (params: RequestParams = {}) =>
+      this.request<ConsilliumResponseDto[], any>({
+        path: `/api/consillium/member`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags messages
+     * @name MessagesControllerGetMessagesInConsilluim
+     * @request GET:/api/messages/consillium/{consilliumId}
+     */
+    messagesControllerGetMessagesInConsilluim: (consilliumId: string, params: RequestParams = {}) =>
+      this.request<any, MessageResponseDto[]>({
+        path: `/api/messages/consillium/${consilliumId}`,
+        method: "GET",
         ...params,
       }),
   };

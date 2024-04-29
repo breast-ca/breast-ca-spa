@@ -12,11 +12,13 @@ import { Empty, Input } from "antd";
 import { Send } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 import { UsersOnConsillium } from "./UsersOnConsillium";
+import { MessageItem } from "./MessageItem";
 
 export const ConsilliumChat: FC<Props> = ({
   consillium,
   isLead,
   handleSendMessage,
+  messagesList,
 }) => {
   const [message, setMessage] = useState("");
 
@@ -41,8 +43,11 @@ export const ConsilliumChat: FC<Props> = ({
           {isLead && <Button size="small">Завершить консилиум</Button>}
         </ManagementButton>
       </Header>
-      <ChatWrapper isEmpty>
-        <Empty description="Пока сообщений нет" />
+      <ChatWrapper isEmpty={!messagesList.length}>
+        {!messagesList.length && <Empty description="Пока сообщений нет" />}
+        {messagesList.map((message) => (
+          <MessageItem key={message.id} message={message} />
+        ))}
       </ChatWrapper>
       <SendMessageWrapper>
         <Input
