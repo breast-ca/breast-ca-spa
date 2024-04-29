@@ -16,7 +16,8 @@ export const MessageItem: FC<Props> = ({ message, user }) => {
         {message.text}
         {!isMy && (
           <CreatorInfo>
-            {creator.lastName} {creator.firstName} {creator.middleName || ""}{" "}
+            {creator.lastName} {creator.firstName[0]}.{" "}
+            {creator.middleName?.[0] ? `${creator.middleName?.[0]}.` : ""}{" "}
             {dayjs(message.sendingTime).format("HH:mm")}
           </CreatorInfo>
         )}
