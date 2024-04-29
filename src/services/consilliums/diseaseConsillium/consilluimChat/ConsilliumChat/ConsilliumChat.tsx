@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import {
   ChatWrapper,
   Header,
@@ -23,7 +23,15 @@ export const ConsilliumChat: FC<Props> = ({
 }) => {
   const [message, setMessage] = useState("");
 
+  const chatRef = useRef<HTMLDivElement>(null);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!chatRef.current) return;
+
+    chatRef.current.scrollTop = chatRef.current.scrollHeight;
+  }, [chatRef, messagesList]);
 
   return (
     <Wrapper>
@@ -44,7 +52,7 @@ export const ConsilliumChat: FC<Props> = ({
           {isLead && <Button size="small">Завершить консилиум</Button>}
         </ManagementButton>
       </Header>
-      <ChatWrapper isEmpty={!messagesList.length}>
+      <ChatWrapper isEmpty={!messagesList.length} ref={chatRef}>
         {!messagesList.length && <Empty description="Пока сообщений нет" />}
         {messagesList.map((message) => (
           <MessageItem user={user} key={message.id} message={message} />

@@ -52,6 +52,7 @@ export const ChatWrapper = styled.div<{ isEmpty: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow-y: scroll;
 
   ${({ isEmpty }) => isEmpty && emptyChatCSS}
 `;

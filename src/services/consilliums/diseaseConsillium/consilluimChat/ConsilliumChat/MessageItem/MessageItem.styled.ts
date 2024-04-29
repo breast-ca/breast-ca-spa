@@ -4,6 +4,7 @@ export const Wrapper = styled.div<{ isMy: boolean }>`
   display: flex;
   justify-content: flex-start;
   gap: 8px;
+  align-items: flex-end;
 
   justify-content: ${({ isMy }) => (isMy ? "flex-end" : "flex-start")};
 `;
@@ -22,4 +23,9 @@ export const Message = styled.div<{ isMy: boolean }>`
   font-weight: 500;
 
   ${({ isMy }) => isMy && myMessageStyle}
+`;
+
+export const CreatorInfo = styled.div`
+  font-size: 12px;
+  color: gray;
 `;
