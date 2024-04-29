@@ -496,6 +496,12 @@ export interface ConsilliumResponseDto {
   usersOnConsillium: ConsilliumMemberDto[];
 }
 
+export interface ConsilliumEndDto {
+  description: string;
+  analysisType: AnalysisType[];
+  diseaseId: number;
+}
+
 export interface ConsilliumFillDto {
   userOnConsillium: number[];
   leadId: number;
@@ -1333,6 +1339,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/consillium/disease/${diseaseId}`,
         method: "GET",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags consillium
+     * @name ConsilliumControllerEndConsilliumWithResult
+     * @request PATCH:/api/consillium/end/{consilliumId}
+     * @secure
+     */
+    consilliumControllerEndConsilliumWithResult: (
+      consilliumId: string,
+      data: ConsilliumEndDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<ConsilliumEndDto, any>({
+        path: `/api/consillium/end/${consilliumId}`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

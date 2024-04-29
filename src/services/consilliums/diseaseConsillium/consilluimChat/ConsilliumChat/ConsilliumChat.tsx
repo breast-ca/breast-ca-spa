@@ -20,6 +20,7 @@ export const ConsilliumChat: FC<Props> = ({
   handleSendMessage,
   messagesList,
   user,
+  handleEnd,
 }) => {
   const [message, setMessage] = useState("");
 
@@ -55,7 +56,11 @@ export const ConsilliumChat: FC<Props> = ({
               данные по анализу
             </Button>
           )}
-          {isLead && <Button size="small">Завершить консилиум</Button>}
+          {isLead && (
+            <Button size="small" onClick={handleEnd}>
+              Завершить консилиум
+            </Button>
+          )}
         </ManagementButton>
       </Header>
       <ChatWrapper isEmpty={!messagesList.length} ref={chatRef}>

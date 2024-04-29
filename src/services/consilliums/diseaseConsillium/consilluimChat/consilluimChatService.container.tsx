@@ -13,7 +13,8 @@ const {
 
 export const ConsilluimChatContainer: FC<{
   consillium: ConsilliumResponseDto;
-}> = ({ consillium }) => {
+  handleEnd: () => void;
+}> = ({ consillium, handleEnd }) => {
   const { user, handleSendMessage, messagesList } = useUnit({
     user: userQuery.$data,
     handleSendMessage: inputs.handleSendMessage,
@@ -33,6 +34,7 @@ export const ConsilluimChatContainer: FC<{
         handleSendMessage={handleSendMessage}
         messagesList={messagesList}
         user={user}
+        handleEnd={handleEnd}
       />
     </>
   );

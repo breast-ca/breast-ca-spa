@@ -11,4 +11,5 @@ export type Props = {
   handleSendMessage: (payload: Omit<SendMessageDto, "consilliumId">) => void;
   messagesList: MessageResponseDto[];
   user: UserResponseDto | null;
+  handleEnd: () => void;
 };

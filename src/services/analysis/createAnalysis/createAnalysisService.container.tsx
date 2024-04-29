@@ -10,6 +10,8 @@ import { createAnalysisMutation } from "./createAnalysisService.api";
 
 const { inputs, outputs } = createAnalysisService;
 
+export const awailableAnalysisTypes = [AnalysisType.Ultrasound];
+
 export const CreateAnalysisContainer: FC<CreateAnalysisContainerProps> = ({
   AnalysisTranslates,
   diseaseId,
@@ -51,7 +53,7 @@ export const CreateAnalysisContainer: FC<CreateAnalysisContainerProps> = ({
             <Select.Option
               key={type}
               value={type}
-              disabled={type !== AnalysisType.Ultrasound}
+              disabled={!awailableAnalysisTypes.includes(type)}
             >
               {AnalysisTranslates.analysis[type]}
             </Select.Option>

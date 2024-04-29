@@ -11,17 +11,20 @@ import {
   distributeConsilliumService,
 } from "./distributeConsillium";
 import { ConsilluimChatContainer } from "./consilluimChat";
+import { EndConsilliumContainer, endConsilliumService } from "./endConsillium";
 
 const {
   gates: { ConsilliumGate },
 } = diseaseConsilliumService;
 
 export const DiseaseConsilliumContainer: FC<{ id: number }> = ({ id }) => {
-  const { consillium, analysisTranslates, handleDistribute } = useUnit({
-    consillium: consilliumQuery.$data,
-    analysisTranslates: AnalysisTranslatesQuery.$data,
-    handleDistribute: distributeConsilliumService.inputs.handleOpen,
-  });
+  const { consillium, analysisTranslates, handleDistribute, handleEnd } =
+    useUnit({
+      consillium: consilliumQuery.$data,
+      analysisTranslates: AnalysisTranslatesQuery.$data,
+      handleDistribute: distributeConsilliumService.inputs.handleOpen,
+      handleEnd: endConsilliumService.inputs.openModal,
+    });
 
   const distribution = consillium?.status ===
     ConsilliumStatus.AwaitingDistribution &&
@@ -43,8 +46,14 @@ export const DiseaseConsilliumContainer: FC<{ id: number }> = ({ id }) => {
   return (
     <>
       <ConsilliumGate id={id} />
+      <EndConsilliumContainer id={id} />
       {distribution}
-      {isConsilliumChat && <ConsilluimChatContainer consillium={consillium} />}
+      {isConsilliumChat && (
+        <ConsilluimChatContainer
+          consillium={consillium}
+          handleEnd={handleEnd}
+        />
+      )}
       {!consillium ||
         (!analysisTranslates && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />)}
     </>
