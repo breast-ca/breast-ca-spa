@@ -48,7 +48,7 @@ export const ConsilliumChat: FC<Props> = ({
   const isDone = consillium.status === ConsilliumStatus.Done;
 
   const messagesContent = (
-    <ChatWrapper isEmpty={!messagesList.length} ref={chatRef}>
+    <ChatWrapper isEmpty={!messagesList.length} ref={chatRef} isDone={isDone}>
       {!messagesList.length && <Empty description="Пока сообщений нет" />}
       {messagesList.map((message) => (
         <MessageItem user={user} key={message.id} message={message} />
@@ -86,7 +86,9 @@ export const ConsilliumChat: FC<Props> = ({
       {!isDone && messagesContent}
       {isDone && (
         <ConsilliumContentWrapper>
-          <ConsilliumResult />
+          {consillium.consilliumResult && (
+            <ConsilliumResult consilliumResult={consillium.consilliumResult} />
+          )}
           {messagesContent}
         </ConsilliumContentWrapper>
       )}

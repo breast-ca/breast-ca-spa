@@ -22,6 +22,7 @@ import { FilesList } from "@/components/FilesList";
 import { Button } from "@/components/Button";
 import {
   AnalysisConsilliumResponseDto,
+  AnalysisLightResponseDto,
   AnalysisStatus,
   AnalysisTranslatesDto,
 } from "@/api/shared";
@@ -148,6 +149,30 @@ export const AnalysisInfo: FC<{
             {analysis.completedTime ? "анализ получен" : "создано"}:
           </CreatedDateTitle>
           {dayjs(analysis.completedTime).format("HH:mm DD.MM.YYYY")}
+        </CreatedDate>
+      </TitleContent>
+    </Header>
+  );
+};
+
+export const AnalysisShortInfo: FC<{
+  analysis: AnalysisLightResponseDto;
+  analysisTranslates: AnalysisTranslatesDto;
+}> = ({ analysis, analysisTranslates }) => {
+  return (
+    <Header>
+      <TitleContent>
+        <Title>{analysisTranslates.analysis[analysis.analysisType]}</Title>
+        <AnalysisStatusBadge status={analysis.status} />
+      </TitleContent>
+      <TitleContent>
+        <CreatedDate>
+          <CreatedDateTitle>
+            {analysis.completedTime ? "анализ получен" : "создано"}:
+          </CreatedDateTitle>
+          {dayjs(analysis.completedTime || analysis.creationTime).format(
+            "HH:mm DD.MM.YYYY"
+          )}
         </CreatedDate>
       </TitleContent>
     </Header>

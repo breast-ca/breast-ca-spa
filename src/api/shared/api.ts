@@ -454,8 +454,15 @@ export interface EditAnalysisDto {
   attachedDocuments?: string[];
 }
 
+export interface TumorSizeJson {
+  sizeX: number;
+  sizeY: number;
+  sizeZ: number;
+}
+
 export interface CreateUltrasoundDto {
-  tumorSize: number;
+  tumorSizeNew: TumorSizeJson;
+  tumorSize?: number;
   metastasisNumber: number;
   birNumber: number;
   relapseTypes: RelapseType[];
@@ -466,6 +473,20 @@ export interface CreateUltrasoundDto {
 export interface FillUltrasoundAnalysisDto {
   analysisPayload: EditAnalysisDto;
   ultrasoundPayload: CreateUltrasoundDto;
+}
+
+export interface CreateMammographyDto {
+  tumorSize: TumorSizeJson;
+  metastasisNumber?: number;
+  birNumber: number;
+  relapseTypes?: RelapseType[];
+  side: Side;
+  description: UltrasoundDescription;
+}
+
+export interface FillMammographyAnalysisDto {
+  analysisPayload: EditAnalysisDto;
+  mammographyPayload: CreateMammographyDto;
 }
 
 export enum ConsilliumStatus {
@@ -488,12 +509,32 @@ export interface ConsilliumMemberDto {
   isLead: boolean;
 }
 
+export interface AnalysisLightResponseDto {
+  id: number;
+  analysisType: AnalysisType;
+  description: string;
+  diseaseId: number;
+  /** @format date-time */
+  creationTime: string;
+  /** @format date-time */
+  completedTime: string;
+  status: AnalysisStatus;
+}
+
+export interface ConsilliumResultDto {
+  description: string;
+  /** @format date-time */
+  resultTime: string;
+  analysis: AnalysisLightResponseDto[];
+}
+
 export interface ConsilliumResponseDto {
   id: number;
   status: ConsilliumStatus;
   analysis: AnalysisConsilliumResponseDto;
   creator: UserLightResponseDto;
   usersOnConsillium: ConsilliumMemberDto[];
+  consilliumResult?: ConsilliumResultDto;
 }
 
 export interface ConsilliumEndDto {
@@ -1302,6 +1343,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     ) =>
       this.request<CreateAnalysisDto, any>({
         path: `/api/analysis/fill/${analysisId}/ultrasound`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags analysis
+     * @name AnalysisControllerFillMammographyAnalysis
+     * @request PATCH:/api/analysis/fill/{analysisId}/mammography
+     * @secure
+     */
+    analysisControllerFillMammographyAnalysis: (
+      analysisId: string,
+      data: FillMammographyAnalysisDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<CreateAnalysisDto, any>({
+        path: `/api/analysis/fill/${analysisId}/mammography`,
         method: "PATCH",
         body: data,
         secure: true,
