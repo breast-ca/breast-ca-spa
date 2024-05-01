@@ -1,4 +1,5 @@
 import {
+  FillAnalysisCommonDto,
   FillMammographyAnalysisDto,
   FillUltrasoundAnalysisDto,
 } from "@/api/shared";
@@ -24,6 +25,15 @@ export const prepareMammographeFillPayload: PrepareAnalysisFillFunction<
   return {
     analysisPayload: payload.analysisEditPayload,
     mammographyPayload: payload.mammography,
+    analysisId: payload.analysisId,
+  };
+};
+
+export const prepareCommonFillPayload: PrepareAnalysisFillFunction<
+  FillAnalysisCommonDto
+> = (payload) => {
+  return {
+    analysisPayload: payload.analysisEditPayload,
     analysisId: payload.analysisId,
   };
 };

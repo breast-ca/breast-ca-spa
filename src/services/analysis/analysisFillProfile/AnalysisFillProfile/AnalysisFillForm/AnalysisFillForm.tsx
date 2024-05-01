@@ -22,6 +22,7 @@ import { validationSchema } from "./AnalysisFillForm.constants";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { UploadFileContainer } from "@/services/uploadFile";
 import { MammographyFillForm } from "./MammographyFillForm";
+import { CommonFillForm } from "./CommonFillForm";
 
 const { inputs } = analysisFillProfileService;
 
@@ -70,6 +71,8 @@ export const AnalysisFillForm: FC<Props> = ({
         mammography: mammographyPayload,
       };
 
+      console.log(fillSavePayload);
+
       return void handleSaveAnalysisFill(fillSavePayload);
     },
     validationSchema,
@@ -97,7 +100,7 @@ export const AnalysisFillForm: FC<Props> = ({
         [AnalysisType.Biopsy]: null,
         [AnalysisType.BloodBiochemistry]: null,
         [AnalysisType.BoneScan]: null,
-        [AnalysisType.CommonBloodAnalysis]: null,
+        [AnalysisType.CommonBloodAnalysis]: CommonFillForm,
         [AnalysisType.CommonUrineAnalysis]: null,
         [AnalysisType.ComputerTomography]: null,
         [AnalysisType.MRI]: null,

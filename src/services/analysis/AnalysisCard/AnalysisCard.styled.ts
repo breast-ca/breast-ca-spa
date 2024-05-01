@@ -23,6 +23,7 @@ export const Header = styled.div`
 export const Title = styled.div`
   font-weight: 800;
   font-size: 18px;
+  white-space: nowrap;
   color: #00000098;
 `;
 

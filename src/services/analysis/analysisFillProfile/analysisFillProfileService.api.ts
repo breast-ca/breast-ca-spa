@@ -2,6 +2,7 @@ import { createMutation, createQuery } from "@farfetched/core";
 import { axios } from "@/api";
 import {
   AnalysisFullResponseDto,
+  FillAnalysisCommonDto,
   FillMammographyAnalysisDto,
   FillUltrasoundAnalysisDto,
 } from "@/api/shared";
@@ -35,5 +36,16 @@ export const fillMammographeAnalysisMutation = createMutation({
   >(
     ({ analysisId, ...payload }): Promise<void> =>
       axios.patch(`/analysis/fill/${analysisId}/mammography`, payload)
+  ),
+});
+
+export const fillCommonAnalysisMutation = createMutation({
+  effect: createEffect<
+    WithAnalysisId<FillAnalysisCommonDto>,
+    void,
+    EffectorAxiosError
+  >(
+    ({ analysisId, ...payload }): Promise<void> =>
+      axios.patch(`/analysis/fill/${analysisId}/simple`, payload)
   ),
 });

@@ -14,6 +14,7 @@ const { inputs, outputs } = createAnalysisService;
 export const awailableAnalysisTypes = [
   AnalysisType.Ultrasound,
   AnalysisType.Mammography,
+  AnalysisType.CommonBloodAnalysis,
 ];
 
 export const CreateAnalysisContainer: FC<CreateAnalysisContainerProps> = ({

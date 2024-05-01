@@ -2,6 +2,7 @@ import { createEvent, merge, sample, split } from "effector";
 import { createGate } from "effector-react";
 import {
   analysisProfileQuery,
+  fillCommonAnalysisMutation,
   fillMammographeAnalysisMutation,
   fillUltrasoundAnalysisMutation,
 } from "./analysisFillProfileService.api";
@@ -17,6 +18,7 @@ import {
   FillUltrasoundAnalysisDto,
 } from "@/api/shared";
 import {
+  prepareCommonFillPayload,
   prepareMammographeFillPayload,
   prepareUltrasoundFillPayload,
 } from "./analysisFillProfileService.utils";
@@ -64,8 +66,8 @@ split({
     [AnalysisType.BoneScan]: pushBoneScanFill,
     [AnalysisType.Biopsy]: pushBiopsyFill,
     [AnalysisType.BloodBiochemistry]: pushBloodBiochemistryFill,
-    [AnalysisType.CommonBloodAnalysis]: pushCommonUrineAnalysisFill,
-    [AnalysisType.CommonUrineAnalysis]: pushCommonBloodAnalysisFill,
+    [AnalysisType.CommonBloodAnalysis]: pushCommonBloodAnalysisFill,
+    [AnalysisType.CommonUrineAnalysis]: pushCommonUrineAnalysisFill,
     [AnalysisType.ComputerTomography]: pushComputerTomographyFill,
     [AnalysisType.MRI]: pushMRIFill,
     [AnalysisType.Mammography]: pushMammographyFill,
@@ -98,15 +100,28 @@ sample({
   target: fillMammographeAnalysisMutation.start,
 });
 
+sample({
+  clock: sample({
+    source: pushCommonBloodAnalysisFill,
+    fn: prepareCommonFillPayload,
+  }),
+  filter: (payload): payload is WithAnalysisId<FillMammographyAnalysisDto> => {
+    return Boolean(payload);
+  },
+  target: fillCommonAnalysisMutation.start,
+});
+
 // processing for done events
 merge([
   fillUltrasoundAnalysisMutation.finished.failure,
   fillMammographeAnalysisMutation.finished.failure,
+  fillCommonAnalysisMutation.finished.failure,
 ]).watch(() => message.error("Ошибка запроса!"));
 
 const handleFillAnalysisSuccess = merge([
   fillUltrasoundAnalysisMutation.finished.success,
   fillMammographeAnalysisMutation.finished.success,
+  fillCommonAnalysisMutation.finished.success,
 ]);
 
 handleFillAnalysisSuccess.watch(() => message.success("Анализ сохранен!"));
