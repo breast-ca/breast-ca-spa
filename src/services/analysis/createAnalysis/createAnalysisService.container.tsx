@@ -16,6 +16,7 @@ export const awailableAnalysisTypes = [
   AnalysisType.Mammography,
   AnalysisType.CommonBloodAnalysis,
   AnalysisType.BloodBiochemistry,
+  AnalysisType.Biopsy,
 ];
 
 export const CreateAnalysisContainer: FC<CreateAnalysisContainerProps> = ({

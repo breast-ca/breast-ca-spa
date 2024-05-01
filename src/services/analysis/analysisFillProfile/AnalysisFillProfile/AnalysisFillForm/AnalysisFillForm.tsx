@@ -23,6 +23,7 @@ import { ErrorMessage } from "@/components/ErrorMessage";
 import { UploadFileContainer } from "@/services/uploadFile";
 import { MammographyFillForm } from "./MammographyFillForm";
 import { CommonFillForm } from "./CommonFillForm";
+import { BiopsyFillForm } from "./BiopsyFillForm";
 
 const { inputs } = analysisFillProfileService;
 
@@ -97,7 +98,7 @@ export const AnalysisFillForm: FC<Props> = ({
     const forms: { [key in keyof typeof AnalysisType]: FC<FillProps> | null } =
       {
         [AnalysisType.Ultrasound]: FillUltrasoundForm,
-        [AnalysisType.Biopsy]: null,
+        [AnalysisType.Biopsy]: BiopsyFillForm,
         [AnalysisType.BloodBiochemistry]: CommonFillForm,
         [AnalysisType.BoneScan]: null,
         [AnalysisType.CommonBloodAnalysis]: CommonFillForm,

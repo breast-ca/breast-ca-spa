@@ -505,6 +505,119 @@ export interface FillAnalysisCommonDto {
   analysisPayload: EditAnalysisDto;
 }
 
+export enum ISH {
+  NotMaked = "NotMaked",
+  PositiveResult = "PositiveResult",
+  NegativeResult = "NegativeResult",
+}
+
+export enum Immunohistotype {
+  LuminalA = "LuminalA",
+  LuminalBNegative = "LuminalBNegative",
+  LuminalBPositive = "LuminalBPositive",
+  HERPositive = "HERPositive",
+  TripleNegativeDuctal = "TripleNegativeDuctal",
+}
+
+export interface CreateIghDto {
+  researchNumber: string;
+  ER: string;
+  PR: string;
+  HERneu: number;
+  HERneuFactor: boolean;
+  ISH: ISH;
+  Ki67: number;
+  Immunohistotype: Immunohistotype;
+}
+
+export enum TumorHistotype {
+  H85003 = "h85003",
+  H82903 = "h82903",
+  H83143 = "h83143",
+  H83153 = "h83153",
+  H84103 = "h84103",
+  H85203 = "h85203",
+  H82113 = "h82113",
+  H82013 = "h82013",
+  H84803 = "h84803",
+  H84703 = "h84703",
+  H85073 = "h85073",
+  H84013 = "h84013",
+  H85753 = "h85753",
+  H85503 = "h85503",
+  H82003 = "h82003",
+  H85023 = "h85023",
+  H84303 = "h84303",
+  H85253 = "h85253",
+  H85093 = "h85093",
+  H82403 = "h82403",
+  H82403Other = "h82403other",
+  H82493 = "h82493",
+  H82463 = "h82463",
+  H80413 = "h80413",
+  H80133 = "h80133",
+  H89400 = "h89400",
+  H89833 = "h89833",
+  H89833Other = "h89833other",
+  H85623 = "h85623",
+  H85030 = "h85030",
+  H85032 = "h85032",
+  H85042 = "h85042",
+  H85043 = "h85043",
+  H85093Other = "h85093other",
+  H85092 = "h85092",
+  H85033 = "h85033",
+  H85033Other = "h85033other",
+  H85202 = "h85202",
+  H85192 = "h85192",
+  H85002 = "h85002",
+  H91203 = "h91203",
+  H88250 = "h88250",
+  H95600 = "h95600",
+  H95800 = "h95800",
+  H88903 = "h88903",
+  H88503 = "h88503",
+  H90203 = "h90203",
+  H84700 = "h84700",
+  H85403 = "h85403",
+  H96803 = "h96803",
+  H96873 = "h96873",
+  H97153 = "h97153",
+  H96993 = "h96993",
+  H96903 = "h96903",
+}
+
+export enum TumorDifferentiation {
+  Gx = "Gx",
+  G1 = "G1",
+  G2 = "G2",
+  G3 = "G3",
+  G4 = "G4",
+}
+
+export interface CreateGystologyDto {
+  resectionDistance: number;
+  resectionEdgeState: boolean;
+  havingDuctalComponent: boolean;
+  tumorSize?: TumorSizeJson;
+  histotype: TumorHistotype;
+  tumorDifferentiation: TumorDifferentiation;
+  havingInvasion: boolean;
+  metastasisNumber?: number;
+  patomorphologicalAnswer?: number;
+}
+
+export interface CreateBiopsyDto {
+  isPostOperational: boolean;
+  ighPayload: CreateIghDto;
+  gystologyPayload: CreateGystologyDto;
+}
+
+export interface FillBiopsyAnalysisDto {
+  analysisPayload: EditAnalysisDto;
+  biopsyPayload: CreateBiopsyDto;
+}
+
 export enum ConsilliumStatus {
   AwaitingDistribution = "AwaitingDistribution",
   Working = "Working",
@@ -1405,6 +1518,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     ) =>
       this.request<CreateAnalysisDto, any>({
         path: `/api/analysis/fill/${analysisId}/simple`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags analysis
+     * @name AnalysisControllerFillBiopsyAnalysis
+     * @request PATCH:/api/analysis/fill/{analysisId}/biopsy
+     * @secure
+     */
+    analysisControllerFillBiopsyAnalysis: (
+      analysisId: string,
+      data: FillBiopsyAnalysisDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<CreateAnalysisDto, any>({
+        path: `/api/analysis/fill/${analysisId}/biopsy`,
         method: "PATCH",
         body: data,
         secure: true,
