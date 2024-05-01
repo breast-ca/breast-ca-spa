@@ -23,7 +23,7 @@ import {
 export const BiopsyFillForm: FC<Props> = () => {
   const { values, setFieldValue, handleChange } = useFormik({
     initialValues: {
-      isPostOperational: false,
+      isPostOperational: true,
     },
     onSubmit: () => void 0,
   });
@@ -114,6 +114,33 @@ export const BiopsyFillForm: FC<Props> = () => {
                 </Select.Option>
               ))}
             </Select>
+          </FormItem>
+          <FormItem label="pTNM">
+            <TumorSizeWrapper>
+              <TumorSizeField style={{ width: "100%" }}>
+                <Select placeholder="T:" size="large" />
+              </TumorSizeField>
+              <TumorSizeField style={{ width: "100%" }}>
+                <Select
+                  placeholder="N:"
+                  size="large"
+                  style={{ width: "100%" }}
+                />
+              </TumorSizeField>
+              <TumorSizeField style={{ width: "100%" }}>
+                <Select
+                  placeholder="M:"
+                  size="large"
+                  style={{ width: "100%" }}
+                />
+              </TumorSizeField>
+            </TumorSizeWrapper>
+          </FormItem>
+          <FormItem label="Наличие лимфоваскулярной инвазии">
+            <Checkbox>Есть лимфоваскулярная инвазия</Checkbox>
+          </FormItem>
+          <FormItem label="Cтепень патоморфологического ответа опухоли">
+            <Input placeholder="Введите степень" size="large" />
           </FormItem>
         </GystologyWrapper>
       )}
