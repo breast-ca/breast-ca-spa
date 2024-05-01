@@ -80,7 +80,7 @@ split({
 // processing for analysis fill splitted events
 sample({
   clock: sample({
-    source: pushUltrasoundFill,
+    clock: pushUltrasoundFill,
     fn: prepareUltrasoundFillPayload,
   }),
   filter: (payload): payload is WithAnalysisId<FillUltrasoundAnalysisDto> => {
@@ -91,7 +91,7 @@ sample({
 
 sample({
   clock: sample({
-    source: pushMammographyFill,
+    clock: pushMammographyFill,
     fn: prepareMammographeFillPayload,
   }),
   filter: (payload): payload is WithAnalysisId<FillMammographyAnalysisDto> => {
@@ -102,7 +102,7 @@ sample({
 
 sample({
   clock: sample({
-    source: pushCommonBloodAnalysisFill,
+    clock: [pushCommonBloodAnalysisFill, pushBloodBiochemistryFill],
     fn: prepareCommonFillPayload,
   }),
   filter: (payload): payload is WithAnalysisId<FillMammographyAnalysisDto> => {

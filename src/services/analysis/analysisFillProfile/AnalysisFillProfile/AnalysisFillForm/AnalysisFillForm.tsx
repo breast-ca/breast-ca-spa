@@ -98,7 +98,7 @@ export const AnalysisFillForm: FC<Props> = ({
       {
         [AnalysisType.Ultrasound]: FillUltrasoundForm,
         [AnalysisType.Biopsy]: null,
-        [AnalysisType.BloodBiochemistry]: null,
+        [AnalysisType.BloodBiochemistry]: CommonFillForm,
         [AnalysisType.BoneScan]: null,
         [AnalysisType.CommonBloodAnalysis]: CommonFillForm,
         [AnalysisType.CommonUrineAnalysis]: null,
