@@ -20,8 +20,13 @@ export const Content = styled.div`
   padding: 24px 48px;
 `;
 
+export const PatientInfoWrapperRel = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
 export const PatientInfoWrapper = styled.div`
-  box-sizing: border-box;
+  position: fixed;
   min-height: 100vh;
   padding: 16px 16px 16px 24px;
   border-left: 1px solid #0000001f;

@@ -4,6 +4,7 @@ import {
   Content,
   ContentWrapper,
   PatientInfoWrapper,
+  PatientInfoWrapperRel,
   Wrapper,
 } from "./MainLayout.styled";
 import { MainMenu } from "./MainMenu";
@@ -31,12 +32,14 @@ export const MainLayout: FC<Props> = ({ handleSignOut, user, patientInfo }) => {
           <Outlet />
         </Content>
         {patientInfo && (
-          <PatientInfoWrapper>
-            <PatientInfo
-              patient={patientInfo}
-              handleEdit={() => handleEditPatient(patientInfo)}
-            />
-          </PatientInfoWrapper>
+          <PatientInfoWrapperRel>
+            <PatientInfoWrapper>
+              <PatientInfo
+                patient={patientInfo}
+                handleEdit={() => handleEditPatient(patientInfo)}
+              />
+            </PatientInfoWrapper>
+          </PatientInfoWrapperRel>
         )}
       </ContentWrapper>
       <MenuDrawer

@@ -24,6 +24,7 @@ import { UploadFileContainer } from "@/services/uploadFile";
 import { MammographyFillForm } from "./MammographyFillForm";
 import { CommonFillForm } from "./CommonFillForm";
 import { BiopsyFillForm } from "./BiopsyFillForm";
+import { Divider } from "antd";
 
 const { inputs } = analysisFillProfileService;
 
@@ -142,6 +143,15 @@ export const AnalysisFillForm: FC<Props> = ({
       <UploadFileContainer
         type="text"
         onChange={(files) => setFieldValue("attachedDocuments", files)}
+      />
+      <Divider
+        orientation="left"
+        style={{
+          margin: 0,
+          padding: 0,
+          width: "calc(100% + 32px)",
+          transform: "translateX(-16px)",
+        }}
       />
       <Footer>
         <Button onClick={hadleSave}>Сохранить анализ</Button>
