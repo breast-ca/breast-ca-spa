@@ -1,4 +1,7 @@
-import { FillUltrasoundAnalysisDto } from "@/api/shared";
+import {
+  FillMammographyAnalysisDto,
+  FillUltrasoundAnalysisDto,
+} from "@/api/shared";
 import { PrepareAnalysisFillFunction } from "./analysisFillProfileService.types";
 
 export const prepareUltrasoundFillPayload: PrepareAnalysisFillFunction<
@@ -9,6 +12,18 @@ export const prepareUltrasoundFillPayload: PrepareAnalysisFillFunction<
   return {
     analysisPayload: payload.analysisEditPayload,
     ultrasoundPayload: payload.ultrasound,
+    analysisId: payload.analysisId,
+  };
+};
+
+export const prepareMammographeFillPayload: PrepareAnalysisFillFunction<
+  FillMammographyAnalysisDto
+> = (payload) => {
+  if (!payload.mammography) return null;
+
+  return {
+    analysisPayload: payload.analysisEditPayload,
+    mammographyPayload: payload.mammography,
     analysisId: payload.analysisId,
   };
 };

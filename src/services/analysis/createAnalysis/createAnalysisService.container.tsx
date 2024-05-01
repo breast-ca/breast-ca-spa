@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { FC, useCallback, useEffect, useState } from "react";
 import { Select } from "antd";
 import { useUnit } from "effector-react";
@@ -10,7 +11,10 @@ import { createAnalysisMutation } from "./createAnalysisService.api";
 
 const { inputs, outputs } = createAnalysisService;
 
-export const awailableAnalysisTypes = [AnalysisType.Ultrasound];
+export const awailableAnalysisTypes = [
+  AnalysisType.Ultrasound,
+  AnalysisType.Mammography,
+];
 
 export const CreateAnalysisContainer: FC<CreateAnalysisContainerProps> = ({
   AnalysisTranslates,

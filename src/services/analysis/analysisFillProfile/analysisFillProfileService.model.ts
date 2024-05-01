@@ -2,6 +2,7 @@ import { createEvent, merge, sample, split } from "effector";
 import { createGate } from "effector-react";
 import {
   analysisProfileQuery,
+  fillMammographeAnalysisMutation,
   fillUltrasoundAnalysisMutation,
 } from "./analysisFillProfileService.api";
 import {
@@ -12,9 +13,13 @@ import {
 import {
   AnalysisFullResponseDto,
   AnalysisType,
+  FillMammographyAnalysisDto,
   FillUltrasoundAnalysisDto,
 } from "@/api/shared";
-import { prepareUltrasoundFillPayload } from "./analysisFillProfileService.utils";
+import {
+  prepareMammographeFillPayload,
+  prepareUltrasoundFillPayload,
+} from "./analysisFillProfileService.utils";
 import { message } from "antd";
 
 const AnalysisProfileGate = createGate<{ id: number }>();
@@ -41,11 +46,15 @@ sample({
   clock: handleSaveAnalysisFill,
   source: analysisProfileQuery.$data,
   filter: (analysis): analysis is AnalysisFullResponseDto => Boolean(analysis),
-  fn: (analysis, payload): AnalysisFillPayload => ({
-    ...payload,
-    analysisId: analysis!.id,
-    analysisType: analysis!.analysisType,
-  }),
+  fn: (analysis, payload): AnalysisFillPayload => {
+    console.log(analysis, payload);
+
+    return {
+      ...payload,
+      analysisId: analysis!.id,
+      analysisType: analysis!.analysisType,
+    };
+  },
   target: pushFillAnalysisPayload,
 });
 
@@ -80,13 +89,26 @@ sample({
   target: fillUltrasoundAnalysisMutation.start,
 });
 
+sample({
+  clock: sample({
+    source: pushMammographyFill,
+    fn: prepareMammographeFillPayload,
+  }),
+  filter: (payload): payload is WithAnalysisId<FillMammographyAnalysisDto> => {
+    return Boolean(payload);
+  },
+  target: fillMammographeAnalysisMutation.start,
+});
+
 // processing for done events
-merge([fillUltrasoundAnalysisMutation.finished.failure]).watch(() =>
-  message.error("Ошибка запроса!")
-);
+merge([
+  fillUltrasoundAnalysisMutation.finished.failure,
+  fillMammographeAnalysisMutation.finished.failure,
+]).watch(() => message.error("Ошибка запроса!"));
 
 const handleFillAnalysisSuccess = merge([
   fillUltrasoundAnalysisMutation.finished.success,
+  fillMammographeAnalysisMutation.finished.success,
 ]);
 
 handleFillAnalysisSuccess.watch(() => message.success("Анализ сохранен!"));

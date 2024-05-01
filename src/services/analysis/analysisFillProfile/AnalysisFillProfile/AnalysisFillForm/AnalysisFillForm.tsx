@@ -6,6 +6,7 @@ import { FormItem } from "@/components/FormItem";
 import { Button } from "@/components/Button";
 import {
   AnalysisType,
+  CreateMammographyDto,
   CreateUltrasoundDto,
   EditAnalysisDto,
   UploadFileResponseDto,
@@ -20,6 +21,7 @@ import { createEvent } from "effector";
 import { validationSchema } from "./AnalysisFillForm.constants";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { UploadFileContainer } from "@/services/uploadFile";
+import { MammographyFillForm } from "./MammographyFillForm";
 
 const { inputs } = analysisFillProfileService;
 
@@ -35,44 +37,57 @@ export const AnalysisFillForm: FC<Props> = ({
     handleAnalysisFillConnect: analysisFillConnect,
   });
 
-  const { values, handleChange, setFieldValue, handleSubmit, errors } =
-    useFormik({
-      initialValues: {
-        description: "",
-        attachedImages: [] as UploadFileResponseDto[],
-        attachedDocuments: [] as UploadFileResponseDto[],
-        ultrasoundPayload: null as CreateUltrasoundDto | null,
-      },
-      onSubmit: (values) => {
-        const { ultrasoundPayload, ...analysisPayloadRest } = values;
+  const {
+    values,
+    handleChange,
+    setFieldValue,
+    handleSubmit,
+    errors,
+    setValues,
+  } = useFormik({
+    initialValues: {
+      description: "",
+      attachedImages: [] as UploadFileResponseDto[],
+      attachedDocuments: [] as UploadFileResponseDto[],
+      ultrasoundPayload: null as CreateUltrasoundDto | null,
+      mammographyPayload: null as CreateMammographyDto | null,
+    },
+    onSubmit: (values) => {
+      const { ultrasoundPayload, mammographyPayload, ...analysisPayloadRest } =
+        values;
 
-        const analysisPayload: EditAnalysisDto = {
-          ...analysisPayloadRest,
-          attachedImages: values.attachedImages.map((item) => item.filename),
-          attachedDocuments: values.attachedDocuments.map(
-            (item) => item.filename
-          ),
-        };
+      const analysisPayload: EditAnalysisDto = {
+        ...analysisPayloadRest,
+        attachedImages: values.attachedImages.map((item) => item.filename),
+        attachedDocuments: values.attachedDocuments.map(
+          (item) => item.filename
+        ),
+      };
 
-        const fillSavePayload: AnalysisFillSavePayload = {
-          analysisEditPayload: analysisPayload,
-          ultrasound: ultrasoundPayload,
-        };
+      const fillSavePayload: AnalysisFillSavePayload = {
+        analysisEditPayload: analysisPayload,
+        ultrasound: ultrasoundPayload,
+        mammography: mammographyPayload,
+      };
 
-        return void handleSaveAnalysisFill(fillSavePayload);
-      },
-      validationSchema,
-      validateOnChange: false,
-    });
+      return void handleSaveAnalysisFill(fillSavePayload);
+    },
+    validationSchema,
+    validateOnChange: false,
+  });
 
   useEffect(
     () =>
       analysisFillConnect.watch(async (payload) => {
-        await setFieldValue("ultrasoundPayload", payload.ultrasound);
+        await setValues((prev) => ({
+          ...prev,
+          ultrasoundPayload: payload.ultrasound || null,
+          mammographyPayload: payload.mammography || null,
+        }));
 
         handleSubmit();
       }).unsubscribe,
-    [handleSubmit, setFieldValue]
+    [handleSubmit, setValues]
   );
 
   const FillForm = useMemo(() => {
@@ -86,7 +101,7 @@ export const AnalysisFillForm: FC<Props> = ({
         [AnalysisType.CommonUrineAnalysis]: null,
         [AnalysisType.ComputerTomography]: null,
         [AnalysisType.MRI]: null,
-        [AnalysisType.Mammography]: null,
+        [AnalysisType.Mammography]: MammographyFillForm,
         [AnalysisType.Markers]: null,
         [AnalysisType.PETCT]: null,
         [AnalysisType.XRay]: null,
