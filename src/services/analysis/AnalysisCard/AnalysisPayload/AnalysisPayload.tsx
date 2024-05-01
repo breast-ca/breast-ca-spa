@@ -4,6 +4,7 @@ import { Props } from "./AnalysisPayload.types";
 import { AnalysisType } from "@/api/shared";
 import { UltrasoundView } from "./UltrasoundView";
 import { Divider } from "antd";
+import { MammographyView } from "./MammographyView";
 
 export const AnalysisPayload: FC<Props> = ({
   analysis,
@@ -26,14 +27,19 @@ export const AnalysisPayload: FC<Props> = ({
       [AnalysisType.CommonUrineAnalysis]: null,
       [AnalysisType.ComputerTomography]: null,
       [AnalysisType.MRI]: null,
-      [AnalysisType.Mammography]: null,
+      [AnalysisType.Mammography]: analysis.Mammography ? (
+        <MammographyView
+          mammography={analysis.Mammography}
+          analysisTranslates={analysisTranslates}
+        />
+      ) : null,
       [AnalysisType.Markers]: null,
       [AnalysisType.PETCT]: null,
       [AnalysisType.XRay]: null,
     };
 
     return forms[analysis.analysisType];
-  }, [analysis.Ultrasound, analysis.analysisType, analysisTranslates]);
+  }, [analysis, analysisTranslates]);
 
   return (
     <Wrapper>

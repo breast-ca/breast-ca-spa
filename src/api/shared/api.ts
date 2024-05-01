@@ -415,6 +415,22 @@ export interface UltrasoundResponseDto {
   description: UltrasoundDescription;
 }
 
+export interface TumorSizeJson {
+  sizeX: number;
+  sizeY: number;
+  sizeZ: number;
+}
+
+export interface MammograhyResponseDto {
+  id: number;
+  tumorSize: TumorSizeJson;
+  metastasisNumber: number;
+  birNumber: number;
+  relapseTypes: RelapseType[];
+  side: Side;
+  description: UltrasoundDescription;
+}
+
 export interface AnalysisPayloadResponseDto {
   id: number;
   analysisType: AnalysisType;
@@ -429,6 +445,7 @@ export interface AnalysisPayloadResponseDto {
   attachedImages: string[];
   attachedDocuments: string[];
   Ultrasound?: UltrasoundResponseDto;
+  Mammography?: MammograhyResponseDto;
 }
 
 export interface AnalysisFullResponseDto {
@@ -445,6 +462,7 @@ export interface AnalysisFullResponseDto {
   attachedImages: string[];
   attachedDocuments: string[];
   Ultrasound?: UltrasoundResponseDto;
+  Mammography?: MammograhyResponseDto;
   disease: DiseaseFullResponseDto;
 }
 
@@ -452,12 +470,6 @@ export interface EditAnalysisDto {
   description?: string;
   attachedImages?: string[];
   attachedDocuments?: string[];
-}
-
-export interface TumorSizeJson {
-  sizeX: number;
-  sizeY: number;
-  sizeZ: number;
 }
 
 export interface CreateUltrasoundDto {
@@ -487,6 +499,10 @@ export interface CreateMammographyDto {
 export interface FillMammographyAnalysisDto {
   analysisPayload: EditAnalysisDto;
   mammographyPayload: CreateMammographyDto;
+}
+
+export interface FillAnalysisCommonDto {
+  analysisPayload: EditAnalysisDto;
 }
 
 export enum ConsilliumStatus {
@@ -1366,6 +1382,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     ) =>
       this.request<CreateAnalysisDto, any>({
         path: `/api/analysis/fill/${analysisId}/mammography`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags analysis
+     * @name AnalysisControllerFillSimpleAnalysis
+     * @request PATCH:/api/analysis/fill/{analysisId}/simple
+     * @secure
+     */
+    analysisControllerFillSimpleAnalysis: (
+      analysisId: string,
+      data: FillAnalysisCommonDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<CreateAnalysisDto, any>({
+        path: `/api/analysis/fill/${analysisId}/simple`,
         method: "PATCH",
         body: data,
         secure: true,

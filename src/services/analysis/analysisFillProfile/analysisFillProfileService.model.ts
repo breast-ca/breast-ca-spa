@@ -47,8 +47,6 @@ sample({
   source: analysisProfileQuery.$data,
   filter: (analysis): analysis is AnalysisFullResponseDto => Boolean(analysis),
   fn: (analysis, payload): AnalysisFillPayload => {
-    console.log(analysis, payload);
-
     return {
       ...payload,
       analysisId: analysis!.id,

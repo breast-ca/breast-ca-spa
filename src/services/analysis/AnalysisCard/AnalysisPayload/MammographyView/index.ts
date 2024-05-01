@@ -1,0 +1,1 @@
+export { MammographyView } from './MammographyView';
