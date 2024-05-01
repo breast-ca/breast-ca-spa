@@ -336,6 +336,10 @@ export interface UploadFileResponseDto {
 export interface AnalysisTranslatesDto {
   analysis: Record<string, string>;
   ultrasoundDescription: Record<string, string>;
+  histotypeCorrection: Record<string, string>;
+  histotypeDescription: Record<string, string>;
+  immunohistotype: Record<string, string>;
+  ish: Record<string, string>;
 }
 
 export enum AnalysisType {
@@ -431,80 +435,6 @@ export interface MammograhyResponseDto {
   description: UltrasoundDescription;
 }
 
-export interface AnalysisPayloadResponseDto {
-  id: number;
-  analysisType: AnalysisType;
-  description: string;
-  diseaseId: number;
-  /** @format date-time */
-  creationTime: string;
-  /** @format date-time */
-  completedTime: string;
-  status: AnalysisStatus;
-  creator?: UserLightResponseDto;
-  attachedImages: string[];
-  attachedDocuments: string[];
-  Ultrasound?: UltrasoundResponseDto;
-  Mammography?: MammograhyResponseDto;
-}
-
-export interface AnalysisFullResponseDto {
-  id: number;
-  analysisType: AnalysisType;
-  description: string;
-  diseaseId: number;
-  /** @format date-time */
-  creationTime: string;
-  /** @format date-time */
-  completedTime: string;
-  status: AnalysisStatus;
-  creator?: UserLightResponseDto;
-  attachedImages: string[];
-  attachedDocuments: string[];
-  Ultrasound?: UltrasoundResponseDto;
-  Mammography?: MammograhyResponseDto;
-  disease: DiseaseFullResponseDto;
-}
-
-export interface EditAnalysisDto {
-  description?: string;
-  attachedImages?: string[];
-  attachedDocuments?: string[];
-}
-
-export interface CreateUltrasoundDto {
-  tumorSizeNew: TumorSizeJson;
-  tumorSize?: number;
-  metastasisNumber: number;
-  birNumber: number;
-  relapseTypes: RelapseType[];
-  side: Side;
-  description: UltrasoundDescription;
-}
-
-export interface FillUltrasoundAnalysisDto {
-  analysisPayload: EditAnalysisDto;
-  ultrasoundPayload: CreateUltrasoundDto;
-}
-
-export interface CreateMammographyDto {
-  tumorSize: TumorSizeJson;
-  metastasisNumber?: number;
-  birNumber: number;
-  relapseTypes?: RelapseType[];
-  side: Side;
-  description: UltrasoundDescription;
-}
-
-export interface FillMammographyAnalysisDto {
-  analysisPayload: EditAnalysisDto;
-  mammographyPayload: CreateMammographyDto;
-}
-
-export interface FillAnalysisCommonDto {
-  analysisPayload: EditAnalysisDto;
-}
-
 export enum ISH {
   NotMaked = "NotMaked",
   PositiveResult = "PositiveResult",
@@ -519,10 +449,11 @@ export enum Immunohistotype {
   TripleNegativeDuctal = "TripleNegativeDuctal",
 }
 
-export interface CreateIghDto {
+export interface IghResponseDto {
+  id: number;
   researchNumber: string;
-  ER: string;
-  PR: string;
+  ER: number;
+  PR: number;
   HERneu: number;
   HERneuFactor: boolean;
   ISH: ISH;
@@ -595,14 +526,121 @@ export enum TumorDifferentiation {
   G4 = "G4",
 }
 
-export interface CreateGystologyDto {
-  resectionDistance: number;
-  resectionEdgeState: boolean;
-  havingDuctalComponent: boolean;
+export interface GystologyResponseDto {
+  id: number;
+  resectionDistance?: number;
+  resectionEdgeState?: boolean;
+  havingDuctalComponent?: boolean;
   tumorSize?: TumorSizeJson;
   histotype: TumorHistotype;
-  tumorDifferentiation: TumorDifferentiation;
-  havingInvasion: boolean;
+  tumorDifferentiation?: TumorDifferentiation;
+  havingInvasion?: boolean;
+  metastasisNumber?: number;
+  patomorphologicalAnswer?: number;
+}
+
+export interface BiopsyResponseDto {
+  id: number;
+  igh: IghResponseDto;
+  gystology: GystologyResponseDto;
+  isPostOperational: boolean;
+}
+
+export interface AnalysisPayloadResponseDto {
+  id: number;
+  analysisType: AnalysisType;
+  description: string;
+  diseaseId: number;
+  /** @format date-time */
+  creationTime: string;
+  /** @format date-time */
+  completedTime: string;
+  status: AnalysisStatus;
+  creator?: UserLightResponseDto;
+  attachedImages: string[];
+  attachedDocuments: string[];
+  Ultrasound?: UltrasoundResponseDto;
+  Mammography?: MammograhyResponseDto;
+  Biopsy?: BiopsyResponseDto;
+}
+
+export interface AnalysisFullResponseDto {
+  id: number;
+  analysisType: AnalysisType;
+  description: string;
+  diseaseId: number;
+  /** @format date-time */
+  creationTime: string;
+  /** @format date-time */
+  completedTime: string;
+  status: AnalysisStatus;
+  creator?: UserLightResponseDto;
+  attachedImages: string[];
+  attachedDocuments: string[];
+  Ultrasound?: UltrasoundResponseDto;
+  Mammography?: MammograhyResponseDto;
+  Biopsy?: BiopsyResponseDto;
+  disease: DiseaseFullResponseDto;
+}
+
+export interface EditAnalysisDto {
+  description?: string;
+  attachedImages?: string[];
+  attachedDocuments?: string[];
+}
+
+export interface CreateUltrasoundDto {
+  tumorSizeNew: TumorSizeJson;
+  tumorSize?: number;
+  metastasisNumber: number;
+  birNumber: number;
+  relapseTypes: RelapseType[];
+  side: Side;
+  description: UltrasoundDescription;
+}
+
+export interface FillUltrasoundAnalysisDto {
+  analysisPayload: EditAnalysisDto;
+  ultrasoundPayload: CreateUltrasoundDto;
+}
+
+export interface CreateMammographyDto {
+  tumorSize: TumorSizeJson;
+  metastasisNumber?: number;
+  birNumber: number;
+  relapseTypes?: RelapseType[];
+  side: Side;
+  description: UltrasoundDescription;
+}
+
+export interface FillMammographyAnalysisDto {
+  analysisPayload: EditAnalysisDto;
+  mammographyPayload: CreateMammographyDto;
+}
+
+export interface FillAnalysisCommonDto {
+  analysisPayload: EditAnalysisDto;
+}
+
+export interface CreateIghDto {
+  researchNumber: string;
+  ER: string;
+  PR: string;
+  HERneu: number;
+  HERneuFactor: boolean;
+  ISH: ISH;
+  Ki67: number;
+  Immunohistotype: Immunohistotype;
+}
+
+export interface CreateGystologyDto {
+  resectionDistance?: number;
+  resectionEdgeState?: boolean;
+  havingDuctalComponent?: boolean;
+  tumorSize?: TumorSizeJson;
+  histotype: TumorHistotype;
+  tumorDifferentiation?: TumorDifferentiation;
+  havingInvasion?: boolean;
   metastasisNumber?: number;
   patomorphologicalAnswer?: number;
 }

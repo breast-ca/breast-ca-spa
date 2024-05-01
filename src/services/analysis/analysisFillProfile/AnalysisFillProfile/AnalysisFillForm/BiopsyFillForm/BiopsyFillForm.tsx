@@ -24,6 +24,21 @@ export const BiopsyFillForm: FC<Props> = () => {
   const { values, setFieldValue, handleChange } = useFormik({
     initialValues: {
       isPostOperational: true,
+      gystologyPayload: {
+        resectionDistance: null as number | null,
+        resectionEdgeState: false,
+        havingDuctalComponent: false,
+        tumorSize: {
+          sizeX: null as number | null,
+          sizeY: null as number | null,
+          sizeZ: null as number | null,
+        },
+        histotype: null as TumorHistotype | null,
+        tumorDifferentiation: null as TumorDifferentiation | null,
+        havingInvasion: false,
+        metastasisNumber: null as number | null,
+        patomorphologicalAnswer: null as number | null,
+      },
     },
     onSubmit: () => void 0,
   });
@@ -41,7 +56,14 @@ export const BiopsyFillForm: FC<Props> = () => {
         </Checkbox>
       </AnalysisTitle>
       <FormItem label="Гистологическое строение опухоли">
-        <Select placeholder="Выберите" size="large">
+        <Select
+          placeholder="Выберите"
+          size="large"
+          value={values.gystologyPayload.histotype}
+          onChange={(value) =>
+            setFieldValue("gystologyPayload.histotype", value)
+          }
+        >
           {Object.values(TumorHistotype).map((elem) => (
             <Select.Option key={elem} value={elem}>
               {elem}
@@ -52,15 +74,21 @@ export const BiopsyFillForm: FC<Props> = () => {
       {values.isPostOperational && (
         <GystologyWrapper>
           <FormItem label="Расстояние до ближайшего края резекции">
-            <Input size="large" placeholder="Введите расстояние" suffix="см" />
+            <Input
+              size="large"
+              placeholder="Введите расстояние"
+              suffix="см"
+              name="gystologyPayload.resectionDistance"
+              onChange={handleChange}
+            />
           </FormItem>
           <FormItem label="Размеры опухоли">
             <TumorSizeWrapper>
               <TumorSizeField>
                 <Input
-                  name="tumorSize.sizeX"
-                  // value={values.tumorSize.sizeX ?? ""}
+                  value={values.gystologyPayload.tumorSize.sizeX ?? ""}
                   type="number"
+                  name="gystologyPayload.tumorSize.sizeX"
                   onChange={handleChange}
                   size="large"
                   placeholder="X:"
@@ -72,10 +100,10 @@ export const BiopsyFillForm: FC<Props> = () => {
               </TumorSizeField>
               <TumorSizeField>
                 <Input
-                  name="tumorSize.sizeY"
-                  // value={values.tumorSize.sizeY ?? ""}
                   type="number"
+                  name="gystologyPayload.tumorSize.sizeY"
                   onChange={handleChange}
+                  value={values.gystologyPayload.tumorSize.sizeY ?? ""}
                   size="large"
                   placeholder="Y:"
                   // status={errors.tumorSize ? "error" : void 0}
@@ -86,9 +114,8 @@ export const BiopsyFillForm: FC<Props> = () => {
               </TumorSizeField>
               <TumorSizeField>
                 <Input
-                  name="tumorSize.sizeZ"
-                  // value={values.tumorSize.sizeZ ?? ""}
                   type="number"
+                  value={values.gystologyPayload.tumorSize.sizeZ ?? ""}
                   onChange={handleChange}
                   size="large"
                   placeholder="Z:"
@@ -101,13 +128,40 @@ export const BiopsyFillForm: FC<Props> = () => {
             </TumorSizeWrapper>
           </FormItem>
           <FormItem label="Состояние краев резекции ">
-            <Checkbox>Есть раковые клетки</Checkbox>
+            <Checkbox
+              checked={values.gystologyPayload.resectionEdgeState}
+              onChange={(e) =>
+                setFieldValue(
+                  "gystologyPayload.resectionEdgeState",
+                  e.target.checked
+                )
+              }
+            >
+              Есть раковые клетки
+            </Checkbox>
           </FormItem>
           <FormItem label="Наличие внутрипротокового компонента">
-            <Checkbox>Есть внутрипротоковый компонент</Checkbox>
+            <Checkbox
+              checked={values.gystologyPayload.havingDuctalComponent}
+              onChange={(e) =>
+                setFieldValue(
+                  "gystologyPayload.havingDuctalComponent",
+                  e.target.checked
+                )
+              }
+            >
+              Есть внутрипротоковый компонент
+            </Checkbox>
           </FormItem>
           <FormItem label="Степень дифференцировки опухоли">
-            <Select size="large" placeholder="Выберите">
+            <Select
+              size="large"
+              placeholder="Выберите"
+              value={values.gystologyPayload.tumorDifferentiation}
+              onChange={(value) =>
+                setFieldValue("gystologyPayload.tumorDifferentiation", value)
+              }
+            >
               {Object.values(TumorDifferentiation).map((elem) => (
                 <Select.Option key={elem} value={elem}>
                   {elem}
@@ -137,10 +191,25 @@ export const BiopsyFillForm: FC<Props> = () => {
             </TumorSizeWrapper>
           </FormItem>
           <FormItem label="Наличие лимфоваскулярной инвазии">
-            <Checkbox>Есть лимфоваскулярная инвазия</Checkbox>
+            <Checkbox
+              checked={values.gystologyPayload.havingInvasion}
+              onChange={(e) =>
+                setFieldValue(
+                  "gystologyPayload.havingInvasion",
+                  e.target.checked
+                )
+              }
+            >
+              Есть лимфоваскулярная инвазия
+            </Checkbox>
           </FormItem>
           <FormItem label="Cтепень патоморфологического ответа опухоли">
-            <Input placeholder="Введите степень" size="large" />
+            <Input
+              placeholder="Введите степень"
+              size="large"
+              value={values.gystologyPayload.patomorphologicalAnswer ?? ""}
+              onChange={handleChange}
+            />
           </FormItem>
         </GystologyWrapper>
       )}
