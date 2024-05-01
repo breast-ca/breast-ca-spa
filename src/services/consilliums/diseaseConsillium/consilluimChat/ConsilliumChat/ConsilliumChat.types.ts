@@ -1,6 +1,7 @@
 import {
   ConsilliumResponseDto,
   MessageResponseDto,
+  RolesDto,
   UserResponseDto,
 } from "@/api/shared";
 import { SendMessageDto } from "../consilluimChatService.types";
@@ -12,4 +13,5 @@ export type Props = {
   messagesList: MessageResponseDto[];
   user: UserResponseDto | null;
   handleEnd: () => void;
+  rolesTranslates: RolesDto | null;
 };

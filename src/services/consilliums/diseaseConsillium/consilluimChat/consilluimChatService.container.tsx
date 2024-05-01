@@ -2,7 +2,10 @@ import { ConsilliumResponseDto } from "@/api/shared";
 import { FC } from "react";
 import { ConsilliumChat } from "./ConsilliumChat";
 import { useUnit } from "effector-react";
-import { userQuery } from "@/services/user/userService.api";
+import {
+  rolesTranslatesQuery,
+  userQuery,
+} from "@/services/user/userService.api";
 import { consilluimChatService } from "./consilluimChatService.model";
 
 const {
@@ -15,10 +18,11 @@ export const ConsilluimChatContainer: FC<{
   consillium: ConsilliumResponseDto;
   handleEnd: () => void;
 }> = ({ consillium, handleEnd }) => {
-  const { user, handleSendMessage, messagesList } = useUnit({
+  const { user, handleSendMessage, messagesList, rolesTranslates } = useUnit({
     user: userQuery.$data,
     handleSendMessage: inputs.handleSendMessage,
     messagesList: outputs.$messages,
+    rolesTranslates: rolesTranslatesQuery.$data,
   });
 
   const isLead = consillium.usersOnConsillium.some(
@@ -35,6 +39,7 @@ export const ConsilluimChatContainer: FC<{
         messagesList={messagesList}
         user={user}
         handleEnd={handleEnd}
+        rolesTranslates={rolesTranslates}
       />
     </>
   );
