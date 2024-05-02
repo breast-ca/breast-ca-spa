@@ -5,6 +5,9 @@ import { Wrapper } from "./createTherapyService.styled";
 import { FormItem } from "@/components/FormItem";
 import { Select } from "antd";
 import { TherapyType } from "@/api/shared";
+import { useMemo } from "react";
+import { CreateRadiationTherapyForm } from "./CreateRadiationTherapyForm";
+import { useFormik } from "formik";
 
 const { inputs, outputs } = createTherapyService;
 
@@ -16,6 +19,26 @@ export const CreateTherapyContainer = () => {
     close: inputs.closeModal,
   });
 
+  const { values, setFieldValue } = useFormik({
+    initialValues: {
+      therapyType: null as TherapyType | null,
+    },
+    onSubmit: () => void 0,
+  });
+
+  const TherapyForm = useMemo(() => {
+    const therapyForms = {
+      [TherapyType.RadiationTherapy]: CreateRadiationTherapyForm,
+      [TherapyType.Operation]: null,
+      [TherapyType.Chemotherapy]: null,
+      [TherapyType.Symptomatic]: null,
+    };
+
+    if (!values.therapyType) return null;
+
+    return therapyForms[values.therapyType];
+  }, [values.therapyType]);
+
   return (
     <Modal
       title="Новое лечение"
@@ -25,7 +48,14 @@ export const CreateTherapyContainer = () => {
     >
       <Wrapper>
         <FormItem label="Тип лечения">
-          <Select size="large" placeholder="Выберите тип лечения">
+          <Select
+            size="large"
+            placeholder="Выберите тип лечения"
+            value={values.therapyType}
+            onChange={(therapyType) =>
+              setFieldValue("therapyType", therapyType)
+            }
+          >
             {Object.values(TherapyType).map((elem) => (
               <Select.Option
                 key={elem}
@@ -37,6 +67,7 @@ export const CreateTherapyContainer = () => {
             ))}
           </Select>
         </FormItem>
+        {TherapyForm && <TherapyForm />}
       </Wrapper>
     </Modal>
   );
