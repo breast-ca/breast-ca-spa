@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   AnalysisTitle,
   GystologyWrapper,
@@ -24,41 +24,58 @@ import {
   nOptionsList,
   tOptionsList,
 } from "@/services/diseaseProfile/DiseaseProfilePage/updateTNM/UpdateTNMModal/UpdateTNMModal.constants";
+import { validationSchema } from "./BiopsyFillForm.constants";
+import { ErrorMessage } from "@/components/ErrorMessage";
+import { analysisFillProfileService } from "../../../analysisFillProfileService.model";
+
+const { inputs } = analysisFillProfileService;
 
 export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
   const [search, setSearch] = useState("");
 
-  const { values, setFieldValue, handleChange } = useFormik({
-    initialValues: {
-      isPostOperational: true,
-      gystologyPayload: {
-        resectionDistance: null as number | null,
-        resectionEdgeState: false,
-        havingDuctalComponent: false,
-        tumorSize: {
-          sizeX: null as number | null,
-          sizeY: null as number | null,
-          sizeZ: null as number | null,
+  const { values, setFieldValue, handleChange, errors, handleSubmit } =
+    useFormik({
+      initialValues: {
+        isPostOperational: false,
+        gystologyPayload: {
+          resectionDistance: null as number | null,
+          resectionEdgeState: false,
+          havingDuctalComponent: false,
+          tumorSize: {
+            sizeX: null as number | null,
+            sizeY: null as number | null,
+            sizeZ: null as number | null,
+          },
+          histotype: null as TumorHistotype | null,
+          tumorDifferentiation: null as TumorDifferentiation | null,
+          havingInvasion: false,
+          metastasisNumber: null as string | null,
+          patomorphologicalAnswer: null as number | null,
+          T: null as string | null,
+          N: null as string | null,
         },
-        histotype: null as TumorHistotype | null,
-        tumorDifferentiation: null as TumorDifferentiation | null,
-        havingInvasion: false,
-        metastasisNumber: null as number | null,
-        patomorphologicalAnswer: null as number | null,
+        ighPayload: {
+          researchNumber: "",
+          ER: null as number | null,
+          PR: null as number | null,
+          HERneu: null as number | null,
+          HERneuFactor: false,
+          ISH: null as ISH | null,
+          Ki67: null as number | null,
+          Immunohistotype: null as Immunohistotype | null,
+        },
       },
-      ighPayload: {
-        researchNumber: "",
-        ER: "",
-        PR: "",
-        HERneu: null as number | null,
-        HERneuFactor: false,
-        ISH: null as ISH | null,
-        Ki67: null as number | null,
-        Immunohistotype: null as Immunohistotype | null,
-      },
-    },
-    onSubmit: () => void 0,
-  });
+      validationSchema,
+      // validateOnChange: false,
+      onSubmit: () => void 0,
+    });
+
+  useEffect(
+    () =>
+      inputs.handleSaveAnalysisButtonClicked.watch(() => handleSubmit())
+        .unsubscribe,
+    [handleSubmit]
+  );
 
   return (
     <Wrapper>
@@ -84,6 +101,7 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
           searchValue={search}
           onSearch={setSearch}
           allowClear
+          status={errors.gystologyPayload?.histotype && "error"}
         >
           {Object.values(TumorHistotype).map((elem) => (
             <Select.Option key={elem} value={elem}>
@@ -92,6 +110,7 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
             </Select.Option>
           ))}
         </Select>
+        <ErrorMessage>{errors.gystologyPayload?.histotype}</ErrorMessage>
       </FormItem>
       {values.isPostOperational && (
         <GystologyWrapper>
@@ -102,7 +121,12 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
               suffix="см"
               name="gystologyPayload.resectionDistance"
               onChange={handleChange}
+              value={values.gystologyPayload.resectionDistance ?? ""}
+              status={errors.gystologyPayload?.resectionDistance && "error"}
             />
+            <ErrorMessage>
+              {errors.gystologyPayload?.resectionDistance}
+            </ErrorMessage>
           </FormItem>
           <FormItem label="Размеры опухоли">
             <TumorSizeWrapper>
@@ -114,11 +138,11 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
                   onChange={handleChange}
                   size="large"
                   placeholder="X:"
-                  // status={errors.tumorSize ? "error" : void 0}
+                  status={errors.gystologyPayload?.tumorSize?.sizeX && "error"}
                 />
-                {/* {errors.tumorSize?.sizeX && (
-                  <ErrorMessage>{errors.tumorSize.sizeX}</ErrorMessage>
-                )} */}
+                <ErrorMessage>
+                  {errors.gystologyPayload?.tumorSize?.sizeX}
+                </ErrorMessage>
               </TumorSizeField>
               <TumorSizeField>
                 <Input
@@ -128,11 +152,11 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
                   value={values.gystologyPayload.tumorSize.sizeY ?? ""}
                   size="large"
                   placeholder="Y:"
-                  // status={errors.tumorSize ? "error" : void 0}
+                  status={errors.gystologyPayload?.tumorSize?.sizeY && "error"}
                 />
-                {/* {errors.tumorSize?.sizeY && (
-                  <ErrorMessage>{errors.tumorSize.sizeY}</ErrorMessage>
-                )} */}
+                <ErrorMessage>
+                  {errors.gystologyPayload?.tumorSize?.sizeY}
+                </ErrorMessage>
               </TumorSizeField>
               <TumorSizeField>
                 <Input
@@ -142,11 +166,11 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
                   name="gystologyPayload.tumorSize.sizeZ"
                   size="large"
                   placeholder="Z:"
-                  // status={errors.tumorSize ? "error" : void 0}
+                  status={errors.gystologyPayload?.tumorSize?.sizeZ && "error"}
                 />
-                {/* {errors.tumorSize?.sizeZ && (
-                  <ErrorMessage>{errors.tumorSize.sizeZ}</ErrorMessage>
-                )} */}
+                <ErrorMessage>
+                  {errors.gystologyPayload?.tumorSize?.sizeZ}
+                </ErrorMessage>
               </TumorSizeField>
             </TumorSizeWrapper>
           </FormItem>
@@ -184,6 +208,7 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
               onChange={(value) =>
                 setFieldValue("gystologyPayload.tumorDifferentiation", value)
               }
+              status={errors.gystologyPayload?.tumorDifferentiation && "error"}
             >
               {Object.values(TumorDifferentiation).map((elem) => (
                 <Select.Option key={elem} value={elem}>
@@ -191,35 +216,69 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
                 </Select.Option>
               ))}
             </Select>
+            <ErrorMessage>
+              {errors.gystologyPayload?.tumorDifferentiation}
+            </ErrorMessage>
           </FormItem>
           <FormItem label="pTNM">
             <TumorSizeWrapper>
               <TumorSizeField style={{ width: "100%" }}>
-                <Select placeholder="T:" size="large">
+                <Select
+                  placeholder="T:"
+                  size="large"
+                  value={values.gystologyPayload.T}
+                  onChange={(value) =>
+                    setFieldValue("gystologyPayload.T", value)
+                  }
+                  status={errors.gystologyPayload?.T && "error"}
+                >
                   {tOptionsList.map((elem) => (
                     <Select.Option key={elem} value={elem}>
                       {elem}
                     </Select.Option>
                   ))}
                 </Select>
+                <ErrorMessage>{errors.gystologyPayload?.T}</ErrorMessage>
               </TumorSizeField>
               <TumorSizeField style={{ width: "100%" }}>
-                <Select placeholder="N:" size="large" style={{ width: "100%" }}>
+                <Select
+                  placeholder="N:"
+                  size="large"
+                  style={{ width: "100%" }}
+                  value={values.gystologyPayload.N}
+                  onChange={(value) =>
+                    setFieldValue("gystologyPayload.N", value)
+                  }
+                  status={errors.gystologyPayload?.N && "error"}
+                >
                   {nOptionsList.map((elem) => (
                     <Select.Option key={elem} value={elem}>
                       {elem}
                     </Select.Option>
                   ))}
                 </Select>
+                <ErrorMessage>{errors.gystologyPayload?.metastasisNumber}</ErrorMessage>
               </TumorSizeField>
               <TumorSizeField style={{ width: "100%" }}>
-                <Select placeholder="M:" size="large" style={{ width: "100%" }}>
+                <Select
+                  placeholder="M:"
+                  size="large"
+                  style={{ width: "100%" }}
+                  value={values.gystologyPayload.metastasisNumber}
+                  onChange={(value) =>
+                    setFieldValue("gystologyPayload.metastasisNumber", value)
+                  }
+                  status={errors.gystologyPayload?.metastasisNumber && "error"}
+                >
                   {mOptionsList.map((elem) => (
                     <Select.Option key={elem} value={elem}>
                       {elem}
                     </Select.Option>
                   ))}
                 </Select>
+                <ErrorMessage>
+                  {errors.gystologyPayload?.metastasisNumber}
+                </ErrorMessage>
               </TumorSizeField>
             </TumorSizeWrapper>
           </FormItem>
@@ -243,7 +302,13 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
               value={values.gystologyPayload.patomorphologicalAnswer ?? ""}
               onChange={handleChange}
               name="gystologyPayload.patomorphologicalAnswer"
+              status={
+                errors.gystologyPayload?.patomorphologicalAnswer && "error"
+              }
             />
+            <ErrorMessage>
+              {errors.gystologyPayload?.patomorphologicalAnswer}
+            </ErrorMessage>
           </FormItem>
         </GystologyWrapper>
       )}
@@ -258,25 +323,60 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
       />
       <AnalysisTitle>ИГХ</AnalysisTitle>
       <IghFormWrapper>
+        <FormItem label="Номер исследования">
+          <Input
+            value={values.ighPayload.researchNumber}
+            onChange={handleChange}
+            name="ighPayload.researchNumber"
+            placeholder="Введите номер исследования"
+            size="large"
+            status={errors.ighPayload?.researchNumber && "error"}
+          />
+          <ErrorMessage>{errors.ighPayload?.researchNumber}</ErrorMessage>
+        </FormItem>
+        <FormItem label="Иммунногистотип">
+          <Select
+            size="large"
+            placeholder="Выберите"
+            value={values.ighPayload.Immunohistotype}
+            onChange={(value) =>
+              setFieldValue("ighPayload.Immunohistotype", value)
+            }
+            status={errors.ighPayload?.Immunohistotype && "error"}
+          >
+            {Object.values(Immunohistotype).map((elem) => (
+              <Select.Option key={elem} value={elem}>
+                {analysisTranslates.immunohistotype[elem]}
+              </Select.Option>
+            ))}
+          </Select>
+          <ErrorMessage>{errors.ighPayload?.Immunohistotype}</ErrorMessage>
+        </FormItem>
         <FormItem label="РЭ Пролиферативная активность">
           <Input
+            type="number"
             size="large"
             placeholder="Введите РЭ"
             suffix="%"
-            value={values.ighPayload.ER}
+            value={values.ighPayload.ER ?? ""}
             name="ighPayload.ER"
             onChange={handleChange}
+            status={errors.ighPayload?.ER && "error"}
           />
+          <ErrorMessage>{errors.ighPayload?.ER}</ErrorMessage>
         </FormItem>
         <FormItem label="РП Пролиферативная активность">
           <Input
+            type="number"
             size="large"
             placeholder="Введите РП"
             suffix="%"
             name="ighPayload.PR"
-            value={values.ighPayload.PR}
+            value={values.ighPayload.PR ?? ""}
             onChange={handleChange}
+            status={errors.ighPayload?.PR && "error"}
           />
+          <ErrorMessage>{errors.ighPayload?.PR}</ErrorMessage>
         </FormItem>
         <FormItem label="HER2-neu">
           <Input
@@ -285,7 +385,10 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
             value={values.ighPayload.HERneu ?? ""}
             name="ighPayload.HERneu"
             onChange={handleChange}
+            type="number"
+            status={errors.ighPayload?.HERneu && "error"}
           />
+          <ErrorMessage>{errors.ighPayload?.HERneu}</ErrorMessage>
         </FormItem>
         <FormItem label="HER2-neu factor">
           <Checkbox
@@ -303,6 +406,7 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
             placeholder="Укажите ISH"
             value={values.ighPayload.ISH}
             onChange={(value) => setFieldValue("ighPayload.ISH", value)}
+            status={errors.ighPayload?.ISH && "error"}
           >
             {Object.values(ISH).map((elem) => (
               <Select.Option key={elem} value={elem}>
@@ -310,6 +414,7 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
               </Select.Option>
             ))}
           </Select>
+          <ErrorMessage>{errors.ighPayload?.ISH}</ErrorMessage>
         </FormItem>
         <FormItem label="Ki67">
           <Input
@@ -319,23 +424,9 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
             value={values.ighPayload.Ki67 ?? ""}
             name="ighPayload.Ki67"
             onChange={handleChange}
+            status={errors.ighPayload?.Ki67 && "error"}
           />
-        </FormItem>
-        <FormItem label="Иммунногистотип">
-          <Select
-            size="large"
-            placeholder="Выберите"
-            value={values.ighPayload.Immunohistotype}
-            onChange={(value) =>
-              setFieldValue("ighPayload.Immunohistotype", value)
-            }
-          >
-            {Object.values(Immunohistotype).map((elem) => (
-              <Select.Option key={elem} value={elem}>
-                {analysisTranslates.immunohistotype[elem]}
-              </Select.Option>
-            ))}
-          </Select>
+          <ErrorMessage>{errors.ighPayload?.Ki67}</ErrorMessage>
         </FormItem>
       </IghFormWrapper>
       <Divider

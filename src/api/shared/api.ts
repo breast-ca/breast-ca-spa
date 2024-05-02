@@ -537,6 +537,8 @@ export interface GystologyResponseDto {
   havingInvasion?: boolean;
   metastasisNumber?: number;
   patomorphologicalAnswer?: number;
+  T?: string;
+  N?: string;
 }
 
 export interface BiopsyResponseDto {
@@ -643,6 +645,8 @@ export interface CreateGystologyDto {
   havingInvasion?: boolean;
   metastasisNumber?: number;
   patomorphologicalAnswer?: number;
+  T?: string;
+  N?: string;
 }
 
 export interface CreateBiopsyDto {
