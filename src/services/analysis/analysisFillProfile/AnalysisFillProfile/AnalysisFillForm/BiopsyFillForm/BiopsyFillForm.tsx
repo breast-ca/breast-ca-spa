@@ -30,7 +30,10 @@ import { analysisFillProfileService } from "../../../analysisFillProfileService.
 
 const { inputs } = analysisFillProfileService;
 
-export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
+export const BiopsyFillForm: FC<Props> = ({
+  analysisTranslates,
+  pushFillAnalysisPayload,
+}) => {
   const [search, setSearch] = useState("");
 
   const { values, setFieldValue, handleChange, errors, handleSubmit } =
@@ -66,8 +69,43 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
         },
       },
       validationSchema,
-      // validateOnChange: false,
-      onSubmit: () => void 0,
+      validateOnChange: false,
+      onSubmit: () => {
+        pushFillAnalysisPayload({
+          biopsy: {
+            gystologyPayload: {
+              ...values.gystologyPayload,
+              resectionDistance: values.gystologyPayload.resectionDistance!,
+              tumorSize: {
+                sizeX: values.gystologyPayload.tumorSize.sizeX!,
+                sizeY: values.gystologyPayload.tumorSize.sizeY!,
+                sizeZ: values.gystologyPayload.tumorSize.sizeZ!,
+              },
+              histotype: values.gystologyPayload.histotype!,
+              tumorDifferentiation:
+                values.gystologyPayload.tumorDifferentiation!,
+              havingInvasion: values.gystologyPayload.havingInvasion!,
+              metastasisNumber: Number(
+                values.gystologyPayload.metastasisNumber
+              ),
+              patomorphologicalAnswer:
+                values.gystologyPayload.patomorphologicalAnswer!,
+              T: values.gystologyPayload.T!,
+              N: values.gystologyPayload.N!,
+            },
+            ighPayload: {
+              ...values.ighPayload,
+              ER: String(values.ighPayload.ER),
+              PR: String(values.ighPayload.PR),
+              HERneu: values.ighPayload.HERneu!,
+              ISH: values.ighPayload.ISH!,
+              Ki67: values.ighPayload.Ki67!,
+              Immunohistotype: values.ighPayload.Immunohistotype!,
+            },
+            isPostOperational: values.isPostOperational,
+          },
+        });
+      },
     });
 
   useEffect(
@@ -257,7 +295,9 @@ export const BiopsyFillForm: FC<Props> = ({ analysisTranslates }) => {
                     </Select.Option>
                   ))}
                 </Select>
-                <ErrorMessage>{errors.gystologyPayload?.metastasisNumber}</ErrorMessage>
+                <ErrorMessage>
+                  {errors.gystologyPayload?.metastasisNumber}
+                </ErrorMessage>
               </TumorSizeField>
               <TumorSizeField style={{ width: "100%" }}>
                 <Select

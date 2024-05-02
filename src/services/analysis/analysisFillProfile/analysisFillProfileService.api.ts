@@ -3,6 +3,7 @@ import { axios } from "@/api";
 import {
   AnalysisFullResponseDto,
   FillAnalysisCommonDto,
+  FillBiopsyAnalysisDto,
   FillMammographyAnalysisDto,
   FillUltrasoundAnalysisDto,
 } from "@/api/shared";
@@ -47,5 +48,16 @@ export const fillCommonAnalysisMutation = createMutation({
   >(
     ({ analysisId, ...payload }): Promise<void> =>
       axios.patch(`/analysis/fill/${analysisId}/simple`, payload)
+  ),
+});
+
+export const fillBiopsyAnalysisMutation = createMutation({
+  effect: createEffect<
+    WithAnalysisId<FillBiopsyAnalysisDto>,
+    void,
+    EffectorAxiosError
+  >(
+    ({ analysisId, ...payload }): Promise<void> =>
+      axios.patch(`/analysis/fill/${analysisId}/biopsy`, payload)
   ),
 });

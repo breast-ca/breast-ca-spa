@@ -1,5 +1,6 @@
 import {
   AnalysisType,
+  CreateBiopsyDto,
   CreateMammographyDto,
   CreateUltrasoundDto,
   EditAnalysisDto,
@@ -12,6 +13,7 @@ export interface AnalysisFillPayload {
   analysisEditPayload: EditAnalysisDto;
   ultrasound?: CreateUltrasoundDto | null;
   mammography?: CreateMammographyDto | null;
+  biopsy?: CreateBiopsyDto | null;
 }
 
 export type AnalysisFillCommonFormData = FillUltrasoundAnalysisDto;

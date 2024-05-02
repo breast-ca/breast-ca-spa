@@ -1,5 +1,6 @@
 import {
   FillAnalysisCommonDto,
+  FillBiopsyAnalysisDto,
   FillMammographyAnalysisDto,
   FillUltrasoundAnalysisDto,
 } from "@/api/shared";
@@ -34,6 +35,18 @@ export const prepareCommonFillPayload: PrepareAnalysisFillFunction<
 > = (payload) => {
   return {
     analysisPayload: payload.analysisEditPayload,
+    analysisId: payload.analysisId,
+  };
+};
+
+export const prepareBiopsyFillPayload: PrepareAnalysisFillFunction<
+  FillBiopsyAnalysisDto
+> = (payload) => {
+  if (!payload.biopsy) return null;
+
+  return {
+    analysisPayload: payload.analysisEditPayload,
+    biopsyPayload: payload.biopsy,
     analysisId: payload.analysisId,
   };
 };

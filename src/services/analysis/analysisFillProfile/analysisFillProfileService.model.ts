@@ -2,6 +2,7 @@ import { createEvent, merge, sample, split } from "effector";
 import { createGate } from "effector-react";
 import {
   analysisProfileQuery,
+  fillBiopsyAnalysisMutation,
   fillCommonAnalysisMutation,
   fillMammographeAnalysisMutation,
   fillUltrasoundAnalysisMutation,
@@ -14,10 +15,12 @@ import {
 import {
   AnalysisFullResponseDto,
   AnalysisType,
+  FillBiopsyAnalysisDto,
   FillMammographyAnalysisDto,
   FillUltrasoundAnalysisDto,
 } from "@/api/shared";
 import {
+  prepareBiopsyFillPayload,
   prepareCommonFillPayload,
   prepareMammographeFillPayload,
   prepareUltrasoundFillPayload,
@@ -111,17 +114,30 @@ sample({
   target: fillCommonAnalysisMutation.start,
 });
 
+sample({
+  clock: sample({
+    clock: pushBiopsyFill,
+    fn: prepareBiopsyFillPayload,
+  }),
+  filter: (payload): payload is WithAnalysisId<FillBiopsyAnalysisDto> => {
+    return Boolean(payload);
+  },
+  target: fillBiopsyAnalysisMutation.start,
+});
+
 // processing for done events
 merge([
   fillUltrasoundAnalysisMutation.finished.failure,
   fillMammographeAnalysisMutation.finished.failure,
   fillCommonAnalysisMutation.finished.failure,
+  fillBiopsyAnalysisMutation.finished.failure,
 ]).watch(() => message.error("Ошибка запроса!"));
 
 const handleFillAnalysisSuccess = merge([
   fillUltrasoundAnalysisMutation.finished.success,
   fillMammographeAnalysisMutation.finished.success,
   fillCommonAnalysisMutation.finished.success,
+  fillBiopsyAnalysisMutation.finished.success,
 ]);
 
 handleFillAnalysisSuccess.watch(() => message.success("Анализ сохранен!"));

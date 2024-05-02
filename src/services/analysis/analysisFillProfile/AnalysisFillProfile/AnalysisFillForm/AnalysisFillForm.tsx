@@ -6,6 +6,7 @@ import { FormItem } from "@/components/FormItem";
 import { Button } from "@/components/Button";
 import {
   AnalysisType,
+  CreateBiopsyDto,
   CreateMammographyDto,
   CreateUltrasoundDto,
   EditAnalysisDto,
@@ -54,10 +55,15 @@ export const AnalysisFillForm: FC<Props> = ({
       attachedDocuments: [] as UploadFileResponseDto[],
       ultrasoundPayload: null as CreateUltrasoundDto | null,
       mammographyPayload: null as CreateMammographyDto | null,
+      biopsyPayload: null as CreateBiopsyDto | null,
     },
     onSubmit: (values) => {
-      const { ultrasoundPayload, mammographyPayload, ...analysisPayloadRest } =
-        values;
+      const {
+        ultrasoundPayload,
+        mammographyPayload,
+        biopsyPayload,
+        ...analysisPayloadRest
+      } = values;
 
       const analysisPayload: EditAnalysisDto = {
         ...analysisPayloadRest,
@@ -67,13 +73,19 @@ export const AnalysisFillForm: FC<Props> = ({
         ),
       };
 
+      if (!biopsyPayload) return;
+
       const fillSavePayload: AnalysisFillSavePayload = {
         analysisEditPayload: analysisPayload,
         ultrasound: ultrasoundPayload,
         mammography: mammographyPayload,
+        biopsy: {
+          ...biopsyPayload,
+          gystologyPayload: biopsyPayload.isPostOperational
+            ? biopsyPayload.gystologyPayload
+            : { histotype: biopsyPayload.gystologyPayload.histotype },
+        },
       };
-
-      console.log(fillSavePayload);
 
       return void handleSaveAnalysisFill(fillSavePayload);
     },
@@ -88,6 +100,7 @@ export const AnalysisFillForm: FC<Props> = ({
           ...prev,
           ultrasoundPayload: payload.ultrasound || null,
           mammographyPayload: payload.mammography || null,
+          biopsyPayload: payload.biopsy || null,
         }));
 
         handleSubmit();
