@@ -11,6 +11,7 @@ export const Modal: FC<Props> = ({
   handleClose,
   handleSubmit,
   disabled,
+  width,
 }) => {
   return (
     <ModalAntd
@@ -18,6 +19,7 @@ export const Modal: FC<Props> = ({
       open={isOpen}
       onCancel={handleClose}
       centered
+      width={width}
       footer={
         <Footer>
           <Button size="middle" type="ghost" onClick={handleClose}>

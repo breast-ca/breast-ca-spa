@@ -7,4 +7,5 @@ export type Props = {
   handleClose?: () => void;
   handleSubmit?: () => void;
   disabled?: boolean;
+  width?: number;
 };

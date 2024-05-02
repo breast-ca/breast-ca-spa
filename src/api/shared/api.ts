@@ -708,10 +708,45 @@ export interface ConsilliumResponseDto {
   consilliumResult?: ConsilliumResultDto;
 }
 
+export enum TherapyType {
+  Symptomatic = "Symptomatic",
+  Chemotherapy = "Chemotherapy",
+  RadiationTherapy = "RadiationTherapy",
+  Operation = "Operation",
+}
+
+export type CreateOperationDto = object;
+
+export type CreateChemoTherapyDto = object;
+
+export type CreateSympomaticTherapyDto = object;
+
+export enum RadiationTherapyType {
+  Radical = "Radical",
+  Symptomatic = "Symptomatic",
+  Palliative = "Palliative",
+}
+
+export interface CreateRadiationTherapyDto {
+  coursesAmount: number;
+  radiationFullAmount: number;
+  radiationOnceAmount: number;
+  radiationTherapyType: RadiationTherapyType;
+}
+
+export interface CreateCommonTherapyDto {
+  therapyType: TherapyType;
+  operation?: CreateOperationDto;
+  chemoTherapy?: CreateChemoTherapyDto;
+  sympomaticTherapy?: CreateSympomaticTherapyDto;
+  radiationTherapy?: CreateRadiationTherapyDto;
+}
+
 export interface ConsilliumEndDto {
   description: string;
   analysisType: AnalysisType[];
   diseaseId: number;
+  therapy?: CreateCommonTherapyDto;
 }
 
 export interface ConsilliumFillDto {
