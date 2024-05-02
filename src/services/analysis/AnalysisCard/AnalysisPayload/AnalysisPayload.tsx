@@ -5,6 +5,7 @@ import { AnalysisType } from "@/api/shared";
 import { UltrasoundView } from "./UltrasoundView";
 import { Divider } from "antd";
 import { MammographyView } from "./MammographyView";
+import { BiopsyView } from "./BiopsyView";
 
 export const AnalysisPayload: FC<Props> = ({
   analysis,
@@ -20,7 +21,12 @@ export const AnalysisPayload: FC<Props> = ({
           analysisTranslates={analysisTranslates}
         />
       ) : null,
-      [AnalysisType.Biopsy]: null,
+      [AnalysisType.Biopsy]: analysis.Biopsy ? (
+        <BiopsyView
+          biopsy={analysis.Biopsy}
+          analysisTranslates={analysisTranslates}
+        />
+      ) : null,
       [AnalysisType.BloodBiochemistry]: null,
       [AnalysisType.BoneScan]: null,
       [AnalysisType.CommonBloodAnalysis]: null,

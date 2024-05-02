@@ -1,0 +1,1 @@
+export { BiopsyView } from './BiopsyView';

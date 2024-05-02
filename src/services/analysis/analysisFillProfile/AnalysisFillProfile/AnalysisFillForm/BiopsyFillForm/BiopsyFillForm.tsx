@@ -156,7 +156,7 @@ export const BiopsyFillForm: FC<Props> = ({
             <Input
               size="large"
               placeholder="Введите расстояние"
-              suffix="см"
+              suffix="мм"
               name="gystologyPayload.resectionDistance"
               onChange={handleChange}
               value={values.gystologyPayload.resectionDistance ?? ""}

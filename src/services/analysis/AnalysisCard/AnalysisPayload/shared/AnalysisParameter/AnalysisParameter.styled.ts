@@ -19,7 +19,9 @@ export const Name = styled.div`
 `;
 
 export const Content = styled.div`
+  margin-top: 4px;
   font-size: 24px;
   font-weight: 700;
+  line-height: 22px;
   color: #2b2b2b;
 `;
