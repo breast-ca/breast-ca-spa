@@ -4,10 +4,12 @@ import {
   CreateOperationDto,
   CreateRadiationTherapyDto,
   CreateSympomaticTherapyDto,
+  TherapiesTranslateDto,
 } from "@/api/shared";
 
 export type Props = {
   handleSave: (payload: CreateCommonTherapyDto) => void;
+  therapyTranslates: TherapiesTranslateDto;
 };
 
 export type PushTherapyPayload = {

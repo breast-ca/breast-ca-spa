@@ -22,7 +22,10 @@ import { CreateSympomaticTherapyForm } from "./CreateSympomaticTherapyForm";
 
 const { inputs, outputs } = createTherapyService;
 
-export const CreateTherapyContainer: FC<Props> = ({ handleSave }) => {
+export const CreateTherapyContainer: FC<Props> = ({
+  handleSave,
+  therapyTranslates,
+}) => {
   const { isOpen, close, onSaveTherapy } = useUnit({
     isOpen: outputs.$isModalOpen,
     close: inputs.closeModal,
@@ -105,12 +108,17 @@ export const CreateTherapyContainer: FC<Props> = ({ handleSave }) => {
           >
             {Object.values(TherapyType).map((elem) => (
               <Select.Option key={elem} value={elem}>
-                {elem}
+                {therapyTranslates.therapyType[elem]}
               </Select.Option>
             ))}
           </Select>
         </FormItem>
-        {TherapyForm && <TherapyForm handlePushState={handlePushState} />}
+        {TherapyForm && (
+          <TherapyForm
+            handlePushState={handlePushState}
+            therapyTranslates={therapyTranslates}
+          />
+        )}
       </Wrapper>
     </Modal>
   );

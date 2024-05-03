@@ -20,6 +20,7 @@ import { Button } from "@/components/Button";
 import { PlusCircle } from "react-bootstrap-icons";
 import { CreateTherapyContainer, createTherapyService } from "./createTherapy";
 import { omitBy } from "lodash";
+import { therapyTranslatesQuery } from "@/services/therapy/therapyTranslates/therapyTranslatesService.api";
 
 const { inputs, outputs } = endConsilliumService;
 
@@ -31,6 +32,7 @@ export const EndConsilliumContainer: FC<{ id: number }> = ({ id }) => {
     handleEnd,
     disease,
     handleCreateTherapy,
+    therapyTranslates,
   } = useUnit({
     isOpen: outputs.$isModalOpen,
     close: inputs.closeModal,
@@ -38,6 +40,7 @@ export const EndConsilliumContainer: FC<{ id: number }> = ({ id }) => {
     handleEnd: endConsilliumMutation.start,
     disease: diseaseQuery.$data,
     handleCreateTherapy: createTherapyService.inputs.openModal,
+    therapyTranslates: therapyTranslatesQuery.$data,
   });
 
   const { values, setFieldValue, handleChange, handleSubmit, resetForm } =
@@ -77,9 +80,12 @@ export const EndConsilliumContainer: FC<{ id: number }> = ({ id }) => {
         title="Завершить консиллиум"
         handleSubmit={handleSubmit}
       >
-        <CreateTherapyContainer
-          handleSave={(therapy) => setFieldValue("therapy", therapy)}
-        />
+        {therapyTranslates && (
+          <CreateTherapyContainer
+            handleSave={(therapy) => setFieldValue("therapy", therapy)}
+            therapyTranslates={therapyTranslates}
+          />
+        )}
         <Wrapper>
           <FormItem label="Анализы">
             <Select
@@ -112,7 +118,7 @@ export const EndConsilliumContainer: FC<{ id: number }> = ({ id }) => {
             )}
             {values.therapy && (
               <TherapyWrapper>
-                {values.therapy.therapyType}
+                {therapyTranslates?.therapyType[values.therapy.therapyType]}
                 <TrashSC onClick={() => setFieldValue("therapy", null)} />
               </TherapyWrapper>
             )}

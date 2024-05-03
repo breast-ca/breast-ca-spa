@@ -11,7 +11,10 @@ import { createTherapyService } from "../createTherapyService.model";
 
 const { inputs } = createTherapyService;
 
-export const CreateChemoTherapyForm: FC<Props> = ({ handlePushState }) => {
+export const CreateChemoTherapyForm: FC<Props> = ({
+  handlePushState,
+  therapyTranslates,
+}) => {
   const { values, handleChange, setFieldValue, errors, handleSubmit } =
     useFormik({
       initialValues: {
@@ -42,7 +45,7 @@ export const CreateChemoTherapyForm: FC<Props> = ({ handlePushState }) => {
         >
           {Object.values(ChemoType).map((type) => (
             <Select.Option key={type} value={type}>
-              {type}
+              {therapyTranslates.chemoType[type]}
             </Select.Option>
           ))}
         </Select>

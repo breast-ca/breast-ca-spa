@@ -13,6 +13,7 @@ const { inputs } = createTherapyService;
 
 export const CreateRadiationTherapyForm: FC<CreateProps> = ({
   handlePushState,
+  therapyTranslates,
 }) => {
   const { values, handleChange, setFieldValue, handleSubmit, errors } =
     useFormik({
@@ -47,7 +48,9 @@ export const CreateRadiationTherapyForm: FC<CreateProps> = ({
           status={errors.radiationTherapyType && "error"}
         >
           {Object.values(RadiationTherapyType).map((elem) => (
-            <Select.Option value={elem}>{elem}</Select.Option>
+            <Select.Option value={elem}>
+              {therapyTranslates.radiationTherapyType[elem]}
+            </Select.Option>
           ))}
         </Select>
         <ErrorMessage>{errors.radiationTherapyType}</ErrorMessage>

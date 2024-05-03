@@ -12,7 +12,10 @@ import { createTherapyService } from "../createTherapyService.model";
 
 const { inputs } = createTherapyService;
 
-export const CreateOperationTherapyForm: FC<Props> = ({ handlePushState }) => {
+export const CreateOperationTherapyForm: FC<Props> = ({
+  handlePushState,
+  therapyTranslates,
+}) => {
   const { values, setFieldValue, handleChange, errors, handleSubmit } =
     useFormik({
       initialValues: {
@@ -49,7 +52,7 @@ export const CreateOperationTherapyForm: FC<Props> = ({ handlePushState }) => {
             .filter((e) => e !== OperationType.Forbidden)
             .map((elem) => (
               <Select.Option key={elem} value={elem}>
-                {elem}
+                {therapyTranslates.operationType[elem]}
               </Select.Option>
             ))}
         </Select>
@@ -68,7 +71,7 @@ export const CreateOperationTherapyForm: FC<Props> = ({ handlePushState }) => {
         >
           {Object.values(SurgeryImpact).map((elem) => (
             <Select.Option key={elem} value={elem}>
-              {elem}
+              {therapyTranslates.surgeryImpact[elem]}
             </Select.Option>
           ))}
         </Select>
