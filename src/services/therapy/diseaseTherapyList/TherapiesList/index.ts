@@ -1,0 +1,1 @@
+export { TherapiesList } from './TherapiesList';

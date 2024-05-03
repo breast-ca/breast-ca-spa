@@ -23,6 +23,7 @@ import { DiseaseCommonInfo } from "./DiseaseCommonInfo";
 import { DiseaseAnalysisListContainer } from "./diseaseAnalysisList";
 import { DiseaseFullResponseDto, DiseaseTranslateDto } from "@/api/shared";
 import { DiseaseConsilliumsListContainer } from "@/services/consilliums/diseaseConsilliumsList";
+import { DiseaseTherapyListContainer } from "@/services/therapy/diseaseTherapyList";
 
 export const DiseaseProfilePage: FC<Props> = ({
   isLoading,
@@ -117,6 +118,9 @@ export const DiseaseProfilePage: FC<Props> = ({
               )}
               {segment === "consiliums" && (
                 <DiseaseConsilliumsListContainer diseaseId={disease.id} />
+              )}
+              {segment === "therapy" && (
+                <DiseaseTherapyListContainer id={disease.id} />
               )}
             </>
           )}

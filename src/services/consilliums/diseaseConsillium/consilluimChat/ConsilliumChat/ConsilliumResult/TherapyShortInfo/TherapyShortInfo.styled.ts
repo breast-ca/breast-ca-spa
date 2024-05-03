@@ -12,7 +12,6 @@ export const Title = styled.div`
   font-weight: 800;
   font-size: 18px;
   color: #00000098;
-  max-width: 200px;
   width: min-content;
 `;
 

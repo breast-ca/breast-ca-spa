@@ -8,11 +8,17 @@ import {
 } from "@/services/analysis/AnalysisCard/AnalysisCard.styled";
 import dayjs from "dayjs";
 
-export const TherapyShortInfo: FC<Props> = ({ therapy, therapyTranslates }) => {
+export const TherapyShortInfo: FC<Props> = ({
+  therapy,
+  therapyTranslates,
+  maxWidth,
+}) => {
   return (
     <Wrapper>
       <TitleWrapper>
-        <Title>{therapyTranslates.therapyType[therapy.therapyType]}</Title>
+        <Title style={{ maxWidth, whiteSpace: maxWidth ? "wrap" : "nowrap" }}>
+          {therapyTranslates.therapyType[therapy.therapyType]}
+        </Title>
         <TherapyStatusBadge status={therapy.therapyStatus} />
       </TitleWrapper>
       <CreatedDate>

@@ -66,6 +66,7 @@ export const ConsilliumResult: FC<Props> = ({ consilliumResult }) => {
         <TherapyShortInfo
           therapyTranslates={therapyTranslates}
           therapy={consilliumResult.therapy}
+          maxWidth={200}
         />
       )}
     </Wrapper>
