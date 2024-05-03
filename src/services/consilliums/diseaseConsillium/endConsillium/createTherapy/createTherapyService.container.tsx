@@ -5,7 +5,7 @@ import { Wrapper } from "./createTherapyService.styled";
 import { FormItem } from "@/components/FormItem";
 import { Select } from "antd";
 import { TherapyType } from "@/api/shared";
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { CreateRadiationTherapyForm } from "./CreateRadiationTherapyForm";
 import { useFormik } from "formik";
 
@@ -14,17 +14,21 @@ const { inputs, outputs } = createTherapyService;
 const awailableTherapyTypes = [TherapyType.RadiationTherapy];
 
 export const CreateTherapyContainer = () => {
-  const { isOpen, close } = useUnit({
+  const { isOpen, close, onSaveTherapy } = useUnit({
     isOpen: outputs.$isModalOpen,
     close: inputs.closeModal,
+    onSaveTherapy: inputs.handleSaveTherapy,
   });
 
-  const { values, setFieldValue } = useFormik({
-    initialValues: {
-      therapyType: null as TherapyType | null,
-    },
-    onSubmit: () => void 0,
-  });
+  const { values, setFieldValue, resetForm, handleSubmit, setValues } =
+    useFormik({
+      initialValues: {
+        therapyType: null as TherapyType | null,
+      },
+      onSubmit: () => {
+        console.log("LOG");
+      },
+    });
 
   const TherapyForm = useMemo(() => {
     const therapyForms = {
@@ -39,12 +43,22 @@ export const CreateTherapyContainer = () => {
     return therapyForms[values.therapyType];
   }, [values.therapyType]);
 
+  useEffect(() => {
+    resetForm();
+  }, [isOpen, resetForm]);
+
+  const handlePushState = useCallback(async () => {
+    await setValues((prev) => ({ ...prev }));
+    handleSubmit();
+  }, [handleSubmit, setValues]);
+
   return (
     <Modal
       title="Новое лечение"
       isOpen={isOpen}
       handleClose={close}
       width={640}
+      handleSubmit={onSaveTherapy}
     >
       <Wrapper>
         <FormItem label="Тип лечения">
@@ -67,7 +81,7 @@ export const CreateTherapyContainer = () => {
             ))}
           </Select>
         </FormItem>
-        {TherapyForm && <TherapyForm />}
+        {TherapyForm && <TherapyForm handlePushState={handlePushState} />}
       </Wrapper>
     </Modal>
   );
