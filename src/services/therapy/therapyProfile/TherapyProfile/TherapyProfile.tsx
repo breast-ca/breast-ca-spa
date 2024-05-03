@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Wrapper } from "./TherapyProfile.styled";
 import { Props } from "./TherapyProfile.types";
 import { WithLoader } from "@/components/WithLoader";
@@ -8,12 +8,22 @@ import { TherapyStatusBadge } from "@/components/shared/TherapyStatusBadge";
 import { TherapyInfoCard } from "./TherapyInfoCard";
 import { usePatientInfoPanel } from "@/services/mainLayout/mainLayoutService.hooks";
 import { ContextMenuButton } from "@/components/ContextMenuButton";
+import { ContextMenuButtonColor } from "@/components/ContextMenuButton/ContextMenuButton.types";
+import { Segmented } from "@/components/Segmented";
+import {
+  DiseaseInfos,
+  DiseaseTitle,
+} from "@/services/diseaseProfile/DiseaseProfilePage/DiseaseProfilePage";
+import { DiseaseCommonInfo } from "@/services/diseaseProfile/DiseaseProfilePage/DiseaseCommonInfo";
 
 export const TherapyProfile: FC<Props> = ({
   therapy,
   isLoading,
   therapyTranslates,
+  diseaseTranslates,
 }) => {
+  const [segment, setSegment] = useState<"therapy" | "disease">("therapy");
+
   usePatientInfoPanel(therapy?.disease.patient);
 
   if (!therapy || isLoading) {
@@ -37,12 +47,57 @@ export const TherapyProfile: FC<Props> = ({
           </>
         }
       >
-        <ContextMenuButton />
+        <ContextMenuButton
+          menuButtons={[
+            {
+              title: "Редактировать данные",
+            },
+            {
+              title: "Завершить",
+            },
+            {
+              title: "Отменить",
+              color: ContextMenuButtonColor.danger,
+            },
+          ]}
+        />
       </PageHeader>
-      <TherapyInfoCard
-        therapy={therapy}
-        therapyTranslates={therapyTranslates}
+      <Segmented
+        value={segment}
+        onChange={(value) => setSegment(value as "therapy" | "disease")}
+        options={[
+          {
+            label: "Терапия",
+            value: "therapy",
+          },
+          {
+            label: "Паспорт заболевания",
+            value: "disease",
+          },
+        ]}
       />
+      {segment === "therapy" && (
+        <TherapyInfoCard
+          therapy={therapy}
+          therapyTranslates={therapyTranslates}
+        />
+      )}
+      {segment === "disease" && (
+        <>
+          <DiseaseTitle
+            diseaseEnums={diseaseTranslates}
+            disease={therapy.disease}
+          />
+          <DiseaseInfos
+            diseaseEnums={diseaseTranslates}
+            disease={therapy.disease}
+          />
+          <DiseaseCommonInfo
+            disease={therapy.disease}
+            diseaseEnums={diseaseTranslates}
+          />
+        </>
+      )}
     </Wrapper>
   );
 };
