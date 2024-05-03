@@ -73,13 +73,11 @@ export const AnalysisFillForm: FC<Props> = ({
         ),
       };
 
-      if (!biopsyPayload) return;
-
       const fillSavePayload: AnalysisFillSavePayload = {
         analysisEditPayload: analysisPayload,
         ultrasound: ultrasoundPayload,
         mammography: mammographyPayload,
-        biopsy: {
+        biopsy: biopsyPayload && {
           ...biopsyPayload,
           gystologyPayload: biopsyPayload.isPostOperational
             ? biopsyPayload.gystologyPayload

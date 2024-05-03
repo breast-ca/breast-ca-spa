@@ -1,5 +1,6 @@
-import { TherapyLightResponseDto } from "@/api/shared";
+import { TherapiesTranslateDto, TherapyLightResponseDto } from "@/api/shared";
 
 export type Props = {
   therapy: TherapyLightResponseDto;
+  therapyTranslates: TherapiesTranslateDto;
 };

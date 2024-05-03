@@ -4,7 +4,6 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  max-width: 250px;
 `;
 
 export const Text = styled.div`

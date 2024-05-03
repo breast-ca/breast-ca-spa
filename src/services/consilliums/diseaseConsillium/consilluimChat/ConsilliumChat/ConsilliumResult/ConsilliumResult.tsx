@@ -10,10 +10,12 @@ import { useUnit } from "effector-react";
 import { AnalysisTranslatesQuery } from "@/services/analysis/analysisService.api";
 import { useNavigate } from "react-router-dom";
 import { TherapyShortInfo } from "./TherapyShortInfo";
+import { therapyTranslatesQuery } from "@/services/therapy/therapyTranslates/therapyTranslatesService.api";
 
 export const ConsilliumResult: FC<Props> = ({ consilliumResult }) => {
-  const { analysisTranslates } = useUnit({
+  const { analysisTranslates, therapyTranslates } = useUnit({
     analysisTranslates: AnalysisTranslatesQuery.$data,
+    therapyTranslates: therapyTranslatesQuery.$data,
   });
 
   const navigate = useNavigate();
@@ -60,8 +62,11 @@ export const ConsilliumResult: FC<Props> = ({ consilliumResult }) => {
           }}
         />
       )}
-      {consilliumResult.therapy && (
-        <TherapyShortInfo therapy={consilliumResult.therapy} />
+      {consilliumResult.therapy && therapyTranslates && (
+        <TherapyShortInfo
+          therapyTranslates={therapyTranslates}
+          therapy={consilliumResult.therapy}
+        />
       )}
     </Wrapper>
   );

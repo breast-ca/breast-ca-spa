@@ -4,10 +4,15 @@ import { authService } from "../auth/authService.model";
 import { userService } from "../user/userService.model";
 import { userQuery } from "../user/userService.api";
 import { mainLayoutService } from ".";
+import { therapyTranslatesService } from "../therapy/therapyTranslates";
 
 const {
   gates: { UserGate },
 } = userService;
+
+const {
+  gates: { TherapyTranslatesGate },
+} = therapyTranslatesService;
 
 export const MainLayoutContainer = () => {
   const { handleSignOut, isAuth, user, patientInfo } = useUnit({
@@ -19,7 +24,12 @@ export const MainLayoutContainer = () => {
 
   return (
     <>
-      {isAuth && <UserGate />}
+      {isAuth && (
+        <>
+          <UserGate />
+          <TherapyTranslatesGate />
+        </>
+      )}
       <MainLayout
         handleSignOut={handleSignOut}
         user={user}

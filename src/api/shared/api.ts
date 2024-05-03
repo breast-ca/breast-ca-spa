@@ -718,7 +718,7 @@ export interface TherapyLightResponseDto {
   creationTime: string;
   /** @format date-time */
   endingTime: string;
-  therapyDynamic: TherapyDynamic;
+  therapyDynamic?: TherapyDynamic;
   therapyStatus: TherapyStatus;
   diseaseId: number;
 }
@@ -767,7 +767,7 @@ export enum SurgeryImpact {
 export interface CreateOperationDto {
   description: string;
   operationType: OperationType;
-  surgeryImpact: SurgeryImpact;
+  surgeryImpact?: SurgeryImpact;
   otherSurgeryImpact?: string;
 }
 
@@ -828,6 +828,25 @@ export interface MessageResponseDto {
   sendingTime: string;
 }
 
+export interface TherapiesTranslateDto {
+  therapyType: Record<string, string>;
+  therapyStatus: Record<string, string>;
+  therapyDynamic: Record<string, string>;
+  radiationTherapyType: Record<string, string>;
+  complicationType: Record<string, string>;
+  radiationComplicationType: Record<string, string>;
+  operationComplication: Record<string, string>;
+  operationType: Record<string, string>;
+  surgeryImpact: Record<string, string>;
+  laterOperationComplication: Record<string, string>;
+  chemoType: Record<string, string>;
+  toxicitySpecies: Record<string, string>;
+  gastroToxicity: Record<string, string>;
+  bodyTemperature: Record<string, string>;
+  hematologicalToxicity: Record<string, string>;
+  toxicityType: Record<string, string>;
+}
+
 export enum OperationComplication {
   Edema = "Edema",
   Hematoma = "Hematoma",
@@ -864,14 +883,10 @@ export enum LaterOperationComplication {
   AnimatedBreastDeformation = "AnimatedBreastDeformation",
 }
 
-export interface OperationResponseDto {
-  id: number;
-  description: string;
-  operationType: OperationType;
-  surgeryImpact: SurgeryImpact;
-  otherSurgeryImpact: string;
-  operationComplication: OperationComplication;
-  laterOperationComplication: LaterOperationComplication;
+export interface OperationFillDto {
+  operationComplication?: OperationComplication;
+  laterOperationComplication?: LaterOperationComplication;
+  therapyStatus?: TherapyStatus;
 }
 
 export enum ToxicityType {
@@ -911,6 +926,46 @@ export enum ToxicitySpecies {
   SkinToxicity = "SkinToxicity",
 }
 
+export interface ChemotherapyFillDto {
+  toxicityType?: ToxicityType;
+  hematologicalToxicity?: HematologicalToxicity;
+  bodyTemperature?: BodyTemperature;
+  gastroToxicity?: GastroToxicity;
+  elseToxicity?: ToxicitySpecies;
+  otherToxicity?: string;
+  therapyStatus?: TherapyStatus;
+  therapyDynamic?: TherapyStatus;
+}
+
+export enum ComplicationType {
+  Early = "Early",
+  Late = "Late",
+  None = "None",
+}
+
+export interface RadiationTherapyFillDto {
+  radiationTherapyType?: RadiationTherapyType;
+  complicationType?: ComplicationType;
+  radiatonComplicationType?: ComplicationType;
+  therapyStatus?: TherapyStatus;
+  therapyDynamic?: TherapyStatus;
+}
+
+export interface CreateAnalysisOnTherapyDto {
+  analysisType: AnalysisType[];
+  diseaseId: number;
+}
+
+export interface OperationResponseDto {
+  id: number;
+  description: string;
+  operationType: OperationType;
+  surgeryImpact: SurgeryImpact;
+  otherSurgeryImpact: string;
+  operationComplication: OperationComplication;
+  laterOperationComplication: LaterOperationComplication;
+}
+
 export interface ChemoTherapyResponseDto {
   chemoType: ChemoType;
   line: number;
@@ -923,12 +978,6 @@ export interface ChemoTherapyResponseDto {
 }
 
 export type SymptomaticResponseDto = object;
-
-export enum ComplicationType {
-  Early = "Early",
-  Late = "Late",
-  None = "None",
-}
 
 export interface RadiationTherapyResponseDto {
   id: number;
@@ -1969,15 +2018,115 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags therapy
+     * @name TherapyControllerGetTranslates
+     * @request GET:/api/therapy/translates
+     * @secure
+     */
+    therapyControllerGetTranslates: (params: RequestParams = {}) =>
+      this.request<any, TherapiesTranslateDto>({
+        path: `/api/therapy/translates`,
+        method: "GET",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags therapy
      * @name TherapyControllerGetTherapyByDiseaseId
      * @request GET:/api/therapy/disease/{diseaseId}
      * @secure
      */
     therapyControllerGetTherapyByDiseaseId: (diseaseId: string, params: RequestParams = {}) =>
-      this.request<TherapyFullResponseDto, any>({
+      this.request<TherapyLightResponseDto[], any>({
         path: `/api/therapy/disease/${diseaseId}`,
         method: "GET",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags therapy
+     * @name TherapyControllerFillOperationTherapy
+     * @request PATCH:/api/therapy/fill/{therapyId}/operation
+     * @secure
+     */
+    therapyControllerFillOperationTherapy: (therapyId: string, data: OperationFillDto, params: RequestParams = {}) =>
+      this.request<OperationFillDto, any>({
+        path: `/api/therapy/fill/${therapyId}/operation`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags therapy
+     * @name TherapyControllerFillChemotherapy
+     * @request PATCH:/api/therapy/fill/{therapyId}/chemotherapy
+     * @secure
+     */
+    therapyControllerFillChemotherapy: (therapyId: string, data: ChemotherapyFillDto, params: RequestParams = {}) =>
+      this.request<ChemotherapyFillDto, any>({
+        path: `/api/therapy/fill/${therapyId}/chemotherapy`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags therapy
+     * @name TherapyControllerFillRadiationTherapy
+     * @request PATCH:/api/therapy/fill/{therapyId}/radiation
+     * @secure
+     */
+    therapyControllerFillRadiationTherapy: (
+      therapyId: string,
+      data: RadiationTherapyFillDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<RadiationTherapyFillDto, any>({
+        path: `/api/therapy/fill/${therapyId}/radiation`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags therapy
+     * @name TherapyControllerCreateAnalysisOnTherapy
+     * @request POST:/api/therapy/analysis/{therapyId}/create
+     * @secure
+     */
+    therapyControllerCreateAnalysisOnTherapy: (
+      therapyId: string,
+      data: CreateAnalysisOnTherapyDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<CreateAnalysisOnTherapyDto, any>({
+        path: `/api/therapy/analysis/${therapyId}/create`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -1991,7 +2140,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     therapyControllerGetTherapyById: (therapyId: string, params: RequestParams = {}) =>
-      this.request<TherapyLightResponseDto[], any>({
+      this.request<TherapyFullResponseDto, any>({
         path: `/api/therapy/${therapyId}`,
         method: "GET",
         secure: true,

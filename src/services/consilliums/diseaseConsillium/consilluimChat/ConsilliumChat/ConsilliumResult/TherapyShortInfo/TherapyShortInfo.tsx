@@ -8,11 +8,11 @@ import {
 } from "@/services/analysis/AnalysisCard/AnalysisCard.styled";
 import dayjs from "dayjs";
 
-export const TherapyShortInfo: FC<Props> = ({ therapy }) => {
+export const TherapyShortInfo: FC<Props> = ({ therapy, therapyTranslates }) => {
   return (
     <Wrapper>
       <TitleWrapper>
-        <Title>{therapy.therapyType}</Title>
+        <Title>{therapyTranslates.therapyType[therapy.therapyType]}</Title>
         <TherapyStatusBadge status={therapy.therapyStatus} />
       </TitleWrapper>
       <CreatedDate>
