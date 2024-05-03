@@ -8,7 +8,6 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { Input, Select, Space } from "antd";
 import { AnalysisStatus } from "@/api/shared";
 import { AnalysisStatusSimpleBadge } from "@/components/shared/AnalysisStatus/AnalysisStatus";
-import { Segmented } from "@/components/Segmented";
 
 const { outputs, inputs } = analysisListService;
 
@@ -30,13 +29,6 @@ export const AnalysisSearchForm: FC<Props> = () => {
 
   return (
     <Wrapper>
-      <Segmented
-        block
-        options={[
-          { label: "Ожидают", value: "awaiting" },
-          { label: "История", value: "history" },
-        ]}
-      />
       <Space.Compact style={{ width: "100%" }}>
         <Input
           size="large"
