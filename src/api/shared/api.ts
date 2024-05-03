@@ -1000,10 +1000,10 @@ export interface TherapyFullResponseDto {
   therapyDynamic: TherapyDynamic;
   therapyStatus: TherapyStatus;
   analysises: AnalysisLightResponseDto[];
-  operation?: OperationResponseDto;
-  chemoTherapy?: ChemoTherapyResponseDto;
-  sympomaticTherapy?: SymptomaticResponseDto;
-  radiationTherapy?: RadiationTherapyResponseDto;
+  Operation?: OperationResponseDto;
+  Chemotherapy?: ChemoTherapyResponseDto;
+  Sympomatic?: SymptomaticResponseDto;
+  RadiationTherapy?: RadiationTherapyResponseDto;
   disease: DiseaseFullResponseDto;
 }
 

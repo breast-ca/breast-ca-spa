@@ -7,9 +7,9 @@ import { ChemotherapyView } from "./ChemotherapyView";
 export const TherapyInfoCard: FC<Props> = ({ therapy, therapyTranslates }) => {
   const therapyView = useMemo(() => {
     const therapyViews = {
-      [TherapyType.Chemotherapy]: therapy.chemoTherapy ? (
+      [TherapyType.Chemotherapy]: therapy.Chemotherapy ? (
         <ChemotherapyView
-          chemoTherapy={therapy.chemoTherapy}
+          chemoTherapy={therapy.Chemotherapy}
           therapyTranslates={therapyTranslates}
         />
       ) : null,
@@ -19,7 +19,7 @@ export const TherapyInfoCard: FC<Props> = ({ therapy, therapyTranslates }) => {
     };
 
     return therapyViews[therapy.therapyType];
-  }, [therapy.chemoTherapy, therapy.therapyType, therapyTranslates]);
+  }, [therapy.Chemotherapy, therapy.therapyType, therapyTranslates]);
 
   return <Wrapper>{therapyView}</Wrapper>;
 };

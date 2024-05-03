@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { TherapyStatusBadge } from "@/components/shared/TherapyStatusBadge";
 import { TherapyInfoCard } from "./TherapyInfoCard";
 import { usePatientInfoPanel } from "@/services/mainLayout/mainLayoutService.hooks";
+import { ContextMenuButton } from "@/components/ContextMenuButton";
 
 export const TherapyProfile: FC<Props> = ({
   therapy,
@@ -35,7 +36,9 @@ export const TherapyProfile: FC<Props> = ({
             <TherapyStatusBadge status={therapy.therapyStatus} />
           </>
         }
-      />
+      >
+        <ContextMenuButton />
+      </PageHeader>
       <TherapyInfoCard
         therapy={therapy}
         therapyTranslates={therapyTranslates}

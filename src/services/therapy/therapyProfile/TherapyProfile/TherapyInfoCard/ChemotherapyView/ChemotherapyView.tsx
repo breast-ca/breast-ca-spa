@@ -10,6 +10,7 @@ export const ChemotherapyView: FC<Props> = ({
   return (
     <Wrapper>
       <CommonInfo
+        card
         items={[
           {
             key: "Тип лекарственной терапии",
