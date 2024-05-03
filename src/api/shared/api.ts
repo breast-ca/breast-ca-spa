@@ -692,11 +692,43 @@ export interface AnalysisLightResponseDto {
   status: AnalysisStatus;
 }
 
+export enum TherapyType {
+  Symptomatic = "Symptomatic",
+  Chemotherapy = "Chemotherapy",
+  RadiationTherapy = "RadiationTherapy",
+  Operation = "Operation",
+}
+
+export enum TherapyDynamic {
+  Positive = "Positive",
+  Negative = "Negative",
+  None = "None",
+}
+
+export enum TherapyStatus {
+  Started = "Started",
+  Done = "Done",
+  Canceled = "Canceled",
+}
+
+export interface TherapyLightResponseDto {
+  id: number;
+  therapyType: TherapyType;
+  /** @format date-time */
+  creationTime: string;
+  /** @format date-time */
+  endingTime: string;
+  therapyDynamic: TherapyDynamic;
+  therapyStatus: TherapyStatus;
+  diseaseId: number;
+}
+
 export interface ConsilliumResultDto {
   description: string;
   /** @format date-time */
   resultTime: string;
   analysis: AnalysisLightResponseDto[];
+  therapy?: TherapyLightResponseDto;
 }
 
 export interface ConsilliumResponseDto {
@@ -708,16 +740,50 @@ export interface ConsilliumResponseDto {
   consilliumResult?: ConsilliumResultDto;
 }
 
-export enum TherapyType {
+export enum OperationType {
+  Radical = "Radical",
+  Palliative = "Palliative",
   Symptomatic = "Symptomatic",
-  Chemotherapy = "Chemotherapy",
-  RadiationTherapy = "RadiationTherapy",
-  Operation = "Operation",
+  Forbidden = "Forbidden",
 }
 
-export type CreateOperationDto = object;
+export enum SurgeryImpact {
+  Lumpectomy = "Lumpectomy",
+  SectoralResection = "SectoralResection",
+  Quadrantectomy = "Quadrantectomy",
+  RadicalSectoralResection = "RadicalSectoralResection",
+  RadicalMastectomy = "RadicalMastectomy",
+  RadicalExpandedMastectomy = "RadicalExpandedMastectomy",
+  UnderSkinMastectomy = "UnderSkinMastectomy",
+  BilateralMastectomy = "BilateralMastectomy",
+  HemiMastectomy = "HemiMastectomy",
+  ThoracodorsalFlap = "ThoracodorsalFlap",
+  ExcisionRecurrence = "ExcisionRecurrence",
+  GlutealFlap = "GlutealFlap",
+  TRAMFlap = "TRAMFlap",
+  Other = "Other",
+}
 
-export type CreateChemoTherapyDto = object;
+export interface CreateOperationDto {
+  description: string;
+  operationType: OperationType;
+  surgeryImpact: SurgeryImpact;
+  otherSurgeryImpact?: string;
+}
+
+export enum ChemoType {
+  NeoAdjuvant = "NeoAdjuvant",
+  Adjuvant = "Adjuvant",
+  Target = "Target",
+  Hormonal = "Hormonal",
+  Support = "Support",
+  Forbidden = "Forbidden",
+}
+
+export interface CreateChemoTherapyDto {
+  chemoType: ChemoType;
+  line: number;
+}
 
 export type CreateSympomaticTherapyDto = object;
 
@@ -760,6 +826,135 @@ export interface MessageResponseDto {
   creator: UserLightResponseDto;
   /** @format date-time */
   sendingTime: string;
+}
+
+export enum OperationComplication {
+  Edema = "Edema",
+  Hematoma = "Hematoma",
+  Seroma = "Seroma",
+  ChestPain = "ChestPain",
+  Infectional = "Infectional",
+  DecreasedSensivity = "DecreasedSensivity",
+}
+
+export enum LaterOperationComplication {
+  Edema = "Edema",
+  Hematoma = "Hematoma",
+  Seroma = "Seroma",
+  ChestPain = "ChestPain",
+  Infectional = "Infectional",
+  DecreasedSensivity = "DecreasedSensivity",
+  ImplantDisplacement = "ImplantDisplacement",
+  Scarring = "Scarring",
+  ImplantRupture = "ImplantRupture",
+  CapsularContracture = "CapsularContracture",
+  ImplantRejection = "ImplantRejection",
+  Asymmetry = "Asymmetry",
+  ChangeNipples = "ChangeNipples",
+  Mastoptosis = "Mastoptosis",
+  Synmastia = "Synmastia",
+  TomatoShapedBreasts = "TomatoShapedBreasts",
+  Calcification = "Calcification",
+  Allergy = "Allergy",
+  ThinningSkinBreast = "ThinningSkinBreast",
+  Ripling = "Ripling",
+  DoubleFold = "DoubleFold",
+  BallInSock = "BallInSock",
+  WaterfallEffect = "WaterfallEffect",
+  AnimatedBreastDeformation = "AnimatedBreastDeformation",
+}
+
+export interface OperationResponseDto {
+  id: number;
+  description: string;
+  operationType: OperationType;
+  surgeryImpact: SurgeryImpact;
+  otherSurgeryImpact: string;
+  operationComplication: OperationComplication;
+  laterOperationComplication: LaterOperationComplication;
+}
+
+export enum ToxicityType {
+  None = "None",
+  Early = "Early",
+  Late = "Late",
+}
+
+export enum HematologicalToxicity {
+  None = "None",
+  Anemia = "Anemia",
+  Thrombocytopenia = "Thrombocytopenia",
+  Leukopenia = "Leukopenia",
+}
+
+export enum BodyTemperature {
+  Normal = "Normal",
+  SubFebril = "SubFebril",
+  Febril = "Febril",
+  High = "High",
+  Excessive = "Excessive",
+}
+
+export enum GastroToxicity {
+  None = "None",
+  Diarrhea = "Diarrhea",
+  Nausea = "Nausea",
+  Vomit = "Vomit",
+  Constipation = "Constipation",
+}
+
+export enum ToxicitySpecies {
+  Alopecia = "Alopecia",
+  Polyneuropathy = "Polyneuropathy",
+  Hepatotoxicity = "Hepatotoxicity",
+  Nephrotoxicity = "Nephrotoxicity",
+  SkinToxicity = "SkinToxicity",
+}
+
+export interface ChemoTherapyResponseDto {
+  chemoType: ChemoType;
+  line: number;
+  toxicityType: ToxicityType;
+  hematologicalToxicity: HematologicalToxicity;
+  bodyTemperature: BodyTemperature;
+  gastroToxicity: GastroToxicity;
+  elseToxicity: ToxicitySpecies;
+  otherToxicity: string;
+}
+
+export type SymptomaticResponseDto = object;
+
+export enum ComplicationType {
+  Early = "Early",
+  Late = "Late",
+  None = "None",
+}
+
+export interface RadiationTherapyResponseDto {
+  id: number;
+  coursesAmount: number;
+  radiationFullAmount: number;
+  radiationOnceAmount: number;
+  radiationTherapyType: RadiationTherapyType;
+  complicationType: ComplicationType;
+  radiatonComplicationType: ComplicationType;
+}
+
+export interface TherapyFullResponseDto {
+  id: number;
+  therapyType: TherapyType;
+  diseaseId: number;
+  /** @format date-time */
+  creationTime: string;
+  /** @format date-time */
+  endingTime: string;
+  therapyDynamic: TherapyDynamic;
+  therapyStatus: TherapyStatus;
+  analysises: AnalysisLightResponseDto[];
+  operation?: OperationResponseDto;
+  chemoTherapy?: ChemoTherapyResponseDto;
+  sympomaticTherapy?: SymptomaticResponseDto;
+  radiationTherapy?: RadiationTherapyResponseDto;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -1767,6 +1962,40 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<any, MessageResponseDto[]>({
         path: `/api/messages/consillium/${consilliumId}`,
         method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags therapy
+     * @name TherapyControllerGetTherapyByDiseaseId
+     * @request GET:/api/therapy/disease/{diseaseId}
+     * @secure
+     */
+    therapyControllerGetTherapyByDiseaseId: (diseaseId: string, params: RequestParams = {}) =>
+      this.request<TherapyFullResponseDto, any>({
+        path: `/api/therapy/disease/${diseaseId}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags therapy
+     * @name TherapyControllerGetTherapyById
+     * @request GET:/api/therapy/{therapyId}
+     * @secure
+     */
+    therapyControllerGetTherapyById: (therapyId: string, params: RequestParams = {}) =>
+      this.request<TherapyLightResponseDto[], any>({
+        path: `/api/therapy/${therapyId}`,
+        method: "GET",
+        secure: true,
+        format: "json",
         ...params,
       }),
   };

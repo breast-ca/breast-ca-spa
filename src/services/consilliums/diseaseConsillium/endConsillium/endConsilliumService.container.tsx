@@ -51,13 +51,13 @@ export const EndConsilliumContainer: FC<{ id: number }> = ({ id }) => {
 
   return (
     <>
-      <CreateTherapyContainer />
       <Modal
         isOpen={isOpen}
         handleClose={close}
         title="Завершить консиллиум"
         handleSubmit={handleSubmit}
       >
+        <CreateTherapyContainer />
         <Wrapper>
           <FormItem label="Анализы">
             <Select

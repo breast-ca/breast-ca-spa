@@ -1,6 +1,5 @@
 import { FC, useEffect } from "react";
 import { Wrapper } from "./CreateRadiationTherapyForm.styled";
-import { Props } from "./CreateRadiationTherapyForm.types";
 import { FormItem } from "@/components/FormItem";
 import { Input, Select } from "antd";
 import { CreateRadiationTherapyDto, RadiationTherapyType } from "@/api/shared";
@@ -8,10 +7,13 @@ import { useFormik } from "formik";
 import { validationSchema } from "./CreateRadiationTherapyForm.constants";
 import { createTherapyService } from "../createTherapyService.model";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { CreateProps } from "./CreateRadiationTherapyForm.types";
 
 const { inputs } = createTherapyService;
 
-export const CreateRadiationTherapyForm: FC<Props> = ({ handlePushState }) => {
+export const CreateRadiationTherapyForm: FC<CreateProps> = ({
+  handlePushState,
+}) => {
   const { values, handleChange, setFieldValue, handleSubmit, errors } =
     useFormik({
       initialValues: {
@@ -21,6 +23,7 @@ export const CreateRadiationTherapyForm: FC<Props> = ({ handlePushState }) => {
         radiationTherapyType: null as RadiationTherapyType | null,
       },
       validationSchema,
+      validateOnChange: false,
       onSubmit: (values) => {
         handlePushState({
           radiationTherapy: values as CreateRadiationTherapyDto,

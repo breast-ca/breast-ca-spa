@@ -4,15 +4,23 @@ import { useUnit } from "effector-react";
 import { Wrapper } from "./createTherapyService.styled";
 import { FormItem } from "@/components/FormItem";
 import { Select } from "antd";
-import { CreateRadiationTherapyDto, TherapyType } from "@/api/shared";
+import {
+  CreateOperationDto,
+  CreateRadiationTherapyDto,
+  TherapyType,
+} from "@/api/shared";
 import { useCallback, useEffect, useMemo } from "react";
 import { CreateRadiationTherapyForm } from "./CreateRadiationTherapyForm";
 import { useFormik } from "formik";
 import { PushTherapyPayload } from "./createTherapyService.types";
+import { CreateOperationTherapyForm } from "./CreateOperationTherapyForm";
 
 const { inputs, outputs } = createTherapyService;
 
-const awailableTherapyTypes = [TherapyType.RadiationTherapy];
+const awailableTherapyTypes = [
+  TherapyType.RadiationTherapy,
+  TherapyType.Operation,
+];
 
 export const CreateTherapyContainer = () => {
   const { isOpen, close, onSaveTherapy } = useUnit({
@@ -26,6 +34,7 @@ export const CreateTherapyContainer = () => {
       initialValues: {
         therapyType: null as TherapyType | null,
         radiationTherapy: null as CreateRadiationTherapyDto | null,
+        operation: null as CreateOperationDto | null,
       },
       onSubmit: (values) => {
         console.log(values);
@@ -35,7 +44,7 @@ export const CreateTherapyContainer = () => {
   const TherapyForm = useMemo(() => {
     const therapyForms = {
       [TherapyType.RadiationTherapy]: CreateRadiationTherapyForm,
-      [TherapyType.Operation]: null,
+      [TherapyType.Operation]: CreateOperationTherapyForm,
       [TherapyType.Chemotherapy]: null,
       [TherapyType.Symptomatic]: null,
     };
@@ -54,12 +63,17 @@ export const CreateTherapyContainer = () => {
       await setValues((prev) => ({
         ...prev,
         radiationTherapy: payload.radiationTherapy || null,
+        operation: payload.operation || null,
       }));
 
       handleSubmit();
     },
     [handleSubmit, setValues]
   );
+
+  useEffect(() => {
+    setValues((prev) => ({ ...prev, operation: null, radiationTherapy: null }));
+  }, [setValues, values.therapyType]);
 
   return (
     <Modal
