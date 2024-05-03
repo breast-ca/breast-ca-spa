@@ -1,5 +1,5 @@
-import { Avatar } from 'antd';
-import styled from 'styled-components';
+import { Avatar } from "antd";
+import styled from "styled-components";
 
 export const UserInfo = styled.div`
   font-family: Montserrat;
@@ -13,6 +13,10 @@ export const UserDescription = styled.div`
   margin-top: 4px;
   color: #aaaaaa;
   font-weight: 600;
+  white-space: nowrap;
+  max-width: 200px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
 `;
 
 export const AvatarSC = styled(Avatar)`
