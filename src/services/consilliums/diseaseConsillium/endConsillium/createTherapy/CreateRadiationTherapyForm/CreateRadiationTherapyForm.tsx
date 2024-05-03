@@ -3,7 +3,7 @@ import { Wrapper } from "./CreateRadiationTherapyForm.styled";
 import { Props } from "./CreateRadiationTherapyForm.types";
 import { FormItem } from "@/components/FormItem";
 import { Input, Select } from "antd";
-import { RadiationTherapyType } from "@/api/shared";
+import { CreateRadiationTherapyDto, RadiationTherapyType } from "@/api/shared";
 import { useFormik } from "formik";
 import { validationSchema } from "./CreateRadiationTherapyForm.constants";
 import { createTherapyService } from "../createTherapyService.model";
@@ -21,8 +21,10 @@ export const CreateRadiationTherapyForm: FC<Props> = ({ handlePushState }) => {
         radiationTherapyType: null as RadiationTherapyType | null,
       },
       validationSchema,
-      onSubmit: () => {
-        handlePushState();
+      onSubmit: (values) => {
+        handlePushState({
+          radiationTherapy: values as CreateRadiationTherapyDto,
+        });
       },
     });
 
@@ -50,6 +52,7 @@ export const CreateRadiationTherapyForm: FC<Props> = ({ handlePushState }) => {
       <FormItem label="Количество сеансов">
         <Input
           size="large"
+          type="number"
           placeholder="Введите кол-во сеансов"
           value={values.coursesAmount ?? ""}
           onChange={handleChange}
@@ -61,6 +64,7 @@ export const CreateRadiationTherapyForm: FC<Props> = ({ handlePushState }) => {
       <FormItem label="РОД">
         <Input
           size="large"
+          type="number"
           placeholder="Введите РОД"
           name="radiationOnceAmount"
           onChange={handleChange}
@@ -72,6 +76,7 @@ export const CreateRadiationTherapyForm: FC<Props> = ({ handlePushState }) => {
       <FormItem label="CОД">
         <Input
           size="large"
+          type="number"
           placeholder="Введите СОД"
           name="radiationFullAmount"
           onChange={handleChange}

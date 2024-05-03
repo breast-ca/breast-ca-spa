@@ -1,3 +1,5 @@
+import { PushTherapyPayload } from "../createTherapyService.types";
+
 export type Props = {
-  handlePushState: () => void;
+  handlePushState: (payload: PushTherapyPayload) => void;
 };

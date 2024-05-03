@@ -4,10 +4,11 @@ import { useUnit } from "effector-react";
 import { Wrapper } from "./createTherapyService.styled";
 import { FormItem } from "@/components/FormItem";
 import { Select } from "antd";
-import { TherapyType } from "@/api/shared";
+import { CreateRadiationTherapyDto, TherapyType } from "@/api/shared";
 import { useCallback, useEffect, useMemo } from "react";
 import { CreateRadiationTherapyForm } from "./CreateRadiationTherapyForm";
 import { useFormik } from "formik";
+import { PushTherapyPayload } from "./createTherapyService.types";
 
 const { inputs, outputs } = createTherapyService;
 
@@ -24,9 +25,10 @@ export const CreateTherapyContainer = () => {
     useFormik({
       initialValues: {
         therapyType: null as TherapyType | null,
+        radiationTherapy: null as CreateRadiationTherapyDto | null,
       },
-      onSubmit: () => {
-        console.log("LOG");
+      onSubmit: (values) => {
+        console.log(values);
       },
     });
 
@@ -47,10 +49,17 @@ export const CreateTherapyContainer = () => {
     resetForm();
   }, [isOpen, resetForm]);
 
-  const handlePushState = useCallback(async () => {
-    await setValues((prev) => ({ ...prev }));
-    handleSubmit();
-  }, [handleSubmit, setValues]);
+  const handlePushState = useCallback(
+    async (payload: PushTherapyPayload) => {
+      await setValues((prev) => ({
+        ...prev,
+        radiationTherapy: payload.radiationTherapy || null,
+      }));
+
+      handleSubmit();
+    },
+    [handleSubmit, setValues]
+  );
 
   return (
     <Modal
