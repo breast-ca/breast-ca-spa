@@ -5,6 +5,7 @@ import { Wrapper } from "./createTherapyService.styled";
 import { FormItem } from "@/components/FormItem";
 import { Select } from "antd";
 import {
+  CreateChemoTherapyDto,
   CreateOperationDto,
   CreateRadiationTherapyDto,
   TherapyType,
@@ -14,12 +15,14 @@ import { CreateRadiationTherapyForm } from "./CreateRadiationTherapyForm";
 import { useFormik } from "formik";
 import { PushTherapyPayload } from "./createTherapyService.types";
 import { CreateOperationTherapyForm } from "./CreateOperationTherapyForm";
+import { CreateChemoTherapyForm } from "./CreateChemoTherapyForm";
 
 const { inputs, outputs } = createTherapyService;
 
 const awailableTherapyTypes = [
   TherapyType.RadiationTherapy,
   TherapyType.Operation,
+  TherapyType.Chemotherapy,
 ];
 
 export const CreateTherapyContainer = () => {
@@ -35,6 +38,7 @@ export const CreateTherapyContainer = () => {
         therapyType: null as TherapyType | null,
         radiationTherapy: null as CreateRadiationTherapyDto | null,
         operation: null as CreateOperationDto | null,
+        chemoTherapy: null as CreateChemoTherapyDto | null,
       },
       onSubmit: (values) => {
         console.log(values);
@@ -45,7 +49,7 @@ export const CreateTherapyContainer = () => {
     const therapyForms = {
       [TherapyType.RadiationTherapy]: CreateRadiationTherapyForm,
       [TherapyType.Operation]: CreateOperationTherapyForm,
-      [TherapyType.Chemotherapy]: null,
+      [TherapyType.Chemotherapy]: CreateChemoTherapyForm,
       [TherapyType.Symptomatic]: null,
     };
 
@@ -64,6 +68,7 @@ export const CreateTherapyContainer = () => {
         ...prev,
         radiationTherapy: payload.radiationTherapy || null,
         operation: payload.operation || null,
+        chemoTherapy: payload.chemoTherapy || null,
       }));
 
       handleSubmit();
