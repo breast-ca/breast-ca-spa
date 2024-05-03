@@ -3,11 +3,15 @@ import { endConsilliumService } from "./endConsilliumService.model";
 import { Modal } from "@/components/Modal";
 import { FormItem } from "@/components/FormItem";
 import { Select } from "antd";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import TextArea from "antd/es/input/TextArea";
-import { Wrapper } from "./endConsilliumService.styled";
+import {
+  TherapyWrapper,
+  TrashSC,
+  Wrapper,
+} from "./endConsilliumService.styled";
 import { AnalysisTranslatesQuery } from "@/services/analysis/analysisService.api";
-import { AnalysisType } from "@/api/shared";
+import { AnalysisType, CreateCommonTherapyDto } from "@/api/shared";
 import { awailableAnalysisTypes } from "@/services/analysis/createAnalysis/createAnalysisService.container";
 import { useFormik } from "formik";
 import { endConsilliumMutation } from "./endConsilliumService.api";
@@ -15,6 +19,7 @@ import { diseaseQuery } from "@/services/diseaseProfile/diseaseProfileService.ap
 import { Button } from "@/components/Button";
 import { PlusCircle } from "react-bootstrap-icons";
 import { CreateTherapyContainer, createTherapyService } from "./createTherapy";
+import { omitBy } from "lodash";
 
 const { inputs, outputs } = endConsilliumService;
 
@@ -35,17 +40,32 @@ export const EndConsilliumContainer: FC<{ id: number }> = ({ id }) => {
     handleCreateTherapy: createTherapyService.inputs.openModal,
   });
 
-  const { values, setFieldValue, handleChange, handleSubmit } = useFormik({
-    initialValues: {
-      analysisType: [] as AnalysisType[],
-      description: "",
-    },
-    onSubmit: (values) => {
-      if (!disease) return;
+  const { values, setFieldValue, handleChange, handleSubmit, resetForm } =
+    useFormik({
+      initialValues: {
+        analysisType: [] as AnalysisType[],
+        description: "",
+        therapy: null as CreateCommonTherapyDto | null,
+      },
+      onSubmit: (values) => {
+        if (!disease) return;
 
-      handleEnd({ ...values, diseaseId: disease.id, consilliumId: id });
-    },
-  });
+        handleEnd({
+          ...values,
+          diseaseId: disease.id,
+          consilliumId: id,
+          therapy:
+            (omitBy(
+              values.therapy,
+              (value) => value === null
+            ) as CreateCommonTherapyDto) || void 0,
+        });
+      },
+    });
+
+  useEffect(() => {
+    resetForm();
+  }, [isOpen, resetForm]);
 
   if (!analysisTranslates) return null;
 
@@ -57,7 +77,9 @@ export const EndConsilliumContainer: FC<{ id: number }> = ({ id }) => {
         title="Завершить консиллиум"
         handleSubmit={handleSubmit}
       >
-        <CreateTherapyContainer />
+        <CreateTherapyContainer
+          handleSave={(therapy) => setFieldValue("therapy", therapy)}
+        />
         <Wrapper>
           <FormItem label="Анализы">
             <Select
@@ -79,13 +101,21 @@ export const EndConsilliumContainer: FC<{ id: number }> = ({ id }) => {
             </Select>
           </FormItem>
           <FormItem label="Лечение">
-            <Button
-              floating
-              icon={<PlusCircle />}
-              onClick={handleCreateTherapy}
-            >
-              Новое лечение
-            </Button>
+            {!values.therapy && (
+              <Button
+                floating
+                icon={<PlusCircle />}
+                onClick={handleCreateTherapy}
+              >
+                Новое лечение
+              </Button>
+            )}
+            {values.therapy && (
+              <TherapyWrapper>
+                {values.therapy.therapyType}
+                <TrashSC onClick={() => setFieldValue("therapy", null)} />
+              </TherapyWrapper>
+            )}
           </FormItem>
           <FormItem label="Заключение">
             <TextArea

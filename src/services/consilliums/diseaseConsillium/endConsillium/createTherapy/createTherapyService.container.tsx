@@ -6,26 +6,23 @@ import { FormItem } from "@/components/FormItem";
 import { Select } from "antd";
 import {
   CreateChemoTherapyDto,
+  CreateCommonTherapyDto,
   CreateOperationDto,
   CreateRadiationTherapyDto,
+  CreateSympomaticTherapyDto,
   TherapyType,
 } from "@/api/shared";
-import { useCallback, useEffect, useMemo } from "react";
+import { FC, useCallback, useEffect, useMemo } from "react";
 import { CreateRadiationTherapyForm } from "./CreateRadiationTherapyForm";
 import { useFormik } from "formik";
-import { PushTherapyPayload } from "./createTherapyService.types";
+import { Props, PushTherapyPayload } from "./createTherapyService.types";
 import { CreateOperationTherapyForm } from "./CreateOperationTherapyForm";
 import { CreateChemoTherapyForm } from "./CreateChemoTherapyForm";
+import { CreateSympomaticTherapyForm } from "./CreateSympomaticTherapyForm";
 
 const { inputs, outputs } = createTherapyService;
 
-const awailableTherapyTypes = [
-  TherapyType.RadiationTherapy,
-  TherapyType.Operation,
-  TherapyType.Chemotherapy,
-];
-
-export const CreateTherapyContainer = () => {
+export const CreateTherapyContainer: FC<Props> = ({ handleSave }) => {
   const { isOpen, close, onSaveTherapy } = useUnit({
     isOpen: outputs.$isModalOpen,
     close: inputs.closeModal,
@@ -39,9 +36,11 @@ export const CreateTherapyContainer = () => {
         radiationTherapy: null as CreateRadiationTherapyDto | null,
         operation: null as CreateOperationDto | null,
         chemoTherapy: null as CreateChemoTherapyDto | null,
+        sympomaticTherapy: null as CreateSympomaticTherapyDto | null,
       },
       onSubmit: (values) => {
-        console.log(values);
+        handleSave(values as CreateCommonTherapyDto);
+        close();
       },
     });
 
@@ -50,7 +49,7 @@ export const CreateTherapyContainer = () => {
       [TherapyType.RadiationTherapy]: CreateRadiationTherapyForm,
       [TherapyType.Operation]: CreateOperationTherapyForm,
       [TherapyType.Chemotherapy]: CreateChemoTherapyForm,
-      [TherapyType.Symptomatic]: null,
+      [TherapyType.Symptomatic]: CreateSympomaticTherapyForm,
     };
 
     if (!values.therapyType) return null;
@@ -69,6 +68,7 @@ export const CreateTherapyContainer = () => {
         radiationTherapy: payload.radiationTherapy || null,
         operation: payload.operation || null,
         chemoTherapy: payload.chemoTherapy || null,
+        sympomaticTherapy: payload.sympomaticTherapy || null,
       }));
 
       handleSubmit();
@@ -77,7 +77,12 @@ export const CreateTherapyContainer = () => {
   );
 
   useEffect(() => {
-    setValues((prev) => ({ ...prev, operation: null, radiationTherapy: null }));
+    setValues((prev) => ({
+      ...prev,
+      operation: null,
+      radiationTherapy: null,
+      chemoTherapy: null,
+    }));
   }, [setValues, values.therapyType]);
 
   return (
@@ -99,11 +104,7 @@ export const CreateTherapyContainer = () => {
             }
           >
             {Object.values(TherapyType).map((elem) => (
-              <Select.Option
-                key={elem}
-                value={elem}
-                disabled={!awailableTherapyTypes.includes(elem)}
-              >
+              <Select.Option key={elem} value={elem}>
                 {elem}
               </Select.Option>
             ))}
