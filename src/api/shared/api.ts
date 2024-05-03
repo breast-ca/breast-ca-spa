@@ -1004,6 +1004,7 @@ export interface TherapyFullResponseDto {
   chemoTherapy?: ChemoTherapyResponseDto;
   sympomaticTherapy?: SymptomaticResponseDto;
   radiationTherapy?: RadiationTherapyResponseDto;
+  disease: DiseaseFullResponseDto;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -1874,6 +1875,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags consillium
+     * @name ConsilliumControllerCreateConsilliumOnTherapy
+     * @request POST:/api/consillium/therapy/{therapyId}
+     * @secure
+     */
+    consilliumControllerCreateConsilliumOnTherapy: (therapyId: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/consillium/therapy/${therapyId}`,
+        method: "POST",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags consillium
      * @name ConsilliumControllerCreateConsillium
      * @request POST:/api/consillium/{analysisId}
      * @secure
@@ -2128,6 +2145,38 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         secure: true,
         type: ContentType.Json,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags therapy
+     * @name TherapyControllerEndTherapy
+     * @request PATCH:/api/therapy/end/{therapyId}
+     * @secure
+     */
+    therapyControllerEndTherapy: (therapyId: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/therapy/end/${therapyId}`,
+        method: "PATCH",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags therapy
+     * @name TherapyControllerCancelTherapy
+     * @request PATCH:/api/therapy/cancel/{therapyId}
+     * @secure
+     */
+    therapyControllerCancelTherapy: (therapyId: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/therapy/cancel/${therapyId}`,
+        method: "PATCH",
+        secure: true,
         ...params,
       }),
 
