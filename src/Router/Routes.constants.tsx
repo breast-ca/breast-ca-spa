@@ -12,6 +12,7 @@ import { AboutPage } from "@/services/settings/AboutPage";
 import { AnalysisListContainer } from "@/services/analysis/analysisList";
 import { AnalysisFillProfileContainer } from "@/services/analysis/analysisFillProfile";
 import { ConsilliumsListContainer } from "@/services/consilliums/consilliumsList";
+import { TherapyProfileContainer } from "@/services/therapy/therapyProfile/therapyProfileService.container";
 
 export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
   const authRoutes = [
@@ -68,6 +69,10 @@ export const getRoutes = ({ isAuth }: GetRoutesProps): RouteObject[] => {
         {
           path: "/analysis",
           element: <AnalysisListContainer />,
+        },
+        {
+          path: "/therapy/:id",
+          element: <TherapyProfileContainer />,
         },
       ],
     },

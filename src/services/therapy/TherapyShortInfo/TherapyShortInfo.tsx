@@ -7,14 +7,17 @@ import {
   CreatedDateTitle,
 } from "@/services/analysis/AnalysisCard/AnalysisCard.styled";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 export const TherapyShortInfo: FC<Props> = ({
   therapy,
   therapyTranslates,
   maxWidth,
 }) => {
+  const navigate = useNavigate();
+
   return (
-    <Wrapper>
+    <Wrapper onClick={() => navigate(`/therapy/${therapy.id}`)}>
       <TitleWrapper>
         <Title style={{ maxWidth, whiteSpace: maxWidth ? "wrap" : "nowrap" }}>
           {therapyTranslates.therapyType[therapy.therapyType]}

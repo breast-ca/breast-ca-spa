@@ -9,7 +9,7 @@ import { AnalysisShortInfo } from "@/services/analysis/AnalysisCard/AnalysisCard
 import { useUnit } from "effector-react";
 import { AnalysisTranslatesQuery } from "@/services/analysis/analysisService.api";
 import { useNavigate } from "react-router-dom";
-import { TherapyShortInfo } from "./TherapyShortInfo";
+import { TherapyShortInfo } from "../../../../../therapy/TherapyShortInfo";
 import { therapyTranslatesQuery } from "@/services/therapy/therapyTranslates/therapyTranslatesService.api";
 
 export const ConsilliumResult: FC<Props> = ({ consilliumResult }) => {
