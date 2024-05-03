@@ -1,0 +1,1 @@
+export { TherapyShortInfo } from './TherapyShortInfo';

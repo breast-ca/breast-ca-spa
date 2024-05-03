@@ -9,6 +9,7 @@ import { AnalysisShortInfo } from "@/services/analysis/AnalysisCard/AnalysisCard
 import { useUnit } from "effector-react";
 import { AnalysisTranslatesQuery } from "@/services/analysis/analysisService.api";
 import { useNavigate } from "react-router-dom";
+import { TherapyShortInfo } from "./TherapyShortInfo";
 
 export const ConsilliumResult: FC<Props> = ({ consilliumResult }) => {
   const { analysisTranslates } = useUnit({
@@ -49,6 +50,19 @@ export const ConsilliumResult: FC<Props> = ({ consilliumResult }) => {
           />
         </AnalysisWrapper>
       ))}
+      {consilliumResult.therapy && (
+        <Divider
+          style={{
+            margin: 0,
+            padding: 0,
+            width: "calc(100% + 32px)",
+            transform: "translateX(-16px)",
+          }}
+        />
+      )}
+      {consilliumResult.therapy && (
+        <TherapyShortInfo therapy={consilliumResult.therapy} />
+      )}
     </Wrapper>
   );
 };
