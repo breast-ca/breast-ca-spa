@@ -30,6 +30,7 @@ export const EditRadiationForm: FC<Props> = ({
     onSubmit: (values) => {
       handlePushState({ radiation: values });
     },
+    enableReinitialize: true,
   });
 
   useEffect(() => {

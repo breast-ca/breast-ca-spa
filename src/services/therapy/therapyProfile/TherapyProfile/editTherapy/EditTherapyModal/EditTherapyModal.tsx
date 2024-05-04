@@ -6,6 +6,7 @@ import { TherapyType } from "@/api/shared";
 import { EditOperationForm } from "./EditOperationForm";
 import { PushEditTherapyPayload } from "../editTherapyService.types";
 import { EditRadiationForm } from "./EditRadiationForm";
+import { EditChemotherapyForm } from "./EditChemotherapyForm";
 
 export const EditTherapyModal: FC<Props> = ({
   isOpen,
@@ -37,7 +38,14 @@ export const EditTherapyModal: FC<Props> = ({
           therapy={therapy}
         />
       ) : null,
-      [TherapyType.Chemotherapy]: <></>,
+      [TherapyType.Chemotherapy]: therapy.Chemotherapy ? (
+        <EditChemotherapyForm
+          chemotherapy={therapy.Chemotherapy}
+          therapiesTranslates={therapiesTranslates}
+          handlePushState={handlePushState}
+          therapy={therapy}
+        />
+      ) : null,
       [TherapyType.Symptomatic]: <></>,
     };
 
