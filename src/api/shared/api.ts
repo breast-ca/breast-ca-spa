@@ -932,7 +932,7 @@ export interface ChemotherapyFillDto {
   gastroToxicity?: GastroToxicity;
   elseToxicity?: ToxicitySpecies;
   otherToxicity?: string;
-  therapyDynamic?: TherapyStatus;
+  therapyDynamic?: TherapyDynamic;
 }
 
 export enum ComplicationType {
@@ -941,11 +941,22 @@ export enum ComplicationType {
   None = "None",
 }
 
+export enum RadiationComplicationType {
+  Esophagitis = "Esophagitis",
+  Epidermitis = "Epidermitis",
+  Lungs = "Lungs",
+  Heart = "Heart",
+  Bones = "Bones",
+  Myelitis = "Myelitis",
+  Hepatitis = "Hepatitis",
+  Lymphedema = "Lymphedema",
+}
+
 export interface RadiationTherapyFillDto {
   radiationTherapyType?: RadiationTherapyType;
   complicationType?: ComplicationType;
-  radiatonComplicationType?: ComplicationType;
-  therapyDynamic?: TherapyStatus;
+  radiatonComplicationTypes?: RadiationComplicationType[];
+  therapyDynamic?: TherapyDynamic;
 }
 
 export interface CreateAnalysisOnTherapyDto {
@@ -983,7 +994,7 @@ export interface RadiationTherapyResponseDto {
   radiationOnceAmount: number;
   radiationTherapyType: RadiationTherapyType;
   complicationType: ComplicationType;
-  radiatonComplicationType: ComplicationType;
+  radiatonComplicationTypes: RadiationComplicationType[];
 }
 
 export interface TherapyFullResponseDto {
