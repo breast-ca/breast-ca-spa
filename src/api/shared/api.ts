@@ -884,9 +884,8 @@ export enum LaterOperationComplication {
 }
 
 export interface OperationFillDto {
-  operationComplication?: OperationComplication;
-  laterOperationComplication?: LaterOperationComplication;
-  therapyStatus?: TherapyStatus;
+  operationComplications?: OperationComplication[];
+  laterOperationComplications?: LaterOperationComplication[];
 }
 
 export enum ToxicityType {
@@ -933,7 +932,6 @@ export interface ChemotherapyFillDto {
   gastroToxicity?: GastroToxicity;
   elseToxicity?: ToxicitySpecies;
   otherToxicity?: string;
-  therapyStatus?: TherapyStatus;
   therapyDynamic?: TherapyStatus;
 }
 
@@ -947,7 +945,6 @@ export interface RadiationTherapyFillDto {
   radiationTherapyType?: RadiationTherapyType;
   complicationType?: ComplicationType;
   radiatonComplicationType?: ComplicationType;
-  therapyStatus?: TherapyStatus;
   therapyDynamic?: TherapyStatus;
 }
 
@@ -962,8 +959,8 @@ export interface OperationResponseDto {
   operationType: OperationType;
   surgeryImpact: SurgeryImpact;
   otherSurgeryImpact: string;
-  operationComplication: OperationComplication;
-  laterOperationComplication: LaterOperationComplication;
+  operationComplications: OperationComplication[];
+  laterOperationComplications: LaterOperationComplication[];
 }
 
 export interface ChemoTherapyResponseDto {

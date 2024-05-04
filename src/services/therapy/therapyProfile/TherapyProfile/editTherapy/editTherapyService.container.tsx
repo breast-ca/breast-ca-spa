@@ -10,11 +10,13 @@ const { inputs, outputs } = editTherapyService;
 export const EditTherapyContainer: FC<{
   therapy: TherapyFullResponseDto;
 }> = ({ therapy }) => {
-  const { isOpen, handleClose, therapiesTranslates } = useUnit({
-    isOpen: outputs.$isOpen,
-    handleClose: inputs.closeModal,
-    therapiesTranslates: therapyTranslatesQuery.$data,
-  });
+  const { isOpen, handleClose, therapiesTranslates, handleSaveTherapy } =
+    useUnit({
+      isOpen: outputs.$isOpen,
+      handleClose: inputs.closeModal,
+      therapiesTranslates: therapyTranslatesQuery.$data,
+      handleSaveTherapy: inputs.handleSaveTherapy,
+    });
 
   if (!therapiesTranslates) return;
 
@@ -25,6 +27,7 @@ export const EditTherapyContainer: FC<{
         handleClose={handleClose}
         therapy={therapy}
         therapiesTranslates={therapiesTranslates}
+        handleSaveTherapy={handleSaveTherapy}
       />
     </>
   );
