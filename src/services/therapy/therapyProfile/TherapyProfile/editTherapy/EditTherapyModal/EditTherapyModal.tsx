@@ -19,6 +19,8 @@ export const EditTherapyModal: FC<Props> = ({
   }, []);
 
   const editTherapyForm = useMemo(() => {
+    if (!isOpen) return null;
+
     const forms = {
       [TherapyType.Operation]: therapy.Operation ? (
         <EditOperationForm
@@ -40,13 +42,7 @@ export const EditTherapyModal: FC<Props> = ({
     };
 
     return forms[therapy.therapyType];
-  }, [
-    handlePushState,
-    therapiesTranslates,
-    therapy.Operation,
-    therapy.RadiationTherapy,
-    therapy.therapyType,
-  ]);
+  }, [handlePushState, therapiesTranslates, therapy, isOpen]);
 
   return (
     <Modal
