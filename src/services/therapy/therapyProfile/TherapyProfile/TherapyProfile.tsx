@@ -21,6 +21,7 @@ export const TherapyProfile: FC<Props> = ({
   isLoading,
   therapyTranslates,
   diseaseTranslates,
+  handleEdit,
 }) => {
   const [segment, setSegment] = useState<"therapy" | "disease">("therapy");
 
@@ -51,6 +52,7 @@ export const TherapyProfile: FC<Props> = ({
           menuButtons={[
             {
               title: "Редактировать данные",
+              onClick: handleEdit,
             },
             {
               title: "Завершить",

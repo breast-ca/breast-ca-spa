@@ -9,4 +9,5 @@ export type Props = {
   therapy: TherapyFullResponseDto | null;
   therapyTranslates: TherapiesTranslateDto;
   diseaseTranslates: DiseaseTranslateDto;
+  handleEdit: () => void;
 };
