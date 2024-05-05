@@ -15,6 +15,8 @@ import {
   DiseaseTitle,
 } from "@/services/diseaseProfile/DiseaseProfilePage/DiseaseProfilePage";
 import { DiseaseCommonInfo } from "@/services/diseaseProfile/DiseaseProfilePage/DiseaseCommonInfo";
+import { TherapyStatus, TherapyType } from "@/api/shared";
+import confirm from "antd/es/modal/confirm";
 
 export const TherapyProfile: FC<Props> = ({
   therapy,
@@ -22,6 +24,7 @@ export const TherapyProfile: FC<Props> = ({
   therapyTranslates,
   diseaseTranslates,
   handleEdit,
+  handleCancelTherapy,
 }) => {
   const [segment, setSegment] = useState<"therapy" | "disease">("therapy");
 
@@ -53,13 +56,50 @@ export const TherapyProfile: FC<Props> = ({
             {
               title: "Редактировать данные",
               onClick: handleEdit,
+              hidden: therapy.therapyType === TherapyType.Symptomatic,
+            },
+            {
+              title: "Начать консиллиум",
+              onClick: () =>
+                confirm({
+                  title: "Начать консиллиум?",
+                  okText: "Начать",
+                  type: "warning",
+                  closable: true,
+                  maskClosable: true,
+                }),
+              hidden: Boolean(therapy.consillium?.id),
             },
             {
               title: "Завершить",
+              hidden: therapy.therapyStatus !== TherapyStatus.Started,
+              onClick: () =>
+                confirm({
+                  title: "Завершить лечение?",
+                  okText: "Начать",
+                  type: "warning",
+                  closable: true,
+                  onOk: () => {
+                    handleCancelTherapy("end");
+                  },
+                  maskClosable: true,
+                }),
             },
             {
               title: "Отменить",
               color: ContextMenuButtonColor.danger,
+              hidden: therapy.therapyStatus !== TherapyStatus.Started,
+              onClick: () =>
+                confirm({
+                  title: "Отменить лечение?",
+                  okText: "Начать",
+                  type: "warning",
+                  closable: true,
+                  onOk: () => {
+                    handleCancelTherapy("cancel");
+                  },
+                  maskClosable: true,
+                }),
             },
           ]}
         />

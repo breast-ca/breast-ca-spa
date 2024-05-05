@@ -11,6 +11,7 @@ import {
 } from "./TherapyProfile/editTherapy";
 
 const {
+  inputs,
   gates: { TherapyGate },
 } = therapyProfileService;
 
@@ -23,12 +24,14 @@ export const TherapyProfileContainer = () => {
     therapyTranslates,
     diseaseTranslates,
     handleEdit,
+    handleCancelTherapy,
   } = useUnit({
     therapy: therapyQuery.$data,
     isLoading: therapyQuery.$pending,
     therapyTranslates: therapyTranslatesQuery.$data,
     diseaseTranslates: diseaseEnumsTranslationsQuery.$data,
     handleEdit: editTherapyService.inputs.openModal,
+    handleCancelTherapy: inputs.handleCancelTherapy,
   });
 
   return (
@@ -42,6 +45,7 @@ export const TherapyProfileContainer = () => {
           therapyTranslates={therapyTranslates}
           diseaseTranslates={diseaseTranslates}
           handleEdit={handleEdit}
+          handleCancelTherapy={handleCancelTherapy}
         />
       )}
     </>

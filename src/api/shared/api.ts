@@ -997,6 +997,10 @@ export interface RadiationTherapyResponseDto {
   radiatonComplicationTypes: RadiationComplicationType[];
 }
 
+export interface ConsilliumLightResponseDto {
+  id: number;
+}
+
 export interface TherapyFullResponseDto {
   id: number;
   therapyType: TherapyType;
@@ -1013,6 +1017,7 @@ export interface TherapyFullResponseDto {
   Sympomatic?: SymptomaticResponseDto;
   RadiationTherapy?: RadiationTherapyResponseDto;
   disease: DiseaseFullResponseDto;
+  consillium?: ConsilliumLightResponseDto;
 }
 
 export type QueryParamsType = Record<string | number, any>;
