@@ -1,17 +1,20 @@
-import { sample } from "effector";
+import { createEvent, sample } from "effector";
 import { createGate } from "effector-react";
 import { therapyQuery } from "./therapyProfileService.api";
 
 const TherapyGate = createGate<{ id: number }>();
 
+const refetch = createEvent();
+
 sample({
-  clock: TherapyGate.open,
+  clock: [refetch, TherapyGate.open],
+  source: TherapyGate.state,
   fn: ({ id }) => id,
   target: therapyQuery.start,
 });
 
 export const therapyProfileService = {
-  inputs: {},
+  inputs: { refetch },
   outputs: {},
   gates: { TherapyGate },
 };

@@ -27,31 +27,41 @@ export const ConsilliumResult: FC<Props> = ({ consilliumResult }) => {
       <PageHeader title="Результаты">
         {dayjs(consilliumResult.resultTime).format("DD.MM.YYYY HH:mm")}
       </PageHeader>
-      <Divider
-        style={{
-          margin: 0,
-          padding: 0,
-          width: "calc(100% + 32px)",
-          transform: "translateX(-16px)",
-        }}
-      />
-      <FormItem label="Заключение">{consilliumResult.description}</FormItem>
-      <Divider
-        style={{
-          margin: 0,
-          padding: 0,
-          width: "calc(100% + 32px)",
-          transform: "translateX(-16px)",
-        }}
-      />
-      {consilliumResult?.analysis?.map((elem) => (
-        <AnalysisWrapper onClick={() => navigate(`/analysis/fill/${elem.id}`)}>
-          <AnalysisShortInfo
-            analysis={elem}
-            analysisTranslates={analysisTranslates}
+      {consilliumResult.description && (
+        <>
+          <Divider
+            style={{
+              margin: 0,
+              padding: 0,
+              width: "calc(100% + 32px)",
+              transform: "translateX(-16px)",
+            }}
           />
-        </AnalysisWrapper>
-      ))}
+          <FormItem label="Заключение">{consilliumResult.description}</FormItem>
+        </>
+      )}
+      {Boolean(consilliumResult?.analysis?.length) && (
+        <>
+          <Divider
+            style={{
+              margin: 0,
+              padding: 0,
+              width: "calc(100% + 32px)",
+              transform: "translateX(-16px)",
+            }}
+          />
+          {consilliumResult?.analysis?.map((elem) => (
+            <AnalysisWrapper
+              onClick={() => navigate(`/analysis/fill/${elem.id}`)}
+            >
+              <AnalysisShortInfo
+                analysis={elem}
+                analysisTranslates={analysisTranslates}
+              />
+            </AnalysisWrapper>
+          ))}
+        </>
+      )}
       {consilliumResult.therapy && (
         <Divider
           style={{

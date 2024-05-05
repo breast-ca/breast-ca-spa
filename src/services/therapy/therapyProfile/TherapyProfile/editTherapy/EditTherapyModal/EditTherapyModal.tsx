@@ -14,10 +14,14 @@ export const EditTherapyModal: FC<Props> = ({
   therapy,
   therapiesTranslates,
   handleSaveTherapy,
+  handleFillData,
 }) => {
-  const handlePushState = useCallback((values: PushEditTherapyPayload) => {
-    console.log(values);
-  }, []);
+  const handlePushState = useCallback(
+    (values: PushEditTherapyPayload) => {
+      handleFillData(values);
+    },
+    [handleFillData]
+  );
 
   const editTherapyForm = useMemo(() => {
     if (!isOpen) return null;

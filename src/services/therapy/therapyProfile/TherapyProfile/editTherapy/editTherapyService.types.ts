@@ -9,3 +9,7 @@ export type PushEditTherapyPayload = {
   radiation?: RadiationTherapyFillDto;
   chemotherapy?: ChemotherapyFillDto;
 };
+
+export type WithTherapyId<T extends object> = {
+  therapyId: number;
+} & T;
