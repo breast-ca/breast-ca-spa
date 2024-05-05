@@ -12,26 +12,35 @@ import {
 } from "./distributeConsillium";
 import { ConsilluimChatContainer } from "./consilluimChat";
 import { EndConsilliumContainer, endConsilliumService } from "./endConsillium";
+import { therapyTranslatesQuery } from "@/services/therapy/therapyTranslates/therapyTranslatesService.api";
 
 const {
   gates: { ConsilliumGate },
 } = diseaseConsilliumService;
 
 export const DiseaseConsilliumContainer: FC<{ id: number }> = ({ id }) => {
-  const { consillium, analysisTranslates, handleDistribute, handleEnd } =
-    useUnit({
-      consillium: consilliumQuery.$data,
-      analysisTranslates: AnalysisTranslatesQuery.$data,
-      handleDistribute: distributeConsilliumService.inputs.handleOpen,
-      handleEnd: endConsilliumService.inputs.openModal,
-    });
+  const {
+    consillium,
+    analysisTranslates,
+    handleDistribute,
+    handleEnd,
+    therapiesTranslates,
+  } = useUnit({
+    consillium: consilliumQuery.$data,
+    analysisTranslates: AnalysisTranslatesQuery.$data,
+    handleDistribute: distributeConsilliumService.inputs.handleOpen,
+    handleEnd: endConsilliumService.inputs.openModal,
+    therapiesTranslates: therapyTranslatesQuery.$data,
+  });
 
   const distribution = consillium?.status ===
     ConsilliumStatus.AwaitingDistribution &&
-    analysisTranslates && (
+    analysisTranslates &&
+    therapiesTranslates && (
       <>
         <DistributeConsilliumContainer id={id} />
         <ConsilliumListItem
+          therapiesTranslates={therapiesTranslates}
           handleDistribute={handleDistribute}
           consillium={consillium}
           analysisTranslates={analysisTranslates}

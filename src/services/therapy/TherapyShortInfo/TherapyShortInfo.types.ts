@@ -4,4 +4,5 @@ export type Props = {
   therapy: TherapyLightResponseDto;
   therapyTranslates: TherapiesTranslateDto;
   maxWidth?: number;
+  card?: boolean;
 };

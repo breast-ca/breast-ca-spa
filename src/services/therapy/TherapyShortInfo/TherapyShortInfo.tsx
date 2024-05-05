@@ -1,5 +1,10 @@
 import { FC } from "react";
-import { Title, TitleWrapper, Wrapper } from "./TherapyShortInfo.styled";
+import {
+  LightWrapper,
+  Title,
+  TitleWrapper,
+  Wrapper,
+} from "./TherapyShortInfo.styled";
 import { Props } from "./TherapyShortInfo.types";
 import { TherapyStatusBadge } from "@/components/shared/TherapyStatusBadge";
 import {
@@ -13,11 +18,12 @@ export const TherapyShortInfo: FC<Props> = ({
   therapy,
   therapyTranslates,
   maxWidth,
+  card = true,
 }) => {
   const navigate = useNavigate();
 
-  return (
-    <Wrapper onClick={() => navigate(`/therapy/${therapy.id}`)}>
+  const content = (
+    <>
       <TitleWrapper>
         <Title style={{ maxWidth, whiteSpace: maxWidth ? "wrap" : "nowrap" }}>
           {therapyTranslates.therapyType[therapy.therapyType]}
@@ -32,6 +38,19 @@ export const TherapyShortInfo: FC<Props> = ({
           "HH:mm DD.MM.YYYY"
         )}
       </CreatedDate>
+    </>
+  );
+
+  if (!card)
+    return (
+      <LightWrapper onClick={() => navigate(`/therapy/${therapy.id}`)}>
+        {content}
+      </LightWrapper>
+    );
+
+  return (
+    <Wrapper onClick={() => navigate(`/therapy/${therapy.id}`)}>
+      {content}
     </Wrapper>
   );
 };

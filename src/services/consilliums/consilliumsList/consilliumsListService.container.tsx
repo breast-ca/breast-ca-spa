@@ -13,6 +13,7 @@ import { ConsilliumsListType } from "./consilliumsListService.types";
 import { useNavigate } from "react-router-dom";
 import { userQuery } from "@/services/user/userService.api";
 import { RoleType } from "@/api/shared";
+import { therapyTranslatesQuery } from "@/services/therapy/therapyTranslates/therapyTranslatesService.api";
 
 const {
   inputs,
@@ -32,6 +33,7 @@ export const ConsilliumsListContainer = () => {
     segment,
     setSegment,
     user,
+    therapiesTranslates,
   } = useUnit({
     consilliumsList: consilliumsListQuery.$data,
     isLoading: consilliumsListQuery.$pending,
@@ -39,6 +41,7 @@ export const ConsilliumsListContainer = () => {
     segment: outputs.$consilliumsViewType,
     setSegment: inputs.setConsilliumsViewType,
     user: userQuery.$data,
+    therapiesTranslates: therapyTranslatesQuery.$data,
   });
 
   const navigate = useNavigate();
@@ -69,13 +72,16 @@ export const ConsilliumsListContainer = () => {
           {!consilliumsList?.length && (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
           )}
-          {analysisTranslates && (
+          {analysisTranslates && therapiesTranslates && (
             <ConsilliumsWrapper>
               {consilliumsList?.map((elem) => (
                 <ConsilliumListItem
+                  therapiesTranslates={therapiesTranslates}
                   handleClick={() =>
                     navigate(
-                      `/disease/${elem.analysis.disease.id}/consiliums/${elem.id}`
+                      `/disease/${
+                        elem.analysis?.disease.id || elem.therapy?.diseaseId
+                      }/consiliums/${elem.id}`
                     )
                   }
                   consillium={elem}

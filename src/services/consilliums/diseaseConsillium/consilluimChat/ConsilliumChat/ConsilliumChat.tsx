@@ -76,7 +76,7 @@ export const ConsilliumChat: FC<Props> = ({
               type="ghost"
               size="small"
               onClick={() =>
-                navigate(`/analysis/fill/${consillium.analysis.id}`)
+                navigate(`/analysis/fill/${consillium.analysis?.id}`)
               }
             >
               данные по анализу

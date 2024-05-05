@@ -58,7 +58,15 @@ export const TherapyProfile: FC<Props> = ({
       >
         <HeaderContext>
           {therapy.consillium?.id && (
-            <Button onClick={() => navigate(``)}>Перейти в консилиум</Button>
+            <Button
+              onClick={() =>
+                navigate(
+                  `/disease/${therapy.disease.id}/consiliums/${therapy.consillium?.id}`
+                )
+              }
+            >
+              Перейти в консилиум
+            </Button>
           )}
           <ContextMenuButton
             menuButtons={[

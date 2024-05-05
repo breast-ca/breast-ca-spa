@@ -675,23 +675,6 @@ export interface AnalysisConsilliumResponseDto {
   completedTime: string;
 }
 
-export interface ConsilliumMemberDto {
-  user: UserLightResponseDto;
-  isLead: boolean;
-}
-
-export interface AnalysisLightResponseDto {
-  id: number;
-  analysisType: AnalysisType;
-  description: string;
-  diseaseId: number;
-  /** @format date-time */
-  creationTime: string;
-  /** @format date-time */
-  completedTime: string;
-  status: AnalysisStatus;
-}
-
 export enum TherapyType {
   Symptomatic = "Symptomatic",
   Chemotherapy = "Chemotherapy",
@@ -723,6 +706,23 @@ export interface TherapyLightResponseDto {
   diseaseId: number;
 }
 
+export interface ConsilliumMemberDto {
+  user: UserLightResponseDto;
+  isLead: boolean;
+}
+
+export interface AnalysisLightResponseDto {
+  id: number;
+  analysisType: AnalysisType;
+  description: string;
+  diseaseId: number;
+  /** @format date-time */
+  creationTime: string;
+  /** @format date-time */
+  completedTime: string;
+  status: AnalysisStatus;
+}
+
 export interface ConsilliumResultDto {
   description: string;
   /** @format date-time */
@@ -734,7 +734,8 @@ export interface ConsilliumResultDto {
 export interface ConsilliumResponseDto {
   id: number;
   status: ConsilliumStatus;
-  analysis: AnalysisConsilliumResponseDto;
+  analysis?: AnalysisConsilliumResponseDto;
+  therapy?: TherapyLightResponseDto;
   creator: UserLightResponseDto;
   usersOnConsillium: ConsilliumMemberDto[];
   consilliumResult?: ConsilliumResultDto;

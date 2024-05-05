@@ -8,6 +8,7 @@ import { useUnit } from "effector-react";
 import { AnalysisTranslatesQuery } from "@/services/analysis/analysisService.api";
 import { useNavigate, useParams } from "react-router-dom";
 import { DiseaseConsilliumContainer } from "../../diseaseConsillium/diseaseConsilliumService.container";
+import { therapyTranslatesQuery } from "@/services/therapy/therapyTranslates/therapyTranslatesService.api";
 
 export const DiseaseConsilliumsList: FC<Props> = ({
   isLoading,
@@ -15,8 +16,9 @@ export const DiseaseConsilliumsList: FC<Props> = ({
 }) => {
   const { consilliumId } = useParams<{ consilliumId?: string }>();
 
-  const { analysisTranslates } = useUnit({
+  const { analysisTranslates, therapiesTranslates } = useUnit({
     analysisTranslates: AnalysisTranslatesQuery.$data,
+    therapiesTranslates: therapyTranslatesQuery.$data,
   });
 
   const navigate = useNavigate();
@@ -38,8 +40,10 @@ export const DiseaseConsilliumsList: FC<Props> = ({
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         )}
         {analysisTranslates &&
+          therapiesTranslates &&
           consilliumsList.map((elem) => (
             <ConsilliumListItem
+              therapiesTranslates={therapiesTranslates}
               key={elem.id}
               consillium={elem}
               analysisTranslates={analysisTranslates}

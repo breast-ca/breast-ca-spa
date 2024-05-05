@@ -8,6 +8,13 @@ export const Wrapper = styled(Card)`
   justify-content: space-between;
 `;
 
+export const LightWrapper = styled.div`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 export const Title = styled.div`
   font-weight: 800;
   font-size: 18px;

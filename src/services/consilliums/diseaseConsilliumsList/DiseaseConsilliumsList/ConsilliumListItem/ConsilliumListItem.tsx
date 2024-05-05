@@ -6,12 +6,14 @@ import { AnalysisInfo } from "@/services/analysis/AnalysisCard/AnalysisCard";
 import { Divider } from "antd";
 import { Button } from "@/components/Button";
 import { UsersOnConsillium } from "@/services/consilliums/diseaseConsillium/consilluimChat/ConsilliumChat/UsersOnConsillium";
+import { TherapyShortInfo } from "@/services/therapy/TherapyShortInfo";
 
 export const ConsilliumListItem: FC<Props> = ({
   consillium,
   analysisTranslates,
   handleClick,
   handleDistribute,
+  therapiesTranslates,
 }) => {
   return (
     <Wrapper
@@ -38,6 +40,13 @@ export const ConsilliumListItem: FC<Props> = ({
         <AnalysisInfo
           analysis={consillium.analysis}
           analysisTranslates={analysisTranslates}
+        />
+      )}
+      {consillium.therapy && (
+        <TherapyShortInfo
+          therapy={consillium.therapy}
+          therapyTranslates={therapiesTranslates}
+          card={false}
         />
       )}
     </Wrapper>
