@@ -46,7 +46,12 @@ export const EditChemotherapyForm: FC<Props> = ({
   return (
     <Wrapper>
       <FormItem label="Динамика терапии">
-        <Select placeholder="Выберите" size="large">
+        <Select
+          placeholder="Выберите"
+          size="large"
+          value={values.therapyDynamic}
+          onChange={(value) => setFieldValue("therapyDynamic", value)}
+        >
           {Object.values(TherapyDynamic).map((elem) => (
             <Select.Option key={elem} value={elem}>
               {therapiesTranslates.therapyDynamic[elem]}

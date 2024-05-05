@@ -56,7 +56,7 @@ export const EditTherapyContainer: FC<{
           if (!payload.chemotherapy) return;
           handleFillChemotherapy({
             therapyId: therapy.id,
-            ...payload.operation,
+            ...payload.chemotherapy,
           });
           break;
       }
