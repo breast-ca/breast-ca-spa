@@ -8,7 +8,7 @@ import { RadiationView } from "./RadiationView";
 import { CommonInfo } from "@/components/CommonInfo";
 import dayjs from "dayjs";
 import { CommonInfoItem } from "@/components/CommonInfo/CommonInfo.types";
-import { ArrowDown, ArrowUp } from "react-bootstrap-icons";
+import { CaretDownFill, CaretUpFill } from "react-bootstrap-icons";
 
 export const TherapyInfoCard: FC<Props> = ({ therapy, therapyTranslates }) => {
   const therapyView = useMemo(() => {
@@ -95,8 +95,8 @@ export const TherapyDynamicIcon: FC<{ dynamic: TherapyDynamic }> = ({
 
   const Icon = useMemo(() => {
     const icons = {
-      [TherapyDynamic.Negative]: ArrowDown,
-      [TherapyDynamic.Positive]: ArrowUp,
+      [TherapyDynamic.Negative]: CaretDownFill,
+      [TherapyDynamic.Positive]: CaretUpFill,
       [TherapyDynamic.None]: null,
     };
 

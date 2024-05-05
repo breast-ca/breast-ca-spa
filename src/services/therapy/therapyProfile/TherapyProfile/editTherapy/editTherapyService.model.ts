@@ -1,6 +1,7 @@
 import { createEvent, createStore, merge, sample } from "effector";
 import { PushEditTherapyPayload } from "./editTherapyService.types";
 import {
+  fillChemotherapyMutation,
   fillOperationTherapyMutation,
   fillRadiationTherapyMutation,
 } from "./editTherapyService.api";
@@ -21,6 +22,7 @@ const $isOpen = createStore(false)
 const handleCompleteEdit = merge([
   fillRadiationTherapyMutation.finished.success,
   fillOperationTherapyMutation.finished.success,
+  fillChemotherapyMutation.finished.success,
 ]);
 
 sample({

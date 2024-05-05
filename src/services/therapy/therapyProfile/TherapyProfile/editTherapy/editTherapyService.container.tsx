@@ -5,6 +5,7 @@ import { FC, useCallback } from "react";
 import { TherapyFullResponseDto, TherapyType } from "@/api/shared";
 import { therapyTranslatesQuery } from "@/services/therapy/therapyTranslates/therapyTranslatesService.api";
 import {
+  fillChemotherapyMutation,
   fillOperationTherapyMutation,
   fillRadiationTherapyMutation,
 } from "./editTherapyService.api";
@@ -22,6 +23,7 @@ export const EditTherapyContainer: FC<{
     handleSaveTherapy,
     handleFillRadiation,
     handleFillOperation,
+    handleFillChemotherapy,
   } = useUnit({
     isOpen: outputs.$isOpen,
     handleClose: inputs.closeModal,
@@ -29,6 +31,7 @@ export const EditTherapyContainer: FC<{
     handleSaveTherapy: inputs.handleSaveTherapy,
     handleFillRadiation: fillRadiationTherapyMutation.start,
     handleFillOperation: fillOperationTherapyMutation.start,
+    handleFillChemotherapy: fillChemotherapyMutation.start,
   });
 
   const handleFillData = useCallback(
@@ -48,9 +51,23 @@ export const EditTherapyContainer: FC<{
             ...payload.operation,
           });
           break;
+
+        case TherapyType.Chemotherapy:
+          if (!payload.chemotherapy) return;
+          handleFillChemotherapy({
+            therapyId: therapy.id,
+            ...payload.operation,
+          });
+          break;
       }
     },
-    [handleFillRadiation, therapy.id, therapy.therapyType, handleFillOperation]
+    [
+      therapy.therapyType,
+      therapy.id,
+      handleFillRadiation,
+      handleFillOperation,
+      handleFillChemotherapy,
+    ]
   );
 
   if (!therapiesTranslates) return;

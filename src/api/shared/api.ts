@@ -927,10 +927,10 @@ export enum ToxicitySpecies {
 
 export interface ChemotherapyFillDto {
   toxicityType?: ToxicityType;
-  hematologicalToxicity?: HematologicalToxicity;
+  hematologicalToxicities?: HematologicalToxicity[];
   bodyTemperature?: BodyTemperature;
-  gastroToxicity?: GastroToxicity;
-  elseToxicity?: ToxicitySpecies;
+  gastroToxicities?: GastroToxicity[];
+  elseToxicities?: ToxicitySpecies[];
   otherToxicity?: string;
   therapyDynamic?: TherapyDynamic;
 }
@@ -978,10 +978,10 @@ export interface ChemoTherapyResponseDto {
   chemoType: ChemoType;
   line: number;
   toxicityType: ToxicityType;
-  hematologicalToxicity: HematologicalToxicity;
+  hematologicalToxicities: HematologicalToxicity[];
   bodyTemperature: BodyTemperature;
-  gastroToxicity: GastroToxicity;
-  elseToxicity: ToxicitySpecies;
+  gastroToxicities: GastroToxicity[];
+  elseToxicities: ToxicitySpecies[];
   otherToxicity: string;
 }
 
