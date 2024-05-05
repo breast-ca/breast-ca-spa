@@ -1,6 +1,9 @@
 import { createEvent, createStore, merge, sample } from "effector";
 import { PushEditTherapyPayload } from "./editTherapyService.types";
-import { fillRadiationTherapyMutation } from "./editTherapyService.api";
+import {
+  fillOperationTherapyMutation,
+  fillRadiationTherapyMutation,
+} from "./editTherapyService.api";
 import { therapyProfileService } from "../../therapyProfileService.model";
 import { message } from "antd";
 
@@ -17,6 +20,7 @@ const $isOpen = createStore(false)
 
 const handleCompleteEdit = merge([
   fillRadiationTherapyMutation.finished.success,
+  fillOperationTherapyMutation.finished.success,
 ]);
 
 sample({

@@ -37,7 +37,7 @@ export const RadiationView: FC<Props> = ({ therapyTranslates, radiation }) => {
           {
             key: "Осложнения",
             column: true,
-            value: (
+            value: Boolean(radiation.radiatonComplicationTypes) && (
               <EnumInfoBadge
                 infos={radiation.radiatonComplicationTypes.map(
                   (elem) => therapyTranslates.radiationComplicationType[elem]

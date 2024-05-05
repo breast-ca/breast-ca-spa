@@ -4,7 +4,10 @@ import { EditTherapyModal } from "./EditTherapyModal";
 import { FC, useCallback } from "react";
 import { TherapyFullResponseDto, TherapyType } from "@/api/shared";
 import { therapyTranslatesQuery } from "@/services/therapy/therapyTranslates/therapyTranslatesService.api";
-import { fillRadiationTherapyMutation } from "./editTherapyService.api";
+import {
+  fillOperationTherapyMutation,
+  fillRadiationTherapyMutation,
+} from "./editTherapyService.api";
 import { PushEditTherapyPayload } from "./editTherapyService.types";
 
 const { inputs, outputs } = editTherapyService;
@@ -18,12 +21,14 @@ export const EditTherapyContainer: FC<{
     therapiesTranslates,
     handleSaveTherapy,
     handleFillRadiation,
+    handleFillOperation,
   } = useUnit({
     isOpen: outputs.$isOpen,
     handleClose: inputs.closeModal,
     therapiesTranslates: therapyTranslatesQuery.$data,
     handleSaveTherapy: inputs.handleSaveTherapy,
     handleFillRadiation: fillRadiationTherapyMutation.start,
+    handleFillOperation: fillOperationTherapyMutation.start,
   });
 
   const handleFillData = useCallback(
@@ -35,9 +40,17 @@ export const EditTherapyContainer: FC<{
             therapyId: therapy.id,
             ...payload.radiation,
           });
+          break;
+        case TherapyType.Operation:
+          if (!payload.operation) return;
+          handleFillOperation({
+            therapyId: therapy.id,
+            ...payload.operation,
+          });
+          break;
       }
     },
-    [handleFillRadiation, therapy.id, therapy.therapyType]
+    [handleFillRadiation, therapy.id, therapy.therapyType, handleFillOperation]
   );
 
   if (!therapiesTranslates) return;
