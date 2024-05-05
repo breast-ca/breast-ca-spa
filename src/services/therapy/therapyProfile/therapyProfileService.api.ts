@@ -13,3 +13,7 @@ export const endTherapyMutation = createMutation<
   handler: ({ therapyId, action }) =>
     axios.patch(`therapy/${action}/${therapyId}`),
 });
+
+export const startConsilliumOnTherapyMutation = createMutation<number, void>({
+  handler: (therapyId) => axios.post(`consillium/therapy/${therapyId}`),
+});

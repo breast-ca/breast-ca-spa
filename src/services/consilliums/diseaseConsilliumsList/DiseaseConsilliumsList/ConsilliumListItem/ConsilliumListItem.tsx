@@ -34,10 +34,12 @@ export const ConsilliumListItem: FC<Props> = ({
           transform: "translateX(-16px)",
         }}
       />
-      <AnalysisInfo
-        analysis={consillium.analysis}
-        analysisTranslates={analysisTranslates}
-      />
+      {consillium.analysis && (
+        <AnalysisInfo
+          analysis={consillium.analysis}
+          analysisTranslates={analysisTranslates}
+        />
+      )}
     </Wrapper>
   );
 };

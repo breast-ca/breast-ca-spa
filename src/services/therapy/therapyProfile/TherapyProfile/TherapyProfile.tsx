@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Wrapper } from "./TherapyProfile.styled";
+import { HeaderContext, Wrapper } from "./TherapyProfile.styled";
 import { Props } from "./TherapyProfile.types";
 import { WithLoader } from "@/components/WithLoader";
 import { Empty } from "antd";
@@ -17,6 +17,8 @@ import {
 import { DiseaseCommonInfo } from "@/services/diseaseProfile/DiseaseProfilePage/DiseaseCommonInfo";
 import { TherapyStatus, TherapyType } from "@/api/shared";
 import confirm from "antd/es/modal/confirm";
+import { Button } from "@/components/Button";
+import { useNavigate } from "react-router-dom";
 
 export const TherapyProfile: FC<Props> = ({
   therapy,
@@ -25,10 +27,13 @@ export const TherapyProfile: FC<Props> = ({
   diseaseTranslates,
   handleEdit,
   handleCancelTherapy,
+  handleCreateConsillium,
 }) => {
   const [segment, setSegment] = useState<"therapy" | "disease">("therapy");
 
   usePatientInfoPanel(therapy?.disease.patient);
+
+  const navigate = useNavigate();
 
   if (!therapy || isLoading) {
     return (
@@ -51,58 +56,66 @@ export const TherapyProfile: FC<Props> = ({
           </>
         }
       >
-        <ContextMenuButton
-          menuButtons={[
-            {
-              title: "Редактировать данные",
-              onClick: handleEdit,
-              hidden: therapy.therapyType === TherapyType.Symptomatic,
-            },
-            {
-              title: "Начать консиллиум",
-              onClick: () =>
-                confirm({
-                  title: "Начать консиллиум?",
-                  okText: "Начать",
-                  type: "warning",
-                  closable: true,
-                  maskClosable: true,
-                }),
-              hidden: Boolean(therapy.consillium?.id),
-            },
-            {
-              title: "Завершить",
-              hidden: therapy.therapyStatus !== TherapyStatus.Started,
-              onClick: () =>
-                confirm({
-                  title: "Завершить лечение?",
-                  okText: "Начать",
-                  type: "warning",
-                  closable: true,
-                  onOk: () => {
-                    handleCancelTherapy("end");
-                  },
-                  maskClosable: true,
-                }),
-            },
-            {
-              title: "Отменить",
-              color: ContextMenuButtonColor.danger,
-              hidden: therapy.therapyStatus !== TherapyStatus.Started,
-              onClick: () =>
-                confirm({
-                  title: "Отменить лечение?",
-                  okText: "Начать",
-                  type: "warning",
-                  closable: true,
-                  onOk: () => {
-                    handleCancelTherapy("cancel");
-                  },
-                  maskClosable: true,
-                }),
-            },
-          ]}
-        />
+        <HeaderContext>
+          {therapy.consillium?.id && (
+            <Button onClick={() => navigate(``)}>Перейти в консилиум</Button>
+          )}
+          <ContextMenuButton
+            menuButtons={[
+              {
+                title: "Редактировать данные",
+                onClick: handleEdit,
+                hidden: therapy.therapyType === TherapyType.Symptomatic,
+              },
+              {
+                title: "Начать консилиум",
+                onClick: () =>
+                  confirm({
+                    title: "Начать консилиум?",
+                    okText: "Начать",
+                    type: "warning",
+                    closable: true,
+                    onOk: () => {
+                      handleCreateConsillium();
+                    },
+                    maskClosable: true,
+                  }),
+                hidden: Boolean(therapy.consillium?.id),
+              },
+              {
+                title: "Завершить",
+                hidden: therapy.therapyStatus !== TherapyStatus.Started,
+                onClick: () =>
+                  confirm({
+                    title: "Завершить лечение?",
+                    okText: "Начать",
+                    type: "warning",
+                    closable: true,
+                    onOk: () => {
+                      handleCancelTherapy("end");
+                    },
+                    maskClosable: true,
+                  }),
+              },
+              {
+                title: "Отменить",
+                color: ContextMenuButtonColor.danger,
+                hidden: therapy.therapyStatus !== TherapyStatus.Started,
+                onClick: () =>
+                  confirm({
+                    title: "Отменить лечение?",
+                    okText: "Начать",
+                    type: "warning",
+                    closable: true,
+                    onOk: () => {
+                      handleCancelTherapy("cancel");
+                    },
+                    maskClosable: true,
+                  }),
+              },
+            ]}
+          />
+        </HeaderContext>
       </PageHeader>
       <Segmented
         value={segment}

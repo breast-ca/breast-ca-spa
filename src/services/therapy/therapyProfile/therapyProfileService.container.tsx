@@ -25,6 +25,7 @@ export const TherapyProfileContainer = () => {
     diseaseTranslates,
     handleEdit,
     handleCancelTherapy,
+    handleCreateConsillium,
   } = useUnit({
     therapy: therapyQuery.$data,
     isLoading: therapyQuery.$pending,
@@ -32,6 +33,7 @@ export const TherapyProfileContainer = () => {
     diseaseTranslates: diseaseEnumsTranslationsQuery.$data,
     handleEdit: editTherapyService.inputs.openModal,
     handleCancelTherapy: inputs.handleCancelTherapy,
+    handleCreateConsillium: inputs.handleCreateConsillium,
   });
 
   return (
@@ -46,6 +48,7 @@ export const TherapyProfileContainer = () => {
           diseaseTranslates={diseaseTranslates}
           handleEdit={handleEdit}
           handleCancelTherapy={handleCancelTherapy}
+          handleCreateConsillium={handleCreateConsillium}
         />
       )}
     </>

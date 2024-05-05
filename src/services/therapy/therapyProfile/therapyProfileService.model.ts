@@ -1,6 +1,10 @@
 import { createEvent, sample } from "effector";
 import { createGate } from "effector-react";
-import { endTherapyMutation, therapyQuery } from "./therapyProfileService.api";
+import {
+  endTherapyMutation,
+  startConsilliumOnTherapyMutation,
+  therapyQuery,
+} from "./therapyProfileService.api";
 import { message } from "antd";
 
 const TherapyGate = createGate<{ id: number }>();
@@ -9,8 +13,15 @@ const refetch = createEvent();
 
 const handleCancelTherapy = createEvent<"cancel" | "end">();
 
+const handleCreateConsillium = createEvent();
+
 sample({
-  clock: [refetch, TherapyGate.open, endTherapyMutation.finished.success],
+  clock: [
+    refetch,
+    TherapyGate.open,
+    endTherapyMutation.finished.success,
+    startConsilliumOnTherapyMutation.finished.success,
+  ],
   source: TherapyGate.state,
   fn: ({ id }) => id,
   target: therapyQuery.start,
@@ -26,12 +37,23 @@ sample({
   target: endTherapyMutation.start,
 });
 
+sample({
+  source: $therapyId,
+  filter: Boolean,
+  clock: handleCreateConsillium,
+  target: startConsilliumOnTherapyMutation.start,
+});
+
 endTherapyMutation.finished.success.watch(() =>
   message.success("Статус изменен!")
 );
 
+startConsilliumOnTherapyMutation.finished.success.watch(() => {
+  message.success("Консилиум создан!");
+});
+
 export const therapyProfileService = {
-  inputs: { refetch, handleCancelTherapy },
+  inputs: { refetch, handleCancelTherapy, handleCreateConsillium },
   outputs: {},
   gates: { TherapyGate },
 };

@@ -5,3 +5,9 @@ export const Wrapper = styled.div`
   flex-direction: column;
   gap: 24px;
 `;
+
+export const HeaderContext = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;

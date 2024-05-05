@@ -11,4 +11,5 @@ export type Props = {
   diseaseTranslates: DiseaseTranslateDto;
   handleEdit: () => void;
   handleCancelTherapy: (payload: "cancel" | "end") => void;
+  handleCreateConsillium: () => void;
 };
