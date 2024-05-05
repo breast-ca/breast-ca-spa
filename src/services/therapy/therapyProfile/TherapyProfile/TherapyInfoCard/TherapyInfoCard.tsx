@@ -1,12 +1,14 @@
 import { FC, useMemo } from "react";
-import { CardTitle, Wrapper } from "./TherapyInfoCard.styled";
+import { CardTitle, DynamicWrapper, Wrapper } from "./TherapyInfoCard.styled";
 import { Props } from "./TherapyInfoCard.types";
-import { TherapyType } from "@/api/shared";
+import { TherapyDynamic, TherapyType } from "@/api/shared";
 import { ChemotherapyView } from "./ChemotherapyView";
 import { OperationView } from "./OperationView";
 import { RadiationView } from "./RadiationView";
 import { CommonInfo } from "@/components/CommonInfo";
 import dayjs from "dayjs";
+import { CommonInfoItem } from "@/components/CommonInfo/CommonInfo.types";
+import { ArrowDown, ArrowUp } from "react-bootstrap-icons";
 
 export const TherapyInfoCard: FC<Props> = ({ therapy, therapyTranslates }) => {
   const therapyView = useMemo(() => {
@@ -41,18 +43,37 @@ export const TherapyInfoCard: FC<Props> = ({ therapy, therapyTranslates }) => {
     therapyTranslates,
   ]);
 
+  const infoItems = useMemo(() => {
+    const infos: CommonInfoItem[] = [
+      {
+        key: "Дата начала",
+        value: dayjs(therapy.creationTime).format("DD.MM.YYYY"),
+      },
+    ];
+
+    if (therapy.therapyDynamic) {
+      infos.push({
+        key: "Динамика",
+        value: (
+          <DynamicWrapper>
+            {therapyTranslates.therapyDynamic[therapy.therapyDynamic]}
+            <TherapyDynamicIcon dynamic={therapy.therapyDynamic} />
+          </DynamicWrapper>
+        ),
+      });
+    }
+
+    return infos;
+  }, [
+    therapy.creationTime,
+    therapy.therapyDynamic,
+    therapyTranslates.therapyDynamic,
+  ]);
+
   return (
     <Wrapper>
       <CardTitle>Информация</CardTitle>
-      <CommonInfo
-        card
-        items={[
-          {
-            key: "Дата начала",
-            value: dayjs(therapy.creationTime).format("DD.MM.YYYY"),
-          },
-        ]}
-      />
+      <CommonInfo card items={infoItems} />
       {therapyView && (
         <>
           <CardTitle>Терапия:</CardTitle>
@@ -61,4 +82,26 @@ export const TherapyInfoCard: FC<Props> = ({ therapy, therapyTranslates }) => {
       )}
     </Wrapper>
   );
+};
+
+export const TherapyDynamicIcon: FC<{ dynamic: TherapyDynamic }> = ({
+  dynamic,
+}) => {
+  const colors = {
+    [TherapyDynamic.Negative]: "#ff2e2e",
+    [TherapyDynamic.Positive]: "#04b804",
+    [TherapyDynamic.None]: "none",
+  };
+
+  const Icon = useMemo(() => {
+    const icons = {
+      [TherapyDynamic.Negative]: ArrowDown,
+      [TherapyDynamic.Positive]: ArrowUp,
+      [TherapyDynamic.None]: null,
+    };
+
+    return icons[dynamic];
+  }, [dynamic]);
+
+  return Icon && <Icon style={{ color: colors[dynamic] }} />;
 };

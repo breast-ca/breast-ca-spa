@@ -11,3 +11,9 @@ export const CardTitle = styled.div`
   font-size: 18px;
   font-weight: 500;
 `;
+
+export const DynamicWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;

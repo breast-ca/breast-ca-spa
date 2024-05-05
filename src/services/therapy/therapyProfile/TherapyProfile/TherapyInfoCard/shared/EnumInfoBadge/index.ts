@@ -1,0 +1,1 @@
+export { EnumInfoBadge } from './EnumInfoBadge';
