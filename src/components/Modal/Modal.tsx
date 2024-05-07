@@ -12,6 +12,7 @@ export const Modal: FC<Props> = ({
   handleSubmit,
   disabled,
   width,
+  hideFooter,
 }) => {
   return (
     <ModalAntd
@@ -21,14 +22,18 @@ export const Modal: FC<Props> = ({
       centered
       width={width}
       footer={
-        <Footer>
-          <Button size="middle" type="ghost" onClick={handleClose}>
-            Отмена
-          </Button>
-          <Button size="middle" onClick={handleSubmit} disabled={disabled}>
-            Сохранить
-          </Button>
-        </Footer>
+        hideFooter ? (
+          <></>
+        ) : (
+          <Footer>
+            <Button size="middle" type="ghost" onClick={handleClose}>
+              Отмена
+            </Button>
+            <Button size="middle" onClick={handleSubmit} disabled={disabled}>
+              Сохранить
+            </Button>
+          </Footer>
+        )
       }
     >
       {children}
