@@ -1,0 +1,1 @@
+export { ImmunoInfoModal } from './ImmunoInfoModal';

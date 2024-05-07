@@ -96,7 +96,7 @@ export const TherapyProfile: FC<Props> = ({
                 onClick: () =>
                   confirm({
                     title: "Завершить лечение?",
-                    okText: "Начать",
+                    okText: "Завершить",
                     type: "warning",
                     closable: true,
                     onOk: () => {
@@ -112,7 +112,7 @@ export const TherapyProfile: FC<Props> = ({
                 onClick: () =>
                   confirm({
                     title: "Отменить лечение?",
-                    okText: "Начать",
+                    okText: "Да",
                     type: "warning",
                     closable: true,
                     onOk: () => {
