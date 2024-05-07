@@ -7,6 +7,7 @@ import {
   userQuery,
 } from "@/services/user/userService.api";
 import { consilluimChatService } from "./consilluimChatService.model";
+import { lastMessagesQuery } from "./consilluimChatService.api";
 
 const {
   inputs,
@@ -18,12 +19,14 @@ export const ConsilluimChatContainer: FC<{
   consillium: ConsilliumResponseDto;
   handleEnd: () => void;
 }> = ({ consillium, handleEnd }) => {
-  const { user, handleSendMessage, messagesList, rolesTranslates } = useUnit({
-    user: userQuery.$data,
-    handleSendMessage: inputs.handleSendMessage,
-    messagesList: outputs.$messages,
-    rolesTranslates: rolesTranslatesQuery.$data,
-  });
+  const { user, handleSendMessage, messagesList, rolesTranslates, isLoading } =
+    useUnit({
+      user: userQuery.$data,
+      handleSendMessage: inputs.handleSendMessage,
+      messagesList: outputs.$messages,
+      rolesTranslates: rolesTranslatesQuery.$data,
+      isLoading: lastMessagesQuery.$pending,
+    });
 
   const isLead = consillium.usersOnConsillium.some(
     (u) => u.user.id === user?.id && u.isLead
@@ -40,6 +43,7 @@ export const ConsilluimChatContainer: FC<{
         user={user}
         handleEnd={handleEnd}
         rolesTranslates={rolesTranslates}
+        isLoading={isLoading}
       />
     </>
   );
