@@ -71,6 +71,15 @@ export const ConsilliumChat: FC<Props> = ({
           <UsersOnConsillium usersOnConsillium={consillium.usersOnConsillium} />
         </ManagementButton>
         <ManagementButton>
+          {consillium.therapy && (
+            <Button
+              type="ghost"
+              size="small"
+              onClick={() => navigate(`/therapy/${consillium.therapy?.id}`)}
+            >
+              Данные по терапии
+            </Button>
+          )}
           {consillium.analysis && (
             <Button
               type="ghost"
@@ -79,7 +88,7 @@ export const ConsilliumChat: FC<Props> = ({
                 navigate(`/analysis/fill/${consillium.analysis?.id}`)
               }
             >
-              данные по анализу
+              Данные по анализу
             </Button>
           )}
           {isLead && consillium.status === ConsilliumStatus.Working && (
