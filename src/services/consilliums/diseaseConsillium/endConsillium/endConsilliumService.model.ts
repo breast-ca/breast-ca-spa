@@ -15,7 +15,7 @@ sample({
 });
 
 endConsilliumMutation.finished.success.watch(() =>
-  message.success("Консиллиум завершен!")
+  message.success("Консилиум завершен!")
 );
 
 export const endConsilliumService = {

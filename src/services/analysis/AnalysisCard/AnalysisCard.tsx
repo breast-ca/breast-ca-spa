@@ -123,7 +123,7 @@ export const AnalysisCard: FC<Props> = ({
                 />
                 <ManagementButtonsWrapper>
                   <Button onClick={handleCreateConsillium}>
-                    Начать консиллиум
+                    Начать консилиум
                   </Button>
                 </ManagementButtonsWrapper>
               </>

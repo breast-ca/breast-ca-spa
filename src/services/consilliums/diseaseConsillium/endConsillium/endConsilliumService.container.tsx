@@ -77,7 +77,7 @@ export const EndConsilliumContainer: FC<{ id: number }> = ({ id }) => {
       <Modal
         isOpen={isOpen}
         handleClose={close}
-        title="Завершить консиллиум"
+        title="Завершить консилиум"
         handleSubmit={handleSubmit}
       >
         {therapyTranslates && (

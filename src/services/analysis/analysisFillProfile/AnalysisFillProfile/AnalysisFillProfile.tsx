@@ -12,6 +12,8 @@ import { AnalysisStatusBadge } from "@/components/shared/AnalysisStatus";
 import { AnalysisFillForm } from "./AnalysisFillForm";
 import { AnalysisStatus } from "@/api/shared";
 import { AnalysisCard } from "../../AnalysisCard";
+import { Button } from "@/components/Button";
+import { useNavigate } from "react-router-dom";
 
 export const AnalysisFillProfile: FC<Props> = ({
   analysis,
@@ -24,6 +26,8 @@ export const AnalysisFillProfile: FC<Props> = ({
 
   const isReady = analysis.status !== AnalysisStatus.Awaiting;
 
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <PageHeader
@@ -34,7 +38,19 @@ export const AnalysisFillProfile: FC<Props> = ({
           </Title>
         }
         goBack
-      />
+      >
+        {analysis.consillium?.id && (
+          <Button
+            onClick={() =>
+              navigate(
+                `/disease/${analysis.disease.id}/consiliums/${analysis.consillium?.id}`
+              )
+            }
+          >
+            Перейти в консилиум
+          </Button>
+        )}
+      </PageHeader>
 
       <Segmented
         value={segment}
