@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { AnalysisWrapper, Wrapper } from "./ConsilliumResult.styled";
+import { AnalysisWrapper, SubTitle, Wrapper } from "./ConsilliumResult.styled";
 import { Props } from "./ConsilliumResult.types";
 import { PageHeader } from "@/components/PageHeader";
 import dayjs from "dayjs";
@@ -50,6 +50,7 @@ export const ConsilliumResult: FC<Props> = ({ consilliumResult }) => {
               transform: "translateX(-16px)",
             }}
           />
+          <SubTitle>Анализы:</SubTitle>
           {consilliumResult?.analysis?.map((elem) => (
             <AnalysisWrapper
               onClick={() => navigate(`/analysis/fill/${elem.id}`)}
@@ -73,11 +74,13 @@ export const ConsilliumResult: FC<Props> = ({ consilliumResult }) => {
         />
       )}
       {consilliumResult.therapy && therapyTranslates && (
-        <TherapyShortInfo
-          therapyTranslates={therapyTranslates}
-          therapy={consilliumResult.therapy}
-          maxWidth={200}
-        />
+        <>
+          <SubTitle>Терапия:</SubTitle>
+          <TherapyShortInfo
+            therapyTranslates={therapyTranslates}
+            therapy={consilliumResult.therapy}
+          />
+        </>
       )}
     </Wrapper>
   );

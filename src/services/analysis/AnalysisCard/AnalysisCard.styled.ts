@@ -21,9 +21,9 @@ export const Header = styled.div`
 `;
 
 export const TitleLink = styled(Link)`
-  font-weight: 800;
+  font-weight: 600;
   font-size: 18px;
-  color: #00000098;
+  color: #000000bb;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
@@ -35,10 +35,10 @@ export const TitleLink = styled(Link)`
 `;
 
 export const Title = styled.div`
-  font-weight: 800;
+  font-weight: 600;
   font-size: 18px;
   white-space: nowrap;
-  color: #00000098;
+  color: #000000bb;
 `;
 
 export const CreatedDate = styled.div`

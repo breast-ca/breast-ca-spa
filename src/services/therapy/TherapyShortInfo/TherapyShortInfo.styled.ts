@@ -16,14 +16,8 @@ export const LightWrapper = styled.div`
 `;
 
 export const Title = styled.div`
-  font-weight: 800;
+  font-weight: 600;
   font-size: 18px;
-  color: #00000098;
-  width: min-content;
-`;
-
-export const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  white-space: nowrap;
+  color: #000000bb;
 `;
