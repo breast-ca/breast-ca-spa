@@ -33,6 +33,7 @@ export const AnalysisCard: FC<Props> = ({
   analysisTranslates,
   showTitle = true,
   handleCreateConsillium,
+  hideTime,
 }) => {
   const isPayloadExist = Boolean(analysis.completedTime);
   const [showPayload, setShowPayload] = useState(!showTitle || false);
@@ -51,24 +52,26 @@ export const AnalysisCard: FC<Props> = ({
           )}
           {analysis.creator && <AuthorBadge user={analysis.creator} />}
         </TitleContent>
-        <TitleContent>
-          <CreatedDate>
-            <CreatedDateTitle>
-              {analysis.completedTime ? "анализ получен" : "создано"}:
-            </CreatedDateTitle>
-            {dayjs(analysis.completedTime || analysis.creationTime).format(
-              "HH:mm DD.MM.YYYY"
+        {!hideTime && (
+          <TitleContent>
+            <CreatedDate>
+              <CreatedDateTitle>
+                {analysis.completedTime ? "анализ получен" : "создано"}:
+              </CreatedDateTitle>
+              {dayjs(analysis.completedTime || analysis.creationTime).format(
+                "HH:mm DD.MM.YYYY"
+              )}
+            </CreatedDate>
+            {isPayloadExist && showTitle && (
+              <OpenChevron
+                isOpen={showPayload}
+                onClick={() => setShowPayload((show) => !show)}
+              >
+                <ChevronDown />
+              </OpenChevron>
             )}
-          </CreatedDate>
-          {isPayloadExist && showTitle && (
-            <OpenChevron
-              isOpen={showPayload}
-              onClick={() => setShowPayload((show) => !show)}
-            >
-              <ChevronDown />
-            </OpenChevron>
-          )}
-        </TitleContent>
+          </TitleContent>
+        )}
       </Header>
       {isPayloadExist && showPayload && (
         <>
@@ -162,20 +165,8 @@ export const AnalysisShortInfo: FC<{
 }> = ({ analysis, analysisTranslates }) => {
   return (
     <Header>
-      <TitleContent>
-        <Title>{analysisTranslates.analysis[analysis.analysisType]}</Title>
-        <AnalysisStatusBadge status={analysis.status} />
-      </TitleContent>
-      <TitleContent>
-        <CreatedDate>
-          <CreatedDateTitle>
-            {analysis.completedTime ? "анализ получен" : "создано"}:
-          </CreatedDateTitle>
-          {dayjs(analysis.completedTime || analysis.creationTime).format(
-            "HH:mm DD.MM.YYYY"
-          )}
-        </CreatedDate>
-      </TitleContent>
+      <Title>{analysisTranslates.analysis[analysis.analysisType]}</Title>
+      <AnalysisStatusBadge status={analysis.status} />
     </Header>
   );
 };
