@@ -134,11 +134,17 @@ export const DiseaseProfilePage: FC<Props> = ({
 export const DiseaseTitle: FC<{
   disease: DiseaseFullResponseDto;
   diseaseEnums: DiseaseTranslateDto;
-}> = ({ disease, diseaseEnums }) => {
+  isLink?: boolean;
+}> = ({ disease, diseaseEnums, isLink }) => {
+  const navigate = useNavigate();
+
   if (!disease) return null;
 
   return (
-    <TitleWrapper>
+    <TitleWrapper
+      style={{ cursor: isLink ? "pointer" : void 0 }}
+      onClick={() => isLink && navigate(`/disease/${disease.id}/common`)}
+    >
       <DiseaseCode colour1={disease.colour1} colour2={disease.colour2}>
         {diseaseEnums.ICDCodes[disease.ICD]}
       </DiseaseCode>{" "}

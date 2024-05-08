@@ -188,6 +188,7 @@ export const TherapyProfile: FC<Props> = ({
           <DiseaseTitle
             diseaseEnums={diseaseTranslates}
             disease={therapy.disease}
+            isLink
           />
           <DiseaseInfos
             diseaseEnums={diseaseTranslates}

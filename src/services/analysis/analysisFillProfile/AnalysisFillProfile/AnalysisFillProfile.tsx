@@ -90,6 +90,7 @@ export const AnalysisFillProfile: FC<Props> = ({
           <DiseaseTitle
             diseaseEnums={diseaseTranslates}
             disease={analysis.disease}
+            isLink
           />
           <DiseaseInfos
             diseaseEnums={diseaseTranslates}
