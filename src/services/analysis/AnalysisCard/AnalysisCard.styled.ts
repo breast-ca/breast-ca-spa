@@ -23,7 +23,7 @@ export const Header = styled.div`
 export const TitleLink = styled(Link)`
   font-weight: 800;
   font-size: 18px;
-  white-space: nowrap;
+  width: min-content;
   color: #00000098;
   transition: 0.2s;
 
@@ -44,6 +44,7 @@ export const CreatedDate = styled.div`
   font-weight: 600;
   line-height: 20px;
   line-height: 0;
+  width: max-content;
 `;
 
 export const CreatedDateTitle = styled.div`
