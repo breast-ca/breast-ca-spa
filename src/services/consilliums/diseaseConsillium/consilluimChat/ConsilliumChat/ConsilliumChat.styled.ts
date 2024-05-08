@@ -49,7 +49,7 @@ const emptyChatCSS = css`
 `;
 
 export const ChatWrapper = styled.div<{ isEmpty: boolean; isDone?: boolean }>`
-  height: calc(100vh - ${({ isDone }) => (isDone ? 380 - 48 : 380)}px);
+  height: calc(100vh - ${({ isDone }) => (isDone ? 380 - 20 : 380)}px);
   display: flex;
   flex-direction: column;
   gap: 8px;

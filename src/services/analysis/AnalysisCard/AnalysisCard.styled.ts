@@ -23,8 +23,11 @@ export const Header = styled.div`
 export const TitleLink = styled(Link)`
   font-weight: 800;
   font-size: 18px;
-  width: min-content;
   color: #00000098;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  max-width: 50%;
   transition: 0.2s;
 
   &:hover {
