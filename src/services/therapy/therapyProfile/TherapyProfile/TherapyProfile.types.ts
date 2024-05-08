@@ -1,4 +1,6 @@
 import {
+  AnalysisTranslatesDto,
+  AnalysisType,
   DiseaseTranslateDto,
   TherapiesTranslateDto,
   TherapyFullResponseDto,
@@ -12,4 +14,6 @@ export type Props = {
   handleEdit: () => void;
   handleCancelTherapy: (payload: "cancel" | "end") => void;
   handleCreateConsillium: () => void;
+  handleCreateAnalysis: (type: AnalysisType) => void;
+  analysisTranslates: AnalysisTranslatesDto;
 };

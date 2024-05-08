@@ -11,3 +11,10 @@ export const HeaderContext = styled.div`
   align-items: center;
   gap: 16px;
 `;
+
+export const SegmentedWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 800px;
+`;
