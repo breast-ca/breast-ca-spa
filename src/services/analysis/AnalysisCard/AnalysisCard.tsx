@@ -8,6 +8,7 @@ import {
   OpenChevron,
   Title,
   TitleContent,
+  TitleLink,
   Wrapper,
 } from "./AnalysisCard.styled";
 import { Props } from "./AnalysisCard.types";
@@ -42,9 +43,9 @@ export const AnalysisCard: FC<Props> = ({
         <TitleContent>
           {showTitle && (
             <>
-              <Title>
+              <TitleLink to={`/analysis/fill/${analysis.id}`}>
                 {analysisTranslates.analysis[analysis.analysisType]}
-              </Title>
+              </TitleLink>
               <AnalysisStatusBadge status={analysis.status} />
             </>
           )}

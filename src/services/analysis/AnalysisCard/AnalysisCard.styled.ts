@@ -1,4 +1,5 @@
 import { Card } from "@/components/Card";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Wrapper = styled(Card)`
@@ -17,6 +18,18 @@ export const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+export const TitleLink = styled(Link)`
+  font-weight: 800;
+  font-size: 18px;
+  white-space: nowrap;
+  color: #00000098;
+  transition: 0.2s;
+
+  &:hover {
+    color: var(--primary);
+  }
 `;
 
 export const Title = styled.div`

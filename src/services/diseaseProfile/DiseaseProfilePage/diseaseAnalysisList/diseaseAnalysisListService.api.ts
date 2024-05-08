@@ -1,4 +1,4 @@
-import { createQuery } from "@farfetched/core";
+import { createMutation, createQuery } from "@farfetched/core";
 import { axios } from "@/api";
 import { AnalysisPayloadResponseDto } from "@/api/shared";
 
@@ -9,6 +9,6 @@ export const diseaseAnalysisQuery = createQuery<
   handler: (diseaseId) => axios.get(`/analysis/byDisease/${diseaseId}`),
 });
 
-export const startAnalysisConsillium = createQuery<[number], void>({
+export const startAnalysisConsillium = createMutation<number, void>({
   handler: (analysisId) => axios.post(`consillium/${analysisId}`),
 });

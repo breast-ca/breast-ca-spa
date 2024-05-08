@@ -9,6 +9,7 @@ import { usePatientInfoPanel } from "@/services/mainLayout/mainLayoutService.hoo
 import { AnalysisTranslatesQuery } from "../analysisService.api";
 import { analysisService } from "../analysisService.model";
 import { diseaseEnumsTranslationsQuery } from "@/services/patients/patientProfile/PatientsProfile/diseasesList/diseasesListService.api";
+import { startAnalysisConsillium } from "@/services/diseaseProfile/DiseaseProfilePage/diseaseAnalysisList/diseaseAnalysisListService.api";
 
 const {
   gates: { AnalysisProfileGate },
@@ -27,6 +28,7 @@ export const AnalysisFillProfileContainer = () => {
     analysisTranslates,
     diseaseTranslates,
     handleSaveAnalysisFill,
+    handleCreateConsillium,
   } = useUnit({
     analysis: analysisProfileQuery.$data,
     isLoading: analysisProfileQuery.$pending,
@@ -34,9 +36,14 @@ export const AnalysisFillProfileContainer = () => {
     diseaseTranslates: diseaseEnumsTranslationsQuery.$data,
     handleSaveAnalysisFill:
       analysisFillProfileService.inputs.handleSaveAnalysisFill,
+    handleCreateConsillium: startAnalysisConsillium.start,
   });
 
   usePatientInfoPanel(analysis?.disease.patient);
+
+  const handleStartConsillium = () => {
+    handleCreateConsillium(Number(id));
+  };
 
   return (
     <>
@@ -50,6 +57,7 @@ export const AnalysisFillProfileContainer = () => {
             analysisTranslates={analysisTranslates}
             diseaseTranslates={diseaseTranslates}
             handleSaveAnalysisFill={handleSaveAnalysisFill}
+            handleStartConsillium={handleStartConsillium}
           />
         )}
       </WithLoader>

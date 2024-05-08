@@ -18,6 +18,7 @@ export const AnalysisFillProfile: FC<Props> = ({
   analysisTranslates,
   diseaseTranslates,
   handleSaveAnalysisFill,
+  handleStartConsillium,
 }) => {
   const [segment, setSegment] = useState<AnalysisProfileSegment>("analysis");
 
@@ -63,6 +64,7 @@ export const AnalysisFillProfile: FC<Props> = ({
               showTitle={false}
               analysis={analysis}
               analysisTranslates={analysisTranslates}
+              handleCreateConsillium={handleStartConsillium}
             />
           )}
         </>

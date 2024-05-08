@@ -26,8 +26,11 @@ import {
   prepareUltrasoundFillPayload,
 } from "./analysisFillProfileService.utils";
 import { message } from "antd";
+import { startAnalysisConsillium } from "@/services/diseaseProfile/DiseaseProfilePage/diseaseAnalysisList/diseaseAnalysisListService.api";
 
 const AnalysisProfileGate = createGate<{ id: number }>();
+
+const refresh = createEvent();
 
 const handleSaveAnalysisButtonClicked = createEvent();
 const handleSaveAnalysisFill = createEvent<AnalysisFillSavePayload>();
@@ -125,6 +128,12 @@ sample({
   target: fillBiopsyAnalysisMutation.start,
 });
 
+sample({
+  clock: startAnalysisConsillium.finished.success,
+  filter: AnalysisProfileGate.status,
+  target: refresh,
+});
+
 // processing for done events
 merge([
   fillUltrasoundAnalysisMutation.finished.failure,
@@ -144,7 +153,7 @@ handleFillAnalysisSuccess.watch(() => message.success("Анализ сохран
 
 // loading for analysis profile
 sample({
-  clock: [AnalysisProfileGate.open, handleFillAnalysisSuccess],
+  clock: [AnalysisProfileGate.open, handleFillAnalysisSuccess, refresh],
   source: AnalysisProfileGate.state,
   fn: ({ id }) => id,
   target: analysisProfileQuery.start,
