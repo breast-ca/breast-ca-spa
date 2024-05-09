@@ -38,7 +38,7 @@ export const MenuList: FC<Props> = () => {
   return (
     <Wrapper>
       {menuItems.map(({ icon, text, color, path }) => (
-        <MenuItem key={text} to={`/settings/${path}`}>
+        <MenuItem key={text} to={`/settings/${path}`} replace>
           <ChevronSC className="drawer-menu-chevron" />
           <MenuItemIcon color={color}>{icon}</MenuItemIcon>
           <MenuItemText>{text}</MenuItemText>
