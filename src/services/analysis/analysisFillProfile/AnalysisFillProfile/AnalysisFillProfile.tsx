@@ -46,6 +46,7 @@ export const AnalysisFillProfile: FC<Props> = ({
                 `/disease/${analysis.disease.id}/consiliums/${analysis.consillium?.id}`
               )
             }
+            type="ghost"
           >
             Перейти в консилиум
           </Button>

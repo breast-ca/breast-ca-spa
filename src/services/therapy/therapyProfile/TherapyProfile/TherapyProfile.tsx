@@ -86,6 +86,7 @@ export const TherapyProfile: FC<Props> = ({
                   `/disease/${therapy.disease.id}/consiliums/${therapy.consillium?.id}`
                 )
               }
+              type="ghost"
             >
               Перейти в консилиум
             </Button>

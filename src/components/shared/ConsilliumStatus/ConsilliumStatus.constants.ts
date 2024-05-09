@@ -5,7 +5,7 @@ export const ConsilliumStatusTranslatesLookup: {
 } = {
   [ConsilliumStatus.AwaitingDistribution]: "Ожидает распределение",
   [ConsilliumStatus.Working]: "В процессе",
-  [ConsilliumStatus.Done]: "Готов",
+  [ConsilliumStatus.Done]: "Завершен",
 };
 
 export const ConsilliumStatusColorsLookup: {
