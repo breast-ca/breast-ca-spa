@@ -122,7 +122,7 @@ export function Table<T>({
               .map((elem, rowIndex) => renderRow(elem, rowIndex))}
           </WithLoader>
         </div>
-        {!elements.length && isLoading && (
+        {!elements.length && !isLoading && (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         )}
       </Wrapper>

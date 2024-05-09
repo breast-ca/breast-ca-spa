@@ -125,10 +125,10 @@ export const CreateUserModal: FC<Props> = ({
           </FormItem>
         </Grid>
 
-        <FormItem label="Роль">
+        <FormItem label="Роли">
           <Select
             size="large"
-            placeholder="Введите отчество"
+            placeholder="Выберите роли"
             value={values.roles}
             onChange={(values) => setFieldValue("roles", values)}
             mode="multiple"
