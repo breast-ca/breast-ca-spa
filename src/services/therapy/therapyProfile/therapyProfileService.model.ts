@@ -1,6 +1,7 @@
 import { createEvent, sample } from "effector";
 import { createGate } from "effector-react";
 import {
+  createAnalysisOnTherapyMutation,
   endTherapyMutation,
   startConsilliumOnTherapyMutation,
   therapyQuery,
@@ -38,6 +39,11 @@ sample({
 });
 
 sample({
+  clock: createAnalysisOnTherapyMutation.finished.success,
+  target: refetch,
+});
+
+sample({
   source: $therapyId,
   filter: Boolean,
   clock: handleCreateConsillium,
@@ -50,6 +56,10 @@ endTherapyMutation.finished.success.watch(() =>
 
 startConsilliumOnTherapyMutation.finished.success.watch(() => {
   message.success("Консилиум создан!");
+});
+
+createAnalysisOnTherapyMutation.finished.success.watch(() => {
+  message.success("Анализ добавлен!");
 });
 
 export const therapyProfileService = {

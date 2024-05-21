@@ -26,6 +26,7 @@ export const PatientInfoWrapperRel = styled.div`
 `;
 
 export const PatientInfoWrapper = styled.div`
+  width: 360px;
   position: fixed;
   min-height: 100vh;
   padding: 16px 16px 16px 24px;

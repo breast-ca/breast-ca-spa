@@ -8,4 +8,5 @@ export type Props = {
   analysisTranslates: AnalysisTranslatesDto;
   showTitle?: boolean;
   handleCreateConsillium?: () => void;
+  hideTime?: boolean;
 };

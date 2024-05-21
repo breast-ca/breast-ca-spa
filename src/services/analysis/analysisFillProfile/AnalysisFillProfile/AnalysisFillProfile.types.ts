@@ -10,6 +10,7 @@ export type Props = {
   analysisTranslates: AnalysisTranslatesDto;
   diseaseTranslates: DiseaseTranslateDto;
   handleSaveAnalysisFill: (payload: AnalysisFillSavePayload) => void;
+  handleStartConsillium: () => void;
 };
 
 export type AnalysisProfileSegment = "passport" | "analysis";

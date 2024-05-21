@@ -18,6 +18,7 @@ import { ConsilliumStatus } from "@/api/shared";
 import { ConsilliumStatus as ConsilliumStatusBadge } from "@/components/shared/ConsilliumStatus";
 import { GoBack } from "@/components/BackButton";
 import { ConsilliumResult } from "./ConsilliumResult";
+import { WithLoader } from "@/components/WithLoader";
 
 export const ConsilliumChat: FC<Props> = ({
   consillium,
@@ -27,6 +28,7 @@ export const ConsilliumChat: FC<Props> = ({
   user,
   handleEnd,
   rolesTranslates,
+  isLoading,
 }) => {
   const [message, setMessage] = useState("");
 
@@ -49,17 +51,19 @@ export const ConsilliumChat: FC<Props> = ({
   const isDone = consillium.status === ConsilliumStatus.Done;
 
   const messagesContent = (
-    <ChatWrapper isEmpty={!messagesList.length} ref={chatRef} isDone={isDone}>
-      {!messagesList.length && <Empty description="Пока сообщений нет" />}
-      {messagesList.map((message) => (
-        <MessageItem
-          user={user}
-          key={message.id}
-          message={message}
-          rolesTranslates={rolesTranslates}
-        />
-      ))}
-    </ChatWrapper>
+    <WithLoader isLoading={isLoading}>
+      <ChatWrapper isEmpty={!messagesList.length} ref={chatRef} isDone={isDone}>
+        {!messagesList.length && <Empty description="Пока сообщений нет" />}
+        {messagesList.map((message) => (
+          <MessageItem
+            user={user}
+            key={message.id}
+            message={message}
+            rolesTranslates={rolesTranslates}
+          />
+        ))}
+      </ChatWrapper>
+    </WithLoader>
   );
 
   return (
@@ -71,6 +75,15 @@ export const ConsilliumChat: FC<Props> = ({
           <UsersOnConsillium usersOnConsillium={consillium.usersOnConsillium} />
         </ManagementButton>
         <ManagementButton>
+          {consillium.therapy && (
+            <Button
+              type="ghost"
+              size="small"
+              onClick={() => navigate(`/therapy/${consillium.therapy?.id}`)}
+            >
+              Данные по терапии
+            </Button>
+          )}
           {consillium.analysis && (
             <Button
               type="ghost"
@@ -79,7 +92,7 @@ export const ConsilliumChat: FC<Props> = ({
                 navigate(`/analysis/fill/${consillium.analysis?.id}`)
               }
             >
-              данные по анализу
+              Данные по анализу
             </Button>
           )}
           {isLead && consillium.status === ConsilliumStatus.Working && (
@@ -98,7 +111,7 @@ export const ConsilliumChat: FC<Props> = ({
           {messagesContent}
         </ConsilliumContentWrapper>
       )}
-      {!isDone && (
+      {!isDone && !isLoading && (
         <SendMessageWrapper>
           <Input
             value={message}

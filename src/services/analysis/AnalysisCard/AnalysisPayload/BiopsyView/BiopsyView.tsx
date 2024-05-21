@@ -1,15 +1,23 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Title, Wrapper } from "./BiopsyView.styled";
 import { Props } from "./BiopsyView.types";
 import { ParametersGrid } from "../shared/ParametersGrid";
 import { AnalysisParameter } from "../shared/AnalysisParameter";
 import { BooleanStatus } from "@/components/BooleanStatus";
+import { InfoCircleFill } from "react-bootstrap-icons";
+import { ImmunoInfoModal } from "./ImmunoInfoModal";
 
 export const BiopsyView: FC<Props> = ({ biopsy, analysisTranslates }) => {
   const { gystology, igh, isPostOperational } = biopsy;
 
+  const [isVisible, setIsVisible] = useState(false);
+
   return (
     <Wrapper>
+      <ImmunoInfoModal
+        visisble={isVisible}
+        onClose={() => setIsVisible(false)}
+      />
       <Title>Гистология:</Title>
       <ParametersGrid temp={isPostOperational ? "1fr 1fr" : "1fr"}>
         <AnalysisParameter name="гистологическое строение опухоли">
@@ -58,7 +66,14 @@ export const BiopsyView: FC<Props> = ({ biopsy, analysisTranslates }) => {
       )}
       <Title>ИГХ:</Title>
       <ParametersGrid temp="1fr 1fr">
-        <AnalysisParameter name="Иммунногистотип" fontSize={20}>
+        <AnalysisParameter
+          name="Иммунногистотип"
+          onClick={() => {
+            setIsVisible(true);
+          }}
+          fontSize={20}
+          additionalContent={<InfoCircleFill color="#557fe8" />}
+        >
           {analysisTranslates.immunohistotype[igh.Immunohistotype]}
         </AnalysisParameter>
         <AnalysisParameter name="Номер исследования">

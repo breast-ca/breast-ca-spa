@@ -8,4 +8,5 @@ export type Props = {
   handleSubmit?: () => void;
   disabled?: boolean;
   width?: number;
+  hideFooter?: boolean;
 };

@@ -2,7 +2,7 @@ import { FC } from "react";
 import { diseaseConsilliumService } from "./diseaseConsilliumService.model";
 import { useUnit } from "effector-react";
 import { consilliumQuery } from "./diseaseConsilliumService.api";
-import { Empty } from "antd";
+import { Empty, Skeleton } from "antd";
 import { ConsilliumStatus } from "@/api/shared";
 import { ConsilliumListItem } from "../diseaseConsilliumsList/DiseaseConsilliumsList/ConsilliumListItem";
 import { AnalysisTranslatesQuery } from "@/services/analysis/analysisService.api";
@@ -25,8 +25,10 @@ export const DiseaseConsilliumContainer: FC<{ id: number }> = ({ id }) => {
     handleDistribute,
     handleEnd,
     therapiesTranslates,
+    isLoading,
   } = useUnit({
     consillium: consilliumQuery.$data,
+    isLoading: consilliumQuery.$pending,
     analysisTranslates: AnalysisTranslatesQuery.$data,
     handleDistribute: distributeConsilliumService.inputs.handleOpen,
     handleEnd: endConsilliumService.inputs.openModal,
@@ -56,15 +58,22 @@ export const DiseaseConsilliumContainer: FC<{ id: number }> = ({ id }) => {
     <>
       <ConsilliumGate id={id} />
       <EndConsilliumContainer id={id} />
-      {distribution}
-      {isConsilliumChat && (
-        <ConsilluimChatContainer
-          consillium={consillium}
-          handleEnd={handleEnd}
-        />
+      {isLoading && <Skeleton />}
+      {!isLoading && (
+        <>
+          {distribution}
+          {isConsilliumChat && (
+            <ConsilluimChatContainer
+              consillium={consillium}
+              handleEnd={handleEnd}
+            />
+          )}
+          {!consillium ||
+            (!analysisTranslates && (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            ))}
+        </>
       )}
-      {!consillium ||
-        (!analysisTranslates && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />)}
     </>
   );
 };

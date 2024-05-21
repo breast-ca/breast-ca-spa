@@ -24,4 +24,7 @@ export const Content = styled.div`
   font-weight: 700;
   line-height: 22px;
   color: #2b2b2b;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
 `;

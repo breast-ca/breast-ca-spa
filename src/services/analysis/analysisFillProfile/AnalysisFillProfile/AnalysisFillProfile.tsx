@@ -12,16 +12,21 @@ import { AnalysisStatusBadge } from "@/components/shared/AnalysisStatus";
 import { AnalysisFillForm } from "./AnalysisFillForm";
 import { AnalysisStatus } from "@/api/shared";
 import { AnalysisCard } from "../../AnalysisCard";
+import { Button } from "@/components/Button";
+import { useNavigate } from "react-router-dom";
 
 export const AnalysisFillProfile: FC<Props> = ({
   analysis,
   analysisTranslates,
   diseaseTranslates,
   handleSaveAnalysisFill,
+  handleStartConsillium,
 }) => {
   const [segment, setSegment] = useState<AnalysisProfileSegment>("analysis");
 
   const isReady = analysis.status !== AnalysisStatus.Awaiting;
+
+  const navigate = useNavigate();
 
   return (
     <Wrapper>
@@ -33,7 +38,20 @@ export const AnalysisFillProfile: FC<Props> = ({
           </Title>
         }
         goBack
-      />
+      >
+        {analysis.consillium?.id && (
+          <Button
+            onClick={() =>
+              navigate(
+                `/disease/${analysis.disease.id}/consiliums/${analysis.consillium?.id}`
+              )
+            }
+            type="ghost"
+          >
+            Перейти в консилиум
+          </Button>
+        )}
+      </PageHeader>
 
       <Segmented
         value={segment}
@@ -63,6 +81,7 @@ export const AnalysisFillProfile: FC<Props> = ({
               showTitle={false}
               analysis={analysis}
               analysisTranslates={analysisTranslates}
+              handleCreateConsillium={handleStartConsillium}
             />
           )}
         </>
@@ -72,6 +91,7 @@ export const AnalysisFillProfile: FC<Props> = ({
           <DiseaseTitle
             diseaseEnums={diseaseTranslates}
             disease={analysis.disease}
+            isLink
           />
           <DiseaseInfos
             diseaseEnums={diseaseTranslates}

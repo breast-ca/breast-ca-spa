@@ -1,4 +1,5 @@
 import { Card } from "@/components/Card";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Wrapper = styled(Card)`
@@ -19,11 +20,25 @@ export const Header = styled.div`
   justify-content: space-between;
 `;
 
+export const TitleLink = styled(Link)`
+  font-weight: 600;
+  font-size: 18px;
+  color: #000000bb;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  transition: 0.2s;
+
+  &:hover {
+    color: var(--primary);
+  }
+`;
+
 export const Title = styled.div`
-  font-weight: 800;
+  font-weight: 600;
   font-size: 18px;
   white-space: nowrap;
-  color: #00000098;
+  color: #000000bb;
 `;
 
 export const CreatedDate = styled.div`
@@ -31,6 +46,7 @@ export const CreatedDate = styled.div`
   font-weight: 600;
   line-height: 20px;
   line-height: 0;
+  width: max-content;
 `;
 
 export const CreatedDateTitle = styled.div`

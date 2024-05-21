@@ -14,4 +14,5 @@ export type Props = {
   user: UserResponseDto | null;
   handleEnd: () => void;
   rolesTranslates: RolesDto | null;
+  isLoading: boolean;
 };

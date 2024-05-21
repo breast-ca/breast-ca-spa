@@ -122,7 +122,9 @@ export function Table<T>({
               .map((elem, rowIndex) => renderRow(elem, rowIndex))}
           </WithLoader>
         </div>
-        {!elements.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+        {!elements.length && !isLoading && (
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        )}
       </Wrapper>
       {Boolean(elements.length) && pagination && (
         <PaginationWrapper>

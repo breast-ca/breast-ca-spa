@@ -566,6 +566,10 @@ export interface AnalysisPayloadResponseDto {
   Biopsy?: BiopsyResponseDto;
 }
 
+export interface ConsilliumWithId {
+  id: number;
+}
+
 export interface AnalysisFullResponseDto {
   id: number;
   analysisType: AnalysisType;
@@ -583,6 +587,7 @@ export interface AnalysisFullResponseDto {
   Mammography?: MammograhyResponseDto;
   Biopsy?: BiopsyResponseDto;
   disease: DiseaseFullResponseDto;
+  consillium?: ConsilliumWithId;
 }
 
 export interface EditAnalysisDto {

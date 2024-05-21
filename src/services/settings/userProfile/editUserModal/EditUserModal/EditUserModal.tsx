@@ -120,10 +120,10 @@ export const EditUserModal: FC<Props> = ({
           </FormItem>
         </Grid>
         {isAdmin && (
-          <FormItem label="Роль">
+          <FormItem label="Роли">
             <Select
               size="large"
-              placeholder="Введите отчество"
+              placeholder="Введите роли"
               value={values.roles}
               onChange={(values) => setFieldValue("roles", values)}
               mode="multiple"

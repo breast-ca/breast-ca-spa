@@ -1,5 +1,4 @@
-export const API_HOST = "http://localhost:8000/api";
-export const WS_HOST = "http://localhost:8000/";
+export const IS_DEV_MODE = import.meta.env.DEV;
 
-// export const API_HOST = "http://192.168.1.166:8000/api";
-// export const WS_HOST = "http://192.168.1.166:8000";
+export const API_HOST = "https://api.breastca.ru/api";
+export const WS_HOST = "https://api.breast-ca.ru/";

@@ -1,5 +1,9 @@
 import { FC, useState } from "react";
-import { HeaderContext, Wrapper } from "./TherapyProfile.styled";
+import {
+  HeaderContext,
+  SegmentedWrapper,
+  Wrapper,
+} from "./TherapyProfile.styled";
 import { Props } from "./TherapyProfile.types";
 import { WithLoader } from "@/components/WithLoader";
 import { Empty } from "antd";
@@ -19,6 +23,9 @@ import { TherapyStatus, TherapyType } from "@/api/shared";
 import confirm from "antd/es/modal/confirm";
 import { Button } from "@/components/Button";
 import { useNavigate } from "react-router-dom";
+import { PlusCircleFill } from "react-bootstrap-icons";
+import { TherapyAnalysisList } from "./TherapyAnalysisList/TherapyAnalysisList";
+import { AddAnalysisModal } from "../AddAnalysisModal";
 
 export const TherapyProfile: FC<Props> = ({
   therapy,
@@ -28,8 +35,14 @@ export const TherapyProfile: FC<Props> = ({
   handleEdit,
   handleCancelTherapy,
   handleCreateConsillium,
+  handleCreateAnalysis,
+  analysisTranslates,
 }) => {
-  const [segment, setSegment] = useState<"therapy" | "disease">("therapy");
+  const [segment, setSegment] = useState<"therapy" | "disease" | "analysis">(
+    "therapy"
+  );
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   usePatientInfoPanel(therapy?.disease.patient);
 
@@ -47,6 +60,15 @@ export const TherapyProfile: FC<Props> = ({
 
   return (
     <Wrapper>
+      <AddAnalysisModal
+        isOpen={isModalOpen}
+        closeModal={() => setIsModalOpen(false)}
+        createAnalysis={(type) => {
+          handleCreateAnalysis(type);
+          setIsModalOpen(false);
+        }}
+        analysisTranslates={analysisTranslates}
+      />
       <PageHeader
         goBack
         title={
@@ -64,6 +86,7 @@ export const TherapyProfile: FC<Props> = ({
                   `/disease/${therapy.disease.id}/consiliums/${therapy.consillium?.id}`
                 )
               }
+              type="ghost"
             >
               Перейти в консилиум
             </Button>
@@ -96,7 +119,7 @@ export const TherapyProfile: FC<Props> = ({
                 onClick: () =>
                   confirm({
                     title: "Завершить лечение?",
-                    okText: "Начать",
+                    okText: "Завершить",
                     type: "warning",
                     closable: true,
                     onOk: () => {
@@ -112,7 +135,7 @@ export const TherapyProfile: FC<Props> = ({
                 onClick: () =>
                   confirm({
                     title: "Отменить лечение?",
-                    okText: "Начать",
+                    okText: "Да",
                     type: "warning",
                     closable: true,
                     onOk: () => {
@@ -125,20 +148,36 @@ export const TherapyProfile: FC<Props> = ({
           />
         </HeaderContext>
       </PageHeader>
-      <Segmented
-        value={segment}
-        onChange={(value) => setSegment(value as "therapy" | "disease")}
-        options={[
-          {
-            label: "Терапия",
-            value: "therapy",
-          },
-          {
-            label: "Паспорт заболевания",
-            value: "disease",
-          },
-        ]}
-      />
+      <SegmentedWrapper>
+        <Segmented
+          value={segment}
+          onChange={(value) => setSegment(value as "therapy" | "disease")}
+          options={[
+            {
+              label: "Терапия",
+              value: "therapy",
+            },
+            {
+              label: "Паспорт заболевания",
+              value: "disease",
+            },
+            {
+              label: "Анализы",
+              value: "analysis",
+            },
+          ]}
+        />
+        {segment === "analysis" && (
+          <Button
+            floating
+            icon={<PlusCircleFill />}
+            rounded
+            onClick={() => setIsModalOpen(true)}
+          >
+            Новый анализ
+          </Button>
+        )}
+      </SegmentedWrapper>
       {segment === "therapy" && (
         <TherapyInfoCard
           therapy={therapy}
@@ -150,6 +189,7 @@ export const TherapyProfile: FC<Props> = ({
           <DiseaseTitle
             diseaseEnums={diseaseTranslates}
             disease={therapy.disease}
+            isLink
           />
           <DiseaseInfos
             diseaseEnums={diseaseTranslates}
@@ -160,6 +200,12 @@ export const TherapyProfile: FC<Props> = ({
             diseaseEnums={diseaseTranslates}
           />
         </>
+      )}
+      {segment === "analysis" && analysisTranslates && (
+        <TherapyAnalysisList
+          analysis={therapy.analysises}
+          analysisTranslates={analysisTranslates}
+        />
       )}
     </Wrapper>
   );
