@@ -15,7 +15,7 @@ export const AboutPage: FC<Props> = () => {
           {
             key: "Сайт",
             value: (
-              <a href="http://breastca.ru.tilda.ws/" target="_blank">
+              <a href="https://breastca.ru/" target="_blank">
                 <Button size="small">Перейти на сайт</Button>
               </a>
             ),
