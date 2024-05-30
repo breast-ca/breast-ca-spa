@@ -1,6 +1,12 @@
 import { FC, useMemo } from "react";
 import { Props } from "./MainMenu.types";
-import { ChatDots, ClipboardData, Grid, People } from "react-bootstrap-icons";
+import {
+  BarChartLine,
+  ChatDots,
+  ClipboardData,
+  Grid,
+  People,
+} from "react-bootstrap-icons";
 import {
   GridWrapper,
   LogoWrapper,
@@ -32,6 +38,12 @@ export const MainMenu: FC<Props> = ({ handleOpenDrawer, user }) => {
       icon: <ChatDots size={24} />,
       text: "Консилиумы",
       path: "/messages",
+    });
+
+    items.push({
+      icon: <BarChartLine size={24} />,
+      text: "Статистика",
+      path: "/statistics",
     });
 
     return items;
