@@ -2,15 +2,9 @@ import * as Yup from "yup";
 
 export const validationSchema = Yup.object().shape({
   tumorSize: Yup.object().shape({
-    sizeX: Yup.number()
-      .positive("Размер должно быть > 0")
-      .required("Это поле обязательное"),
-    sizeY: Yup.number()
-      .positive("Размер должно быть > 0")
-      .required("Это поле обязательное"),
-    sizeZ: Yup.number()
-      .positive("Размер должно быть > 0")
-      .required("Это поле обязательное"),
+    sizeX: Yup.number().required("Это поле обязательное"),
+    sizeY: Yup.number().required("Это поле обязательное"),
+    sizeZ: Yup.number().required("Это поле обязательное"),
   }),
   metastasisNumber: Yup.number()
     .max(20, "Не более 20")
