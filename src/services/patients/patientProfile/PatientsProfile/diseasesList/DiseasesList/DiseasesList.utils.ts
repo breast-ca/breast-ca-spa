@@ -10,6 +10,7 @@ export function getDiseasInfos(
   disease: DiseaseResponseDto & { tnm?: TNMResponseDTO; stage?: CancerStage },
   translates: DiseaseTranslateDto
 ) {
+  
   let tnmText = "";
 
   if (disease.tnm) {
