@@ -14,7 +14,6 @@ export const validationSchema = Yup.object().shape({
   }),
   metastasisNumber: Yup.number()
     .max(20, "Не более 20")
-    .min(0, "Кол-во должно быть > 0")
     .required("Это поле обязательное"),
   birNumber: Yup.number().required("Это поле обязательное"),
   description: Yup.string().required("Это поле обязательное"),
