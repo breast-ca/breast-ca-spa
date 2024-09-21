@@ -18,7 +18,19 @@ export const tOptionsList = [
   "4d",
 ];
 
-export const nOptionsList = ["2", "2a", "2b", "3", "3a", "3b", "3c", "1mic"];
+export const nOptionsList = [
+  "0",
+  "1",
+  "x",
+  "2",
+  "2a",
+  "2b",
+  "3",
+  "3a",
+  "3b",
+  "3c",
+  "1mic",
+];
 
 export const mOptionsList = ["0", "1"];
 
