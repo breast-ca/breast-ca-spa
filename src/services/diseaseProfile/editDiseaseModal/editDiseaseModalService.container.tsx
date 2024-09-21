@@ -3,6 +3,7 @@ import { useUnit } from "effector-react";
 import { editDiseaseModalService } from ".";
 import { validationSchema } from "./editDiseaseModalService.constants";
 import {
+  CancerStage,
   EditDiseaseDto,
   ICD,
   ProgressionType,
@@ -21,6 +22,7 @@ import { diseaseEnumsTranslationsQuery } from "@/services/patients/patientProfil
 import { ErrorMessage } from "@/components/ErrorMessage";
 import TextArea from "antd/es/input/TextArea";
 import { useEffect } from "react";
+import { getCancerStage } from "@/utils/getCancerStage";
 
 export const EditDiseaseModalContainer = () => {
   const { payload, handleClose, handleEdit, diseaseEnums } = useUnit({
@@ -48,6 +50,7 @@ export const EditDiseaseModalContainer = () => {
       progressions: payload?.progressions,
       relapses: payload?.relapses,
       relapsePlace: payload?.relapsePlace,
+      stage: payload?.stage,
     },
     validationSchema,
     validateOnChange: false,
@@ -61,6 +64,7 @@ export const EditDiseaseModalContainer = () => {
         description: values.description,
         tumorState: values.tumorState!,
         side: values.side!,
+        stage: values.stage,
       };
 
       if (values.tumorState === TumorState.Relapse) {
@@ -173,6 +177,22 @@ export const EditDiseaseModalContainer = () => {
             {Object.values(Side).map((side) => (
               <Select.Option key={side} value={side}>
                 {diseaseEnums.sideTranslates[side]}
+              </Select.Option>
+            ))}
+          </Select>
+          {errors.side && <ErrorMessage>{errors.side}</ErrorMessage>}
+        </FormItem>
+        <FormItem label="Стадия">
+          <Select
+            size="large"
+            placeholder="Выберите стадию"
+            value={values.stage}
+            onChange={(side) => setFieldValue("stage", side)}
+            status={errors.side ? "error" : void 0}
+          >
+            {Object.values(CancerStage).map((stage) => (
+              <Select.Option key={stage} value={stage}>
+                {getCancerStage(stage)}
               </Select.Option>
             ))}
           </Select>

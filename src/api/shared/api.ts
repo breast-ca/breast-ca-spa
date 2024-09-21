@@ -290,6 +290,18 @@ export interface TNMResponseDTO {
   M?: string;
 }
 
+export enum CancerStage {
+  Zero = "Zero",
+  IA = "IA",
+  IB = "IB",
+  IIA = "IIA",
+  IIB = "IIB",
+  IIIA = "IIIA",
+  IIIB = "IIIB",
+  IIIC = "IIIC",
+  IV = "IV",
+}
+
 export interface DiseaseFullResponseDto {
   id: number;
   ICD: ICD;
@@ -305,6 +317,7 @@ export interface DiseaseFullResponseDto {
   colour2: string;
   patient: PatientFullResponseDto;
   tnm?: TNMResponseDTO;
+  stage?: CancerStage;
 }
 
 export interface UpdateTNMDTO {
@@ -319,6 +332,7 @@ export interface EditDiseaseDto {
   number?: number;
   tumorState?: TumorState;
   side?: Side;
+  stage?: CancerStage;
   relapses?: RelapseType[];
   progressions?: ProgressionType[];
   reconstruction?: ReconstructionType;

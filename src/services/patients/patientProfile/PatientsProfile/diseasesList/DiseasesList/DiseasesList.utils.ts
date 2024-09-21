@@ -1,11 +1,13 @@
 import {
+  CancerStage,
   DiseaseResponseDto,
   DiseaseTranslateDto,
   TNMResponseDTO,
 } from "@/api/shared";
+import { getCancerStage } from "@/utils/getCancerStage";
 
 export function getDiseasInfos(
-  disease: DiseaseResponseDto & { tnm?: TNMResponseDTO },
+  disease: DiseaseResponseDto & { tnm?: TNMResponseDTO; stage?: CancerStage },
   translates: DiseaseTranslateDto
 ) {
   let tnmText = "";
@@ -25,6 +27,7 @@ export function getDiseasInfos(
     `№${disease.number}`,
     translates.sideTranslates[disease.side],
     translates.tumorStateTranslates[disease.tumorState],
+    ...(disease.stage ? [`Стадия: ${getCancerStage(disease.stage)}`] : []),
   ];
 
   return res;
